@@ -10,11 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_25_180046) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_26_135957) do
   create_table "notes", force: :cascade do |t|
     t.string "raw_content"
     t.string "source"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "reminders", force: :cascade do |t|
+    t.datetime "due_date"
+    t.integer "note_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["note_id"], name: "index_reminders_on_note_id"
+  end
+
+  add_foreign_key "reminders", "notes"
 end
