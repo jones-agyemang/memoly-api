@@ -1,3 +1,5 @@
 Rails.application.routes.draw do
-  resources :notes, only: %i[create]
+  defaults format: :json do
+    resources :notes, only: %i[create]
+  end
 end

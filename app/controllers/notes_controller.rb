@@ -14,13 +14,14 @@ class NotesController < ApplicationController
   end
 
   private
-    def note_params
-      params.expect(note: [ :raw_content, :source ])
-    end
 
-    def generate_spaced_reminders(note)
-      DEFAULT_INTERVALS.each do |interval|
-        note.reminders.build(due_date: Time.zone.now + interval.days)
-      end
+  def note_params
+    params.expect(note: [ :raw_content, :source ])
+  end
+
+  def generate_spaced_reminders(note)
+    DEFAULT_INTERVALS.each do |interval|
+      note.reminders.build(due_date: Time.zone.now + interval.days)
     end
+  end
 end

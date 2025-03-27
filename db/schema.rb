@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_26_135957) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_26_195217) do
   create_table "notes", force: :cascade do |t|
     t.string "raw_content"
     t.string "source"
@@ -23,6 +23,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_26_135957) do
     t.integer "note_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "completed", default: false, null: false
     t.index ["note_id"], name: "index_reminders_on_note_id"
   end
 
