@@ -47,8 +47,13 @@ group :development, :test do
   gem "rubocop-rails-omakase", require: false
   gem "binding_of_caller"
   gem "pry"
+  gem "factory_bot_rails"
 end
 
 group :test do
   gem "shoulda-matchers"
 end
+
+gem "sidekiq", "~> 8.0"
+
+gem "sidekiq-cron", "~> 2.2"
