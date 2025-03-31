@@ -57,3 +57,5 @@ end
 gem "sidekiq", "~> 8.0"
 
 gem "sidekiq-cron", "~> 2.2"
+
+gem "postmark-rails", "~> 0.22.1"
