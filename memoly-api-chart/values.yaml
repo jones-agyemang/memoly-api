@@ -1,0 +1,105 @@
+namespace: memoly
+replicaCount: 1
+
+postgresqlHost: memoly-api-postgresql
+
+image:
+  repository: memoly-api
+  tag: latest
+  pullPolicy: Never
+
+service:
+  type: ClusterIP
+  port: 3000
+
+env:
+  - name: DATABASE_URL
+    value: postgres://postgres:beach-crab-squid@memoly-api-postgresql.memoly.svc.cluster.local:5432/memoly_api_db_production
+  - name: REDIS_URL
+    value: redis://memoly-api-redis-master.memoly.svc.cluster.local:6379/0
+
+resources: {}
+
+postgresql:
+  auth:
+    existingSecret: memoly-api
+    username: postgres
+    password: beach-crab-squid
+    database: memoly_api_db_production
+    secretKeys:
+      adminPasswordKey: postgres-password
+  primary:
+    persistence:
+      enabled: true
+      size: 1Gi
+
+redis:
+  enabled: true
+  # Standalone configuration without relying on common templates
+  nameOverride: memoly-api-redis
+  fullnameOverride: memoly-api-redis
+  architecture: standalone
+  auth:
+    enabled: false
+  
+  useCommonLabels: true
+  useCommonAnnotations: true
+  
+  # Explicitly set namespace to match the application
+  namespace: memoly
+  
+  master:
+    containerPorts:
+      redis: 6379
+
+    customLabels:
+      app.kubernetes.io/instance: memoly-api
+      app.kubernetes.io/component: primary
+      app.kubernetes.io/name: redis
+
+    # Explicitly set the selector for statefulset
+    podManagementPolicy: Parallel
+    updateStrategy: 
+      type: RollingUpdate
+    hostNetwork: false
+    dnsPolicy: ClusterFirst
+    
+    persistence:
+      enabled: true
+      size: 1Gi
+    
+    # Configure master service with explicit labels and selectors
+    service:
+      type: ClusterIP
+      ports:
+        redis: 6379
+      annotations: {}
+      extraPorts: []
+      
+      # Disable the use of label templates
+      clusterIP: ""
+      sessionAffinity: None
+      externalTrafficPolicy: Cluster
+      loadBalancerSourceRanges: []
+      loadBalancerIP: ""
+      
+      # Use direct selector configuration 
+      # that doesn't rely on template functions
+      publishNotReadyAddresses: false
+  
+  # Disable replicas for simplicity
+  replica:
+    replicaCount: 0
+  
+  # Set custom URL for application
+  url: "redis://memoly-api-redis-master.memoly.svc.cluster.local:6379/0"
+
+
+database:
+  url: "postgres://postgres:beach-crab-squid@memoly-api-postgresql.memoly.svc.cluster.local:5432/memoly_api_db_production"
+
+postmark:
+  apiKey: "8a2411e6-1dc7-4b72-985b-41eecc64497e"
+
+rails:
+  masterKey: "d0cde0606a25512975bdac8b9ecd764c"

@@ -1,0 +1,20 @@
+apiVersion: v2
+name: memoly-api
+description: A Helm chart to deploy the Memoly API application
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+
+dependencies:
+  - name: postgresql
+    version: 12.1.9
+    repository: https://charts.bitnami.com/bitnami
+  - name: redis
+    version: 18.1.0
+    repository: https://charts.bitnami.com/bitnami
+    condition: redis.enabled
+  - name: common
+    version: 2.15.1
+    repository: https://charts.bitnami.com/bitnami
+    import-values: []
+    alias: common
