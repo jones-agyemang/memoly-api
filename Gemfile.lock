@@ -178,6 +178,7 @@ GEM
     parser (3.3.7.2)
       ast (~> 2.4.1)
       racc
+    pg (1.5.9)
     postmark (1.25.1)
       json
     postmark-rails (0.22.1)
@@ -360,6 +361,7 @@ DEPENDENCIES
   factory_bot_rails
   jbuilder
   kamal
+  pg
   postmark-rails (~> 0.22.1)
   pry
   puma (>= 5.0)
