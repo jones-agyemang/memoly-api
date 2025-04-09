@@ -10,6 +10,13 @@ class NotesController < ApplicationController
     end
   end
 
+  # GET /notes
+  def index
+    @notes = Note.all
+
+    render :index
+  end
+
   private
 
   def note_params
