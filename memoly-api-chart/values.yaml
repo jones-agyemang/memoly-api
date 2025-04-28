@@ -99,7 +99,7 @@ database:
   url: "postgres://postgres:beach-crab-squid@memoly-api-postgresql.memoly.svc.cluster.local:5432/memoly_api_db_production"
 
 postmark:
-  apiKey: "8a2411e6-1dc7-4b72-985b-41eecc64497e"
+  apiKey: ""
 
 rails:
-  masterKey: "d0cde0606a25512975bdac8b9ecd764c"
+  masterKey: ""
