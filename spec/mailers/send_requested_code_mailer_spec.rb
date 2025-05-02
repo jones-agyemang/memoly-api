@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe SendRequestedCodeMailer, type: :mailer do
   describe "send_authentication_code" do
-    let(:user) { create(:user, :with_auth_code, email: 'test@example.com') }
+    let(:user) { create(:user, :with_valid_auth, email: 'test@example.com') }
     let(:mail) do
       described_class.with(user_id: user.id).send_authentication_code
     end

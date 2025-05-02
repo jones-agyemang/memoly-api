@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Authentications', type: :request do
-  describe 'POST /request' do
+  describe 'POST /request-code' do
     context 'invalid attributes' do
       it 'does not create code' do
         post '/authentication/request-code', params: { email: '' }

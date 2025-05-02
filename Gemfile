@@ -62,3 +62,5 @@ gem "sidekiq-cron", "~> 2.2"
 gem "postmark-rails", "~> 0.22.1"
 
 gem "rack-cors", "~> 2.0"
+
+gem "faker", "~> 3.5"

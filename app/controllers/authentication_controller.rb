@@ -1,8 +1,9 @@
+class ExpiredAuthenticationCode < StandardError; end
 class AuthenticationController < ApplicationController
-  before_action :set_user
+  before_action :set_user, only: %i[request_code]
 
   def request_code
-    if auth_credentials[:email].empty?
+    if request_code_params[:email].empty?
       render json: { "error": "Please supply an email address" }, status: :unprocessable_entity
     else
       create_authentication_code
@@ -11,22 +12,37 @@ class AuthenticationController < ApplicationController
         .with(user_id: @user.id)
         .send_authentication_code.deliver_later
 
-      render json: { "message": "Request code sent to user: #{@user.email}" }, status: :created
-      # create user (if user does not exist)
-      # generate response code
-      # associate response code to user
-      # send auth-code to user via email
+      render json: { "message": "Request code sent to user: #{@user.email}." }, status: :created
     end
+  end
+
+  def verify_code
+    email = verify_code_params[:email]
+    code = verify_code_params[:authentication_code]
+
+    user = User.joins(:authentication_code)
+               .find_by!(email:, authentication_code: { code: })
+
+    raise ExpiredAuthenticationCode if user.authentication_code.expires_at.past?
+
+    render json: { message: "Authorized: #{email}." }, status: :created
+
+  rescue ActiveRecord::RecordNotFound, ExpiredAuthenticationCode
+    render json: { message: "Invalid user credentials." }, status: :unauthorized
   end
 
   private
 
-  def auth_credentials
+  def request_code_params
     params.permit(:email)
   end
 
+  def verify_code_params
+    params.permit(:email, :authentication_code)
+  end
+
   def set_user
-    @user = ::User.find_or_create_by(email: auth_credentials[:email])
+    @user = ::User.find_or_create_by(email: request_code_params[:email])
   end
 
   def create_authentication_code
