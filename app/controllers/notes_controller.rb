@@ -12,7 +12,7 @@ class NotesController < ApplicationController
 
   # GET /notes
   def index
-    @notes = Note.all
+    @notes = Note.all.order(updated_at: :desc)
 
     render :index
   end

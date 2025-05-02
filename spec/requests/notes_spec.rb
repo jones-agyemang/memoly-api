@@ -64,8 +64,26 @@ RSpec.describe "Notes", type: :request do
 
       expect(response_body.first).to include(
         "id" => be_a(Integer),
-        "raw_content" => "First note"
+        "raw_content" => "Second note"
       )
+    end
+
+    it 'returns notes ordered by date modified' do
+      # Arrange: create some notes
+      Note.create!(raw_content: "First note")
+      Note.create!(raw_content: "Second note")
+
+      # Act: perform the GET request
+      get "/notes", headers: { "ACCEPT" => "application/json" }
+
+      # Assert: check the response
+      expect(response).to have_http_status(:ok)
+
+      response_body = JSON.parse(response.body)
+
+      expected_response_body = response_body.map { _1["raw_content"] }
+
+      expect(expected_response_body).to eq [ 'Second note', 'First note' ]
     end
   end
 end
