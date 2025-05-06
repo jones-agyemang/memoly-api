@@ -3,19 +3,13 @@
 require "rails_helper"
 
 RSpec.describe Quiz, type: :request do
-  # Create a quiz from a given topic
-  # Each quiz have multiple questions
-  # Each question have multiple choices
-  # Each question has one answer
-  # Each user can have multiple response to the same quiz
-
-  describe "POST /quizzes" do
+  describe "POST /quiz" do
     let(:attributes) do
       { topic: "Elixir and Erlang" }
     end
 
     before(:each) do
-      post "/quizzes", params: attributes
+      post "/quiz", params: attributes
     end
 
     context "without questions" do
@@ -41,7 +35,7 @@ RSpec.describe Quiz, type: :request do
 
       it "creates a quiz with questions" do
         expect do
-          post "/quizzes", params: attributes
+          post "/quiz", params: attributes
         end.to change(Question, :count)
       end
     end
