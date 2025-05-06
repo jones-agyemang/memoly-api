@@ -64,3 +64,5 @@ gem "postmark-rails", "~> 0.22.1"
 gem "rack-cors", "~> 2.0"
 
 gem "faker", "~> 3.5"
+
+gem "ruby-openai", "~> 8.1"
