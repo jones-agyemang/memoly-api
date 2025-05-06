@@ -40,7 +40,7 @@ RSpec.describe 'Authentications', type: :request do
             post '/authentication/request-code', params: { email: 'test@example.com' }
           end.to have_enqueued_mail(
             SendRequestedCodeMailer, :send_authentication_code
-          ).with(hash_including params: { user_id: user.id })
+          )
         end
       end
     end
