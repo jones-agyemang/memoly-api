@@ -2,6 +2,8 @@ class ExpiredAuthenticationCode < StandardError; end
 class AuthenticationController < ApplicationController
   before_action :set_user, only: %i[request_code]
 
+  DEFAULT_CODE_SIZE = 6.freeze
+
   def request_code
     if request_code_params[:email].empty?
       render json: { "error": "Please supply an email address" }, status: :unprocessable_entity
@@ -55,6 +57,6 @@ class AuthenticationController < ApplicationController
   end
 
   def generate_authentication_code
-    123456
+    DEFAULT_CODE_SIZE.times.map { SecureRandom.random_number(10) }.join
   end
 end

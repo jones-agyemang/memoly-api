@@ -14,12 +14,9 @@ RSpec.describe 'Authentications', type: :request do
 
     context 'valid attributes' do
       context 'user exists' do
-        before do
-          @user = create(:user)
-        end
-
+        let(:user) { create(:user) }
         let(:valid_attributes) do
-          { email: @user.email }
+          { email: user.email }
         end
 
         it 'creates request code' do
@@ -33,13 +30,17 @@ RSpec.describe 'Authentications', type: :request do
             post '/authentication/request-code', params: valid_attributes
           end.to have_enqueued_mail(
             SendRequestedCodeMailer, :send_authentication_code
-          ).with(hash_including params: { user_id: @user.id })
+          ).with(hash_including params: { user_id: user.id })
         end
       end
 
       context 'user does not exist' do
         it 'creates request code for new user' do
-          post '/authentication/request-code', params: { email: 'test@example.com' }
+          expect do
+            post '/authentication/request-code', params: { email: 'test@example.com' }
+          end.to have_enqueued_mail(
+            SendRequestedCodeMailer, :send_authentication_code
+          ).with(hash_including params: { user_id: user.id })
         end
       end
     end
