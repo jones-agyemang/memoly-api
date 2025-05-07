@@ -53,7 +53,9 @@ class AuthenticationController < ApplicationController
       expires_at: Time.zone.now + 15.minutes
     }
 
-    @user.create_authentication_code! attrs
+    code = @user.authentication_code || @user.build_authentication_code
+    code.assign_attributes attrs
+    code.save!
   end
 
   def generate_authentication_code

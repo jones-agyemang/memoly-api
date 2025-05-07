@@ -32,6 +32,18 @@ RSpec.describe 'Authentications', type: :request do
             SendRequestedCodeMailer, :send_authentication_code
           ).with(hash_including params: { user_id: user.id })
         end
+
+        context "user have been previously issued with a code" do
+          it "sends new request code to user's email" do
+            create(:authentication_code, user:)
+
+            expect do
+              post '/authentication/request-code', params: valid_attributes
+            end.to have_enqueued_mail(
+              SendRequestedCodeMailer, :send_authentication_code
+            ).with(hash_including params: { user_id: user.id })
+          end
+        end
       end
 
       context 'user does not exist' do
