@@ -8,6 +8,11 @@ development:
   <<: *default
   database: memoly_api_db_development
 
+  queue:
+    database: memoly_api_queue_development
+    migrations_paths: db/queue_migrate
+
+
 test:
   <<: *default
   database: memoly_api_db_test

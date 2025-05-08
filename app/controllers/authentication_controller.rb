@@ -12,7 +12,7 @@ class AuthenticationController < ApplicationController
 
       SendRequestedCodeMailer
         .with(user_id: @user.id)
-        .send_authentication_code.deliver_later
+        .send_authentication_code.deliver_now
 
       render json: { "message": "Request code sent to user: #{@user.email}." }, status: :created
     end
