@@ -1,5 +1,25 @@
-<h1>SendRequestedCode#send_authentication_code</h1>
+<h1>Your Authentication Code</h1>
+<div style="font-family: Arial, sans-serif; padding: 20px; background-color: #f8f9fa; color: #333;">
+  <div style="text-align: center; margin-bottom: 20px;">
+    <img src="https://memoly.io/logo.png" alt="Memoly Logo" style="width: 120px; height: auto;">
+    <h2 style="margin: 10px 0;">Memoly</h2>
+  </div>
 
-<p>
-  <%= @greeting %>, find me in app/views/send_requested_code_mailer/send_authentication_code.html.erb
-</p>
+  <div style="background: #ffffff; padding: 20px; border-radius: 6px; box-shadow: 0 0 5px rgba(0,0,0,0.1);">
+    <h3 style="color: #0056b3;">Your Authentication Code</h3>
+        <p>
+      <strong>Access code:</strong>
+      <span style="font-size: 1.5em;"><%= @user.authentication_code.code %></span>
+    </p>
+
+    <p>
+      Your code is valid for the next 15 minutes.<br />
+      It will no longer be valid after
+      <strong><%= @user.authentication_code.expires_at %></strong>.
+    </p>
+  </div>
+
+  <p style="font-size: 0.9em; text-align: center; margin-top: 30px; color: #666;">
+    &copy; <%= Time.current.year %> Memoly. All rights reserved.
+  </p>
+</div>
