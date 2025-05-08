@@ -77,3 +77,12 @@ RSpec.configure do |config|
     end
   end
 end
+
+VCR.configure do |config|
+  config.cassette_library_dir = "spec/fixtures/vcr_cassettes"
+  config.hook_into :faraday
+  config.filter_sensitive_data('<AUTHORIZATION>') { ENV.fetch("OPENAI_API_KEY", "Bearer REDACTED") }
+  config.filter_sensitive_data('<BEARER_TOKEN>') do
+    "Bearer #{ENV.fetch("OPENAI_API_KEY", "REDACTED")}"
+  end
+end

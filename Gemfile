@@ -50,6 +50,7 @@ group :development, :test do
   gem "binding_of_caller"
   gem "pry"
   gem "factory_bot_rails"
+  gem "vcr"
 end
 
 group :test do

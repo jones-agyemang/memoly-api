@@ -1,0 +1,122 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.openai.com/v1/chat/completions
+    body:
+      encoding: UTF-8
+      string: '{"model":"gpt-4o","temperature":0.7,"messages":[{"role":"system","content":"Respond
+        only with a valid JSON structure, without any Markdown or explanation text."},{"role":"user","content":"Create
+        multiple choice quiz with explanations based on: Advanced Ruby"}],"tools":[{"type":"function","function":{"name":"create_quiz","parameters":{"type":"object","properties":{"questions":{"type":"array","items":{"type":"object","properties":{"question":{"type":"string"},"options":{"type":"array","items":{"type":"string"}},"answer":{"type":"string"},"explanation":{"type":"string"}},"required":["question","options","answer","explanation"]}}},"required":["questions"]}}}],"tool_choice":"auto"}'
+    headers:
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer sk-svcacct-redacted
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      date:
+      - Thu, 08 May 2025 14:16:47 GMT
+      content-type:
+      - application/json
+      transfer-encoding:
+      - chunked
+      connection:
+      - keep-alive
+      access-control-expose-headers:
+      - X-Request-ID
+      openai-organization:
+      - user-xlzivmxiqqqylndbjt1wcikq
+      openai-processing-ms:
+      - '17199'
+      openai-version:
+      - '2020-10-01'
+      x-envoy-upstream-service-time:
+      - '17205'
+      x-ratelimit-limit-requests:
+      - '500'
+      x-ratelimit-limit-tokens:
+      - '30000'
+      x-ratelimit-remaining-requests:
+      - '499'
+      x-ratelimit-remaining-tokens:
+      - '29959'
+      x-ratelimit-reset-requests:
+      - 120ms
+      x-ratelimit-reset-tokens:
+      - 82ms
+      x-request-id:
+      - req_55b30b94d6f51734223da7ded315e45f
+      strict-transport-security:
+      - max-age=31536000; includeSubDomains; preload
+      cf-cache-status:
+      - DYNAMIC
+      set-cookie:
+      - __cf_bm=zbdBzHewBoDEn9E0yd4XbvwjvX2JGrntT52SiKk.Ok0-1746713807-1.0.1.1-PSXJKd3bXFuRG98QvRNMl9lFF5LYns8oTQPfKDaXR2oXQkV9z40xxy_cJdDCMfWRm4YX2wyuSlUvFxvYjp2EWpbqqNw.L77ahWS6YMfOKQY;
+        path=/; expires=Thu, 08-May-25 14:46:47 GMT; domain=.api.openai.com; HttpOnly;
+        Secure; SameSite=None, _cfuvid=fPr_CrlzA0vtmLGFh67IYrbYywqJJPIitdaCIkjSqDA-1746713807133-0.0.1.1-604800000;
+        path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
+      x-content-type-options:
+      - nosniff
+      server:
+      - cloudflare
+      cf-ray:
+      - 93c993413a8a9333-ACC
+      content-encoding:
+      - gzip
+      alt-svc:
+      - h3=":443"; ma=86400
+    body:
+      encoding: ASCII-8BIT
+      string: |
+        {
+          "id": "chatcmpl-BUwKzaUXRqkqyaeFKerHx2zrDjuw5",
+          "object": "chat.completion",
+          "created": 1746713789,
+          "model": "gpt-4o-2024-08-06",
+          "choices": [
+            {
+              "index": 0,
+              "message": {
+                "role": "assistant",
+                "content": null,
+                "tool_calls": [
+                  {
+                    "id": "call_bNszdsZS39bH9OTJ26sXNZdq",
+                    "type": "function",
+                    "function": {
+                      "name": "create_quiz",
+                      "arguments": "{\"questions\":[{\"question\":\"What is a mixin in Ruby?\",\"options\":[\"A type of class\",\"A module included in a class\",\"A Ruby Gem\",\"A type of variable\"],\"answer\":\"A module included in a class\",\"explanation\":\"Mixins in Ruby are modules that are included in a class to add functionality and share behavior among different classes.\"},{\"question\":\"How do you define a block in Ruby?\",\"options\":[\"Using brackets []\",\"Using curly braces {} or do...end\",\"Using parentheses ()\",\"Using angle brackets <>\"],\"answer\":\"Using curly braces {} or do...end\",\"explanation\":\"Blocks in Ruby can be defined using either curly braces {} for single-line blocks or do...end for multi-line blocks.\"},{\"question\":\"What does the 'super' keyword do in Ruby?\",\"options\":[\"Calls the parent class method of the same name\",\"Creates a new class\",\"Instantiates an object\",\"Defines a new method\"],\"answer\":\"Calls the parent class method of the same name\",\"explanation\":\"The 'super' keyword in Ruby is used to call the same method from the parent class, allowing you to leverage or extend the functionality of the inherited method.\"},{\"question\":\"What is a lambda in Ruby?\",\"options\":[\"A method with no name\",\"A type of array\",\"A type of loop\",\"An object representing a block of code\"],\"answer\":\"An object representing a block of code\",\"explanation\":\"Lambdas in Ruby are objects representing blocks of code that can be stored in a variable and executed later. They are similar to Procs but have some differences in how they handle arguments and return statements.\"},{\"question\":\"How can you handle exceptions in Ruby?\",\"options\":[\"Using try-catch\",\"Using begin-rescue-end\",\"Using if-else\",\"Using switch-case\"],\"answer\":\"Using begin-rescue-end\",\"explanation\":\"In Ruby, exceptions are handled using the begin-rescue-end block, which allows you to catch and handle errors gracefully.\"}]}"
+                    }
+                  }
+                ],
+                "refusal": null,
+                "annotations": []
+              },
+              "logprobs": null,
+              "finish_reason": "tool_calls"
+            }
+          ],
+          "usage": {
+            "prompt_tokens": 81,
+            "completion_tokens": 414,
+            "total_tokens": 495,
+            "prompt_tokens_details": {
+              "cached_tokens": 0,
+              "audio_tokens": 0
+            },
+            "completion_tokens_details": {
+              "reasoning_tokens": 0,
+              "audio_tokens": 0,
+              "accepted_prediction_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "service_tier": "default",
+          "system_fingerprint": "fp_d8864f8b6b"
+        }
+  recorded_at: Thu, 08 May 2025 14:16:46 GMT
+recorded_with: VCR 6.3.1

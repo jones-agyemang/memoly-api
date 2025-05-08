@@ -2,29 +2,16 @@ class QuizzesController < ApplicationController
   # POST /quizzes
   # POST /quizzes.json
   def create
-    @quiz = Quiz.new(quiz_params)
-
-    if @quiz.save
-      render :show, status: :created, location: @quiz
+    if quiz_params[:topic].presence
+      result = ::CreateQuiz.call quiz_params[:topic]
+      render json: result, status: :created
     else
-      render json: @quiz.errors, status: :unprocessable_entity
+      render json: { message: "Topic is missing" }, status: :unprocessable_entity
     end
   end
 
   private
-    def set_quiz
-      @quiz = Quiz.find(params.expect(:id))
-    end
-
     def quiz_params
-      params.permit(
-        :topic,
-        questions_attributes: [
-          :raw_content,
-          :answer,
-          :explanation,
-          choices: []
-        ]
-      )
+      params.require(:quiz).permit(:topic)
     end
 end
