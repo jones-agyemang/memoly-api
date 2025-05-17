@@ -1,5 +1,6 @@
 class Note < ApplicationRecord
   has_many :reminders, dependent: :destroy
+  belongs_to :user
 
   DEFAULT_INTERVALS = [ 1, 3, 7, 14, 20 ] # DAYS
 

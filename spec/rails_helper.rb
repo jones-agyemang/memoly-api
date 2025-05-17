@@ -81,6 +81,7 @@ end
 VCR.configure do |config|
   config.cassette_library_dir = "spec/fixtures/vcr_cassettes"
   config.hook_into :faraday
+  config.allow_http_connections_when_no_cassette = true
   config.filter_sensitive_data('<AUTHORIZATION>') { ENV.fetch("OPENAI_API_KEY", "Bearer REDACTED") }
   config.filter_sensitive_data('<BEARER_TOKEN>') do
     "Bearer #{ENV.fetch("OPENAI_API_KEY", "REDACTED")}"

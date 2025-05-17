@@ -7,7 +7,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"model":"gpt-4o","temperature":0.7,"messages":[{"role":"system","content":"Respond
         only with a valid JSON structure, without any Markdown or explanation text."},{"role":"user","content":"Create
-        multiple choice quiz with explanations based on: Advanced Ruby"}],"tools":[{"type":"function","function":{"name":"create_quiz","parameters":{"type":"object","properties":{"questions":{"type":"array","items":{"type":"object","properties":{"question":{"type":"string"},"options":{"type":"array","items":{"type":"string"}},"answer":{"type":"string"},"explanation":{"type":"string"}},"required":["question","options","answer","explanation"]}}},"required":["questions"]}}}],"tool_choice":"auto"}'
+        multiple choice quiz with explanations based on: Advanced Ruby"}],"tools":[{"type":"function","function":{"name":"create_quiz","parameters":{"type":"object","properties":{"title":{"type":"string"},"questions":{"type":"array","items":{"type":"object","properties":{"question":{"type":"string"},"choices":{"type":"array","items":{"type":"string"}},"answer":{"type":"string"},"explanation":{"type":"string"}},"required":["question","choices","answer","explanation"]}}},"required":["questions","title"]}}}],"tool_choice":"auto"}'
     headers:
       Content-Type:
       - application/json
@@ -19,7 +19,7 @@ http_interactions:
       message: OK
     headers:
       date:
-      - Thu, 08 May 2025 14:16:47 GMT
+      - Fri, 09 May 2025 06:51:00 GMT
       content-type:
       - application/json
       transfer-encoding:
@@ -31,11 +31,11 @@ http_interactions:
       openai-organization:
       - user-xlzivmxiqqqylndbjt1wcikq
       openai-processing-ms:
-      - '17199'
+      - '10336'
       openai-version:
       - '2020-10-01'
       x-envoy-upstream-service-time:
-      - '17205'
+      - '10345'
       x-ratelimit-limit-requests:
       - '500'
       x-ratelimit-limit-tokens:
@@ -49,22 +49,22 @@ http_interactions:
       x-ratelimit-reset-tokens:
       - 82ms
       x-request-id:
-      - req_55b30b94d6f51734223da7ded315e45f
+      - req_141aa0ae36b2d6a60447edba23274d04
       strict-transport-security:
       - max-age=31536000; includeSubDomains; preload
       cf-cache-status:
       - DYNAMIC
       set-cookie:
-      - __cf_bm=zbdBzHewBoDEn9E0yd4XbvwjvX2JGrntT52SiKk.Ok0-1746713807-1.0.1.1-PSXJKd3bXFuRG98QvRNMl9lFF5LYns8oTQPfKDaXR2oXQkV9z40xxy_cJdDCMfWRm4YX2wyuSlUvFxvYjp2EWpbqqNw.L77ahWS6YMfOKQY;
-        path=/; expires=Thu, 08-May-25 14:46:47 GMT; domain=.api.openai.com; HttpOnly;
-        Secure; SameSite=None, _cfuvid=fPr_CrlzA0vtmLGFh67IYrbYywqJJPIitdaCIkjSqDA-1746713807133-0.0.1.1-604800000;
+      - __cf_bm=Uqrv8Ps4sSitM7wnOO0azfLizuYgZwyOQWlB3wy9234-1746773460-1.0.1.1-v57eajerwoG8zwPGFSz23WvX1aoseX1zWMTcYmo64mkS49dysFPINhybHxGsBMe5.HbMqOMatDaD8AtKXJi8MqOWulaA3T0IrKQJqn2GCxI;
+        path=/; expires=Fri, 09-May-25 07:21:00 GMT; domain=.api.openai.com; HttpOnly;
+        Secure; SameSite=None, _cfuvid=ZtX49HJ_5k48wm6Tms0xhNEiHumNzpDkEEXAe83Ja6Y-1746773460444-0.0.1.1-604800000;
         path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
       x-content-type-options:
       - nosniff
       server:
       - cloudflare
       cf-ray:
-      - 93c993413a8a9333-ACC
+      - 93cf43ca2f27033b-ACC
       content-encoding:
       - gzip
       alt-svc:
@@ -73,9 +73,9 @@ http_interactions:
       encoding: ASCII-8BIT
       string: |
         {
-          "id": "chatcmpl-BUwKzaUXRqkqyaeFKerHx2zrDjuw5",
+          "id": "chatcmpl-BVBrG9KTdwsSFDB7H6HzobnyA3h6j",
           "object": "chat.completion",
-          "created": 1746713789,
+          "created": 1746773450,
           "model": "gpt-4o-2024-08-06",
           "choices": [
             {
@@ -85,11 +85,11 @@ http_interactions:
                 "content": null,
                 "tool_calls": [
                   {
-                    "id": "call_bNszdsZS39bH9OTJ26sXNZdq",
+                    "id": "call_7FUPTb2jgOdl8zk4h9T7sy8s",
                     "type": "function",
                     "function": {
                       "name": "create_quiz",
-                      "arguments": "{\"questions\":[{\"question\":\"What is a mixin in Ruby?\",\"options\":[\"A type of class\",\"A module included in a class\",\"A Ruby Gem\",\"A type of variable\"],\"answer\":\"A module included in a class\",\"explanation\":\"Mixins in Ruby are modules that are included in a class to add functionality and share behavior among different classes.\"},{\"question\":\"How do you define a block in Ruby?\",\"options\":[\"Using brackets []\",\"Using curly braces {} or do...end\",\"Using parentheses ()\",\"Using angle brackets <>\"],\"answer\":\"Using curly braces {} or do...end\",\"explanation\":\"Blocks in Ruby can be defined using either curly braces {} for single-line blocks or do...end for multi-line blocks.\"},{\"question\":\"What does the 'super' keyword do in Ruby?\",\"options\":[\"Calls the parent class method of the same name\",\"Creates a new class\",\"Instantiates an object\",\"Defines a new method\"],\"answer\":\"Calls the parent class method of the same name\",\"explanation\":\"The 'super' keyword in Ruby is used to call the same method from the parent class, allowing you to leverage or extend the functionality of the inherited method.\"},{\"question\":\"What is a lambda in Ruby?\",\"options\":[\"A method with no name\",\"A type of array\",\"A type of loop\",\"An object representing a block of code\"],\"answer\":\"An object representing a block of code\",\"explanation\":\"Lambdas in Ruby are objects representing blocks of code that can be stored in a variable and executed later. They are similar to Procs but have some differences in how they handle arguments and return statements.\"},{\"question\":\"How can you handle exceptions in Ruby?\",\"options\":[\"Using try-catch\",\"Using begin-rescue-end\",\"Using if-else\",\"Using switch-case\"],\"answer\":\"Using begin-rescue-end\",\"explanation\":\"In Ruby, exceptions are handled using the begin-rescue-end block, which allows you to catch and handle errors gracefully.\"}]}"
+                      "arguments": "{\"title\":\"Advanced Ruby Quiz\",\"questions\":[{\"question\":\"What is a lambda in Ruby?\",\"choices\":[\"A type of array\",\"An anonymous function\",\"A Ruby gem\",\"A class\"],\"answer\":\"An anonymous function\",\"explanation\":\"A lambda in Ruby is a way to define an anonymous function, which can be stored in a variable and passed to methods.\"},{\"question\":\"How does the spaceship operator (<=>) work in Ruby?\",\"choices\":[\"It compares two values for equality\",\"It returns 1 if the first operand is greater, -1 if smaller, and 0 if equal\",\"It checks if an item exists in an array\",\"It performs bitwise operations\"],\"answer\":\"It returns 1 if the first operand is greater, -1 if smaller, and 0 if equal\",\"explanation\":\"The spaceship operator (<=>) is used for comparison. It returns 1 if the left operand is greater, -1 if smaller, and 0 if both are equal.\"},{\"question\":\"What does the `super` keyword do in Ruby?\",\"choices\":[\"Calls the parent class method with the same name\",\"Creates a new instance of a class\",\"Defines a class method\",\"Checks for object type\"],\"answer\":\"Calls the parent class method with the same name\",\"explanation\":\"The `super` keyword is used to call methods from the parent class with the same name, allowing for method overriding and extension.\"},{\"question\":\"What is the primary use of the `Enumerable` module in Ruby?\",\"choices\":[\"To manage memory allocation\",\"To provide collection classes with traversal, searching, and sorting capabilities\",\"To handle exceptions\",\"To define constants\"],\"answer\":\"To provide collection classes with traversal, searching, and sorting capabilities\",\"explanation\":\"The `Enumerable` module provides a set of methods for traversal, searching, sorting, and other operations on collection classes like arrays and hashes.\"},{\"question\":\"What is the purpose of the `yield` keyword in Ruby?\",\"choices\":[\"To pause a thread\",\"To pass control from a method to a block\",\"To define a constant\",\"To import a library\"],\"answer\":\"To pass control from a method to a block\",\"explanation\":\"The `yield` keyword is used to transfer control from a method to an associated block, allowing for block execution within the method.\"}]}"
                     }
                   }
                 ],
@@ -101,9 +101,9 @@ http_interactions:
             }
           ],
           "usage": {
-            "prompt_tokens": 81,
-            "completion_tokens": 414,
-            "total_tokens": 495,
+            "prompt_tokens": 85,
+            "completion_tokens": 478,
+            "total_tokens": 563,
             "prompt_tokens_details": {
               "cached_tokens": 0,
               "audio_tokens": 0
@@ -118,5 +118,5 @@ http_interactions:
           "service_tier": "default",
           "system_fingerprint": "fp_d8864f8b6b"
         }
-  recorded_at: Thu, 08 May 2025 14:16:46 GMT
+  recorded_at: Fri, 09 May 2025 06:51:00 GMT
 recorded_with: VCR 6.3.1

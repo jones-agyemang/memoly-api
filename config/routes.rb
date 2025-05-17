@@ -1,6 +1,11 @@
 Rails.application.routes.draw do
   defaults format: :json do
-    resources :notes, only: %i[create index]
+    resources :users, only: %i[ index ]
+
+    resources :users do
+      resources :notes, only: %i[create index]
+    end
+
     resources :quiz, controller: :quizzes, only: %i[create show]
 
     post "authentication/request-code"

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe SendRequestedCodeMailer, type: :mailer do
@@ -8,9 +10,9 @@ RSpec.describe SendRequestedCodeMailer, type: :mailer do
     end
 
     it "renders the headers" do
-      expect(mail.subject).to eq("Send authentication code")
+      expect(mail.subject).to eq("Authentication Code")
       expect(mail.to).to eq([ user.email ])
-      expect(mail.from).to eq([ "from@example.com" ])
+      expect(mail.from).to eq([ "notification@memoly.io" ])
     end
 
     it "renders authentication code within message body" do

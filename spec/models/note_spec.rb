@@ -2,10 +2,9 @@ require 'rails_helper'
 
 RSpec.describe Note, type: :model do
   it { should have_many(:reminders).dependent(:destroy) }
+  it { is_expected.to belong_to(:user) }
 
   it "generates default reminders" do
-    note = described_class.create(raw_content: "Lorem ipsum")
-
-    expect(note.reminders.count).to eq(5)
+    expect { create(:note) }.to change(Reminder, :count).by(Note::DEFAULT_INTERVALS.size)
   end
 end

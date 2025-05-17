@@ -1,7 +1,9 @@
 class NotesController < ApplicationController
+  before_action :set_user
+
   # POST /notes
   def create
-    @note = Note.new(note_params)
+    @note = @user.notes.build note_params
 
     if @note.save
       render :show, status: :created
@@ -12,12 +14,20 @@ class NotesController < ApplicationController
 
   # GET /notes
   def index
-    @notes = Note.all.order(updated_at: :desc)
+    @notes = @user.notes.order(updated_at: :desc)
 
     render :index
   end
 
   private
+
+  def set_user
+    @user = User.find params[:user_id]
+  end
+
+  def user_params
+    params.expect(user: [ :id, :email ])
+  end
 
   def note_params
     params.expect(note: [ :raw_content, :source ])

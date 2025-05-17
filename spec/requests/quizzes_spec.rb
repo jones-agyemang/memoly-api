@@ -9,32 +9,24 @@ RSpec.describe Quiz, type: :request do
     end
 
     context "without topic" do
-      let(:attributes) { { topic: "" } }
+      let(:attributes) { { topic: [ nil, "" ].sample } }
 
       it "does not create quiz" do
         expect(response).to have_http_status :unprocessable_entity
       end
     end
 
-    context "has topic" do
-      let(:attributes) { { topic: "Elixir and Erlang" } }
+    VCR.use_cassette("open_ai_chat_completion") do
+      context "has topic" do
+        let(:attributes) { { topic: "Elixir and Erlang" } }
 
-      it "creates a quiz" do
-        expected_response_body =  {
-          data: {
-            title: "Advanced Elixir",
-            questions: [
-              {
-                raw_content: "What is the sum of 10 and 15?",
-                answer: "25",
-                explanation: "10 add 15 produces 25",
-                choices: [ "10", "25", "1015", "-5" ]
-              }
-            ]
-          }
-        }
+        it "creates a quiz" do
+          parsed_body = JSON.parse(response.body)
 
-        expect(response.body).to eq(expected_response_body)
+          expect(response).to have_http_status(:created)
+          expect(parsed_body).to have_key("questions")
+          expect(parsed_body["questions"]).to all(include("question", "choices", "answer", "explanation"))
+        end
       end
     end
   end
