@@ -68,3 +68,5 @@ gem "rack-cors", "~> 2.0"
 gem "faker", "~> 3.5"
 
 gem "ruby-openai", "~> 8.1"
+
+gem "strong_migrations", "~> 2.3"

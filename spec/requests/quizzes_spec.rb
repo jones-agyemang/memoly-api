@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe Quiz, type: :request do
+RSpec.describe "Quiz", type: :request do
   describe "POST /quiz" do
     before(:each) do
       post "/quiz", params: attributes
