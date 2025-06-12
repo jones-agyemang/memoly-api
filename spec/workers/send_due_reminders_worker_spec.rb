@@ -18,9 +18,14 @@ RSpec.describe SendDueRemindersWorker, type: :worker do
 
   context "when reminders are due" do
     it "enqueues an email" do
-      create(:note, :with_reminder_due_today)
+      note = create(:note, :with_reminder_due_today)
 
-      expect(ReminderMailer).to receive(:with).and_call_original
+      expected_mailer_args = {
+        user_id: note.user.id,
+        notes: [ note.raw_content ]
+      }
+
+      expect(ReminderMailer).to receive(:with).with(expected_mailer_args).and_call_original
 
       Sidekiq::Testing.inline! do
         SendDueRemindersWorker.perform_async

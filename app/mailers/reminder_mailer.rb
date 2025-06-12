@@ -2,12 +2,7 @@ class ReminderMailer < ApplicationMailer
   default from: "notification@memoly.io"
 
   def due_notes_email
-    notes = Reminder.includes(:note)
-                    .where(id: params[:reminder_ids])
-                    .map(&:note)
-                    .uniq
-
-    @contents = notes.map(&:raw_content)
+    @contents = params[:notes]
 
     mail(
       subject: "Notes for Today",

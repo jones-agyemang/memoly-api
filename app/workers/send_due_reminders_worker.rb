@@ -4,10 +4,23 @@ class SendDueRemindersWorker
   queue_as :default
 
   def perform(*args)
-    reminder_ids = Reminder.where(due_date: Time.zone.now.all_day).map(&:id)
+    Rails.logger.info "Running reminders worker..."
+    user_reminders = Note.includes(:reminders)
+                         .where(reminders: { completed: false })
+                         .references(:reminders)
+                         .select(:id, :user_id, :raw_content, "reminders.id")
+                         .distinct
+                         .group_by(&:user_id)
 
-    return unless reminder_ids.any?
+    user_reminders = user_reminders.transform_values do |note|
+      note.map(&:raw_content)
+    end
 
-    ReminderMailer.with(reminder_ids:).due_notes_email.deliver_later
+    return unless user_reminders.any?
+
+    user_reminders.each do |user_id, notes|
+      ReminderMailer.with(user_id:, notes:).due_notes_email.deliver_later
+    end
+    Rails.logger.info "Reminders worker run completed."
   end
 end

@@ -1,25 +1,21 @@
 require "rails_helper"
 
 RSpec.describe ReminderMailer, type: :mailer do
-  let!(:note) do
-    create(:note, :with_reminder_due_today, raw_content: "Lorem ipsum")
-  end
+  let(:raw_content) { "Lorem ipsum" }
+  let(:user) { create(:user) }
+  let(:notes) { create_list(:note, 3, raw_content:, user:).map(&:raw_content) }
 
-  let(:due_reminders) { Reminder.where(due_date: Time.zone.now.all_day).map(&:id) }
+  subject(:email) { described_class.with(user_id: user.id, notes:).due_notes_email }
 
   it "delivers reminder email" do
-    email = ReminderMailer.with(reminder_ids: due_reminders).due_notes_email
-
     expect { email.deliver_now }.to change { ActionMailer::Base.deliveries.count }.by(1)
   end
 
   it "renders the subject" do
-    email = ReminderMailer.with(reminder_ids: due_reminders).due_notes_email
     expect(email.subject).to eq("Notes for Today")
   end
 
   it "includes due notes in email body" do
-    email = ReminderMailer.with(reminder_ids: due_reminders).due_notes_email
-    expect(email.body.encoded).to include("Lorem ipsum")
+    expect(email.body.encoded).to include(raw_content)
   end
 end
