@@ -19,7 +19,7 @@ class SendDueRemindersWorker
     return unless user_reminders.any?
 
     user_reminders.each do |user_id, notes|
-      ReminderMailer.with(user_id:, notes:).due_notes_email.deliver_later
+      ReminderMailer.with(user:, notes:, reminders:).due_notes_email.deliver_later
     end
     Rails.logger.info "Reminders worker run completed."
   end
