@@ -5,22 +5,27 @@ class SendDueRemindersWorker
 
   def perform(*args)
     Rails.logger.info "Running reminders worker..."
-    user_reminders = Note.includes(:reminders, :user)
-                         .where(reminders: { completed: false })
-                         .references(:reminders, :user)
-                         .select(:id, "users.id AS user_id", :raw_content, "reminders.id")
-                         .distinct
-                         .group_by(&:user_id)
 
-    user_reminders = user_reminders.transform_values do |note|
-      note.map(&:raw_content)
+    user_notes = Note
+      .includes(:reminders, :user)
+      .where(reminders: { completed: false })
+      .references(:reminders, :user)
+      .select("notes.id", "users.id AS user_id", "notes.raw_content", "reminders.id AS reminder_id")
+      .distinct
+      .group_by(&:user_id)
+
+    return if user_notes.blank?
+
+    user_notes.each do |user_id, notes|
+      reminder_ids = notes.map(&:reminder_id).uniq
+      raw_contents = notes.map(&:raw_content)
+
+      ReminderMailer
+        .with(user: user_id, notes: raw_contents, reminders: reminder_ids)
+        .due_notes_email
+        .deliver_later
     end
 
-    return unless user_reminders.any?
-
-    user_reminders.each do |user, notes|
-      ReminderMailer.with(user:, notes:, reminders:).due_notes_email.deliver_later
-    end
     Rails.logger.info "Reminders worker run completed."
   end
 end
