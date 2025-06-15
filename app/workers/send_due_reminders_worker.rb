@@ -5,10 +5,10 @@ class SendDueRemindersWorker
 
   def perform(*args)
     Rails.logger.info "Running reminders worker..."
-    user_reminders = Note.includes(:reminders)
+    user_reminders = Note.includes(:reminders, :user)
                          .where(reminders: { completed: false })
-                         .references(:reminders)
-                         .select(:id, :user_id, :raw_content, "reminders.id")
+                         .references(:reminders, :user)
+                         .select(:id, "users.id AS user_id", :raw_content, "reminders.id")
                          .distinct
                          .group_by(&:user_id)
 
@@ -18,7 +18,7 @@ class SendDueRemindersWorker
 
     return unless user_reminders.any?
 
-    user_reminders.each do |user_id, notes|
+    user_reminders.each do |user, notes|
       ReminderMailer.with(user:, notes:, reminders:).due_notes_email.deliver_later
     end
     Rails.logger.info "Reminders worker run completed."
