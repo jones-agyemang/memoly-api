@@ -8,7 +8,7 @@ class SendDueRemindersWorker
 
     user_notes = Note
       .includes(:reminders, :user)
-      .where(reminders: { completed: false })
+      .where(reminders: { completed: false, due_date: Date.today.all_day })
       .references(:reminders, :user)
       .select("notes.id", "users.id AS user_id", "notes.raw_content", "reminders.id AS reminder_id")
       .distinct

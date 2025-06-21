@@ -18,11 +18,13 @@ RSpec.describe SendDueRemindersWorker, type: :worker do
 
   context "when reminders are due" do
     it "enqueues an email" do
-      note = create(:note, :with_reminder_due_today)
+      note = create(:note)
+      reminder = create(:reminder, note:, due_date: Date.today)
 
       expected_mailer_args = {
-        user_id: note.user.id,
-        notes: [ note.raw_content ]
+        user: note.user.id,
+        notes: [ note.raw_content ],
+        reminders: [ reminder.id ]
       }
 
       expect(ReminderMailer).to receive(:with).with(expected_mailer_args).and_call_original
