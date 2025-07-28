@@ -69,4 +69,4 @@ gem "faker", "~> 3.5"
 
 gem "ruby-openai", "~> 8.1"
 
-gem "strong_migrations", "~> 2.3"
+gem "strong_migrations", "~> 2.5"
