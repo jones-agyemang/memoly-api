@@ -1,5 +1,71 @@
-<h1>Notes</h1>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #f9fafb;
+        font-family: "Century Schoolbook", Georgia, serif;
+        color: #111827;
+      }
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: #ffffff;
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      }
+      h1 {
+        text-align: center;
+        font-size: 20px;
+        color: #1e3a8a;
+        margin-bottom: 20px;
+      }
+      .chunk {
+        margin-bottom: 16px;
+        padding: 16px;
+        background-color: #f3f4f6;
+        border-left: 4px solid #cccccc;
+        border-radius: 2px;
+        font-size: 15px;
+        line-height: 1.6;
+      }
+      .footer {
+        text-align: center;
+        margin-top: 28px;
+        font-size: 13px;
+        color: #6b7280;
+      }
+      a.button {
+        display: inline-block;
+        margin-top: 12px;
+        padding: 10px 16px;
+        background-color: #1e3a8a;
+        color: #ffffff !important;
+        text-decoration: none;
+        border-radius: 6px;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>💡 Today's Notes</h1>
 
-<%= @contents.each do |content|%>
-  <p>content</p>
-<% end %>
+      <% @contents.each do |content| %>
+        <div class="chunk">
+          <%= simple_format(content) %>
+        </div>
+      <% end %>
+
+      <div class="footer">
+        Keep learning, one step at a time 💡  
+        <br>
+        <a href="#" class="button">Review More Notes</a>
+      </div>
+    </div>
+  </body>
+</html>

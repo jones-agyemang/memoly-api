@@ -25,12 +25,15 @@ class AuthenticationController < ApplicationController
     user = User.joins(:authentication_code)
                .find_by!(email:, authentication_code: { code: })
 
-    raise ExpiredAuthenticationCode if user.authentication_code.expires_at.past?
+    expiry_time = user.authentication_code.expires_at
+    raise ExpiredAuthenticationCode if expiry_time.past?
 
     render json: { message: "Authorized: #{email}." }, status: :created
 
-  rescue ActiveRecord::RecordNotFound, ExpiredAuthenticationCode
+  rescue ActiveRecord::RecordNotFound
     render json: { message: "Invalid user credentials." }, status: :unauthorized
+  rescue ExpiredAuthenticationCode
+    render json: { message: "Verification code expired on #{expiry_time}" }, status: :unauthorized
   end
 
   private

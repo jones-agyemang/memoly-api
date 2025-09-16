@@ -63,7 +63,10 @@ RSpec.describe "Verify Code", type: :request do
         let(:user) { create(:user, :with_expired_auth) }
 
         it 'returns unauthorized response' do
+          response_body = JSON.parse(response.body)
+
           expect(response).to have_http_status(:unauthorized)
+          expect(response_body["message"]).to match(/Verification code expired on/)
         end
       end
     end
