@@ -98,4 +98,34 @@ RSpec.describe "Notes", type: :request do
       expect(expected_response_body).to eq [ 'Second note', 'First note' ]
     end
   end
+
+  describe "DELETE /users/:user_id/notes/:id" do
+    let(:user) { create(:user) }
+    let!(:note) { create(:note, user:) }
+
+    it "removes the note for the user" do
+      delete "/users/#{user.id}/notes/#{note.id}", headers: { "ACCEPT" => "application/json" }
+
+      expect(response).to have_http_status(:no_content)
+      expect(Note.exists?(note.id)).to be(false)
+    end
+
+    it "removes associated reminders" do
+      reminder = create(:reminder, note:)
+
+      delete "/users/#{user.id}/notes/#{note.id}", headers: { "ACCEPT" => "application/json" }
+
+      expect(response).to have_http_status(:no_content)
+      expect(Reminder.exists?(reminder.id)).to be(false)
+    end
+
+    it "returns not found when the note belongs to another user" do
+      other_user = create(:user)
+      other_note = create(:note, user: other_user)
+
+      delete "/users/#{user.id}/notes/#{other_note.id}", headers: { "ACCEPT" => "application/json" }
+
+      expect(response).to have_http_status(:not_found)
+    end
+  end
 end

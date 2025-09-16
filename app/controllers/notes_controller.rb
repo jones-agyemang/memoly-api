@@ -1,5 +1,6 @@
 class NotesController < ApplicationController
   before_action :set_user
+  before_action :set_note, only: %i[ destroy ]
 
   # POST /notes
   def create
@@ -19,10 +20,21 @@ class NotesController < ApplicationController
     render :index
   end
 
+  # DELETE /users/:user_id/notes/:id
+  def destroy
+    @note.destroy!
+
+    head :no_content
+  end
+
   private
 
   def set_user
     @user = User.find params[:user_id]
+  end
+
+  def set_note
+    @note = @user.notes.find params[:id]
   end
 
   def user_params
