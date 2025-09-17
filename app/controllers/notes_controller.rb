@@ -1,6 +1,6 @@
 class NotesController < ApplicationController
   before_action :set_user
-  before_action :set_note, only: %i[ destroy ]
+  before_action :set_note, only: %i[ update destroy ]
 
   # POST /notes
   def create
@@ -25,6 +25,15 @@ class NotesController < ApplicationController
     @note.destroy!
 
     head :no_content
+  end
+
+  # PATCH /users/:user_id/notes/:id
+  def update
+    if @note.update note_params
+      render :show
+    else
+      render json: @note.errors, status: :unprocessable_entity
+    end
   end
 
   private

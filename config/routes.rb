@@ -3,7 +3,7 @@ Rails.application.routes.draw do
     resources :users, only: %i[ index ]
 
     resources :users do
-      resources :notes, only: %i[ create index destroy ]
+      resources :notes, only: %i[ create index update destroy ]
     end
 
     resources :quiz, controller: :quizzes, only: %i[create show]

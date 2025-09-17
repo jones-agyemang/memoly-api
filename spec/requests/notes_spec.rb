@@ -99,6 +99,46 @@ RSpec.describe "Notes", type: :request do
     end
   end
 
+  describe "PATCH /users/:user_id/notes/:id" do
+    let(:user) { create(:user) }
+    let!(:note) { create(:note, user:, raw_content: "Original note") }
+
+    it "updates the note for the user" do
+      travel_to(Time.zone.parse("2025-05-29 10:30:00")) do
+        patch "/users/#{user.id}/notes/#{note.id}",
+              params: { note: { raw_content: "Updated note" } },
+              headers: { "ACCEPT" => "application/json" }
+
+        response_body = JSON.parse(response.body)
+
+        expect(response).to have_http_status(:ok)
+        expect(note.reload.raw_content).to eq "Updated note"
+        expect(response_body).to include(
+          "id" => note.id,
+          "raw_content" => "Updated note",
+          "updated_at" => note.updated_at.as_json
+        )
+      end
+    end
+
+    it "returns bad request when params are missing" do
+      patch "/users/#{user.id}/notes/#{note.id}", headers: { "ACCEPT" => "application/json" }
+
+      expect(response).to have_http_status(:bad_request)
+    end
+
+    it "returns not found when the note belongs to another user" do
+      other_user = create(:user)
+      other_note = create(:note, user: other_user)
+
+      patch "/users/#{user.id}/notes/#{other_note.id}",
+            params: { note: { raw_content: "Updated note" } },
+            headers: { "ACCEPT" => "application/json" }
+
+      expect(response).to have_http_status(:not_found)
+    end
+  end
+
   describe "DELETE /users/:user_id/notes/:id" do
     let(:user) { create(:user) }
     let!(:note) { create(:note, user:) }
