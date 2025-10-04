@@ -2,7 +2,6 @@ class NotesController < ApplicationController
   before_action :set_user
   before_action :set_note, only: %i[ update destroy ]
 
-  # POST /notes
   def create
     @note = @user.notes.build note_params
 
@@ -13,21 +12,18 @@ class NotesController < ApplicationController
     end
   end
 
-  # GET /notes
   def index
     @notes = @user.notes.order(updated_at: :desc)
 
     render :index
   end
 
-  # DELETE /users/:user_id/notes/:id
   def destroy
     @note.destroy!
 
     head :no_content
   end
 
-  # PATCH /users/:user_id/notes/:id
   def update
     if @note.update note_params
       render :show
