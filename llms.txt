@@ -1,0 +1,54 @@
+# Memoly API
+
+Memoly API powers the Memoly note-taking platform. It exposes JSON endpoints for passwordless authentication, note capture with spaced reminders, and AI-generated quizzes. All routes default to JSON (`config/routes.rb`), and responses rely on the Jbuilder templates in `app/views`.
+
+## Authentication
+
+- [POST /authentication/request-code](./app/controllers/authentication_controller.rb): Body `{"email":"user@example.com"}`. Finds or creates a `User`, generates a six-digit `AuthenticationCode` that expires after 15 minutes, and schedules `SendRequestedCodeMailer#send_authentication_code` via Active Job.
+- [POST /authentication/verify-code](./app/controllers/authentication_controller.rb): Body `{"email":"user@example.com","authentication_code":"123456"}`. Validates the code against the user's active `AuthenticationCode`, returning `201 Created` on success and `401 Unauthorized` when invalid or expired.
+
+## Users
+
+- [GET /users?email=](./app/controllers/users_controller.rb): Returns a single user record rendered by [`app/views/users/show.json.jbuilder`](./app/views/users/show.json.jbuilder). Responds with `{"message":"User not found"}` and `404` if no match exists.
+
+## Notes
+
+- [GET /users/:user_id/notes](./app/controllers/notes_controller.rb): Lists notes for a user ordered by `updated_at DESC`, rendered by [`app/views/notes/index.json.jbuilder`](./app/views/notes/index.json.jbuilder).
+- [POST /users/:user_id/notes](./app/controllers/notes_controller.rb): Body `{"note":{"raw_content":"...","source":"..."}}`. Persists a note and returns the payload from [`app/views/notes/show.json.jbuilder`](./app/views/notes/show.json.jbuilder).
+- [PATCH /users/:user_id/notes/:id](./app/controllers/notes_controller.rb): Accepts the same payload as create; updates a note and renders the show template.
+- [DELETE /users/:user_id/notes/:id](./app/controllers/notes_controller.rb): Destroys the note and returns `204 No Content`.
+- [Note reminders](./app/models/note.rb): `Note#after_create` seeds five `Reminder` records at 1, 3, 7, 14, and 20 days in the future.
+
+## Reminders & Background Jobs
+
+- [Reminder model](./app/models/reminder.rb): Stores `due_date` and `completed` flags; belongs to a note.
+- [SendDueRemindersWorker](./app/workers/send_due_reminders_worker.rb): Sidekiq job that collects incomplete reminders due today, groups them by user, and invokes [`ReminderMailer#due_notes_email`](./app/mailers/reminder_mailer.rb). After delivery it marks the reminders complete.
+- Mail templates live in [`app/views/reminder_mailer`](./app/views/reminder_mailer/due_notes_email.html.erb) with both HTML and text variants.
+
+## Quizzes
+
+- [POST /quiz](./app/controllers/quizzes_controller.rb): Body `{"topic":"..."}`. Delegates to [`CreateQuiz`](./app/services/create_quiz.rb), which calls OpenAI's `gpt-4o` with a function schema requiring `title` and multiple-choice questions. Requires `OPENAI_ACCESS_TOKEN` in the environment and returns the parsed tool response JSON.
+- `GET /quiz/:id` is routed but currently unimplemented; requests fall back to Rails defaults.
+
+## Mailers
+
+- [SendRequestedCodeMailer](./app/mailers/send_requested_code_mailer.rb): Sends the authentication code email (subject "Authentication Code") to the user.
+- [ReminderMailer](./app/mailers/reminder_mailer.rb): Sends "Notes for Today" with the day's note content, and marks reminders as completed in an `after_deliver` hook.
+
+## Data Model
+
+- [`User`](./app/models/user.rb): Unique `email`, has many notes, and has one authentication code.
+- [`AuthenticationCode`](./app/models/authentication_code.rb): Stores the six-digit code and expiration timestamp associated with a user.
+- [`Note`](./app/models/note.rb): Contains `raw_content`, optional `source`, and belongs to a user.
+- [`Reminder`](./app/models/reminder.rb): Belongs to a note, tracks completion state and due date. Schema defined in [`db/schema.rb`](./db/schema.rb).
+
+## Testing
+
+- RSpec coverage lives under [`spec/`](./spec), including factories, request specs, workers, and service tests.
+- Playwright end-to-end configuration is available in [`playwright.config.ts`](./playwright.config.ts) with reports saved to `playwright-report/`.
+
+## Operations
+
+- Background jobs use Sidekiq (`SendDueRemindersWorker` includes `Sidekiq::Job`). Ensure Sidekiq is running to process reminder emails.
+- Emails rely on Action Mailer. `ReminderMailer` sets `message_stream: "outbound"` for delivery; configure the outbound stream in your provider.
+- Supply `OPENAI_ACCESS_TOKEN` before invoking quiz generation; `CreateQuiz` raises a `KeyError` if the token is absent.
