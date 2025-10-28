@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :collections
   defaults format: :json do
     resources :users, only: %i[ index ]
 

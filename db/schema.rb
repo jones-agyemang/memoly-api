@@ -10,8 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_21_191013) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_28_114926) do
   # These are extensions that must be enabled in order to support this database
+  enable_extension "ltree"
   enable_extension "pg_catalog.plpgsql"
 
   create_table "authentication_codes", force: :cascade do |t|
@@ -21,6 +22,22 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_21_191013) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_authentication_codes_on_user_id"
+  end
+
+  create_table "collections", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "label", null: false
+    t.string "slug", null: false
+    t.bigint "parent_id"
+    t.ltree "path", null: false
+    t.integer "position", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["parent_id"], name: "index_collections_on_parent_id"
+    t.index ["path"], name: "index_collections_on_path", using: :gist
+    t.index ["user_id", "parent_id", "position"], name: "index_collections_on_user_id_and_parent_id_and_position"
+    t.index ["user_id", "parent_id", "slug"], name: "index_collections_on_user_id_and_parent_id_and_slug", unique: true
+    t.index ["user_id"], name: "index_collections_on_user_id"
   end
 
   create_table "notes", force: :cascade do |t|
@@ -50,6 +67,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_21_191013) do
   end
 
   add_foreign_key "authentication_codes", "users"
+  add_foreign_key "collections", "collections", column: "parent_id", on_delete: :cascade
+  add_foreign_key "collections", "users", on_delete: :cascade
   add_foreign_key "notes", "users"
   add_foreign_key "reminders", "notes"
 end
