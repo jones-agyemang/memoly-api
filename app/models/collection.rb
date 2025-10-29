@@ -7,6 +7,8 @@ class Collection < ApplicationRecord
 
   before_save :update_path, :generate_slug
 
+  default_scope { where(parent_id: nil) }
+
   private
 
   def generate_slug

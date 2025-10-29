@@ -1,2 +1,9 @@
-json.extract! collection, :id, :user_id, :label, :slug, :path, :position, :created_at, :updated_at
-json.url collection_url(collection, format: :json)
+json.extract! collection, :id, :label, :slug, :path, :parent_id, :position
+
+if collection.children.any?
+  json.children collection.children do |child|
+    json.partial! "collections/collection", collection: [ child ]
+  end
+else
+  json.children []
+end

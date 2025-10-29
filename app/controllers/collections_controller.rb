@@ -1,6 +1,12 @@
 class CollectionsController < ApplicationController
   before_action :set_user, only: [ :create ]
 
+  def index
+    @collections = Collection.order(:position)
+
+    render :index, status: :ok, format: [ :json ]
+  end
+
   def show
   end
 

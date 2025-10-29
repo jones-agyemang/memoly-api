@@ -20,7 +20,7 @@ RSpec.describe "/collections", type: :request do
     }
   end
 
-  describe "POST /create" do
+  describe "POST create" do
     subject(:create_collection) do
       post collections_url, params: attributes, headers: {}, as: :json
     end
@@ -87,6 +87,39 @@ RSpec.describe "/collections", type: :request do
         body = JSON.parse(response.body)
 
         expect(body).to include(expected_attributes)
+      end
+    end
+  end
+
+  describe "GET index" do
+    subject(:get_collections) do |example|
+      params = example.metadata[:params] || {}
+      get collections_url, params: params, headers: {}, as: :json
+    end
+
+    context "when scoping to a user" do
+      let!(:parent) { create(:collection, user: user, label: "Core Mathematics", slug: "core_mathematics", path: "core_mathematics") }
+      let!(:child) { create(:collection, user: user, label: "Linear Algebra", parent: parent, position: 1) }
+      let!(:other_user) { create(:user) }
+      let!(:other_collection) { create(:collection, user: other_user, label: "Other Stuff") }
+
+      it "returns only the user's root collections with nested children", params: { user: user.email } do
+        get_collections
+
+        expect(response).to have_http_status(:ok)
+        expect(response.content_type).to match(a_string_including("application/json"))
+
+        body = JSON.parse(response.body)
+        expect(body).to be_an(Array)
+
+        # Only the root for the user should be present (parent)
+        expect(body.length).to eq(1)
+        root = body.first
+        expect(root["label"]).to eq("Core Mathematics")
+
+        # children should include the Linear Algebra node
+        expect(root["children"]).to be_an(Array)
+        expect(root["children"].first["label"]).to eq("Linear Algebra")
       end
     end
   end
