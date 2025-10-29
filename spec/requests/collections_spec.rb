@@ -1,30 +1,22 @@
 require 'rails_helper'
 
 RSpec.describe "/collections", type: :request do
-  let(:user) { create(:user) }
+  let!(:user) { create(:user) }
   let(:valid_attributes) do
     {
-      collection: {
-        user_id: user.id,
-        label: "Computer Science",
-        slug: "computer_science",
-        parent: "",
-        path: "",
-        position: 0
-      }
+      user: user.email,
+      label: "Computer Science",
+      parent: "",
+      position: 0
     }
   end
 
   let(:invalid_attributes) do
     {
-      collection: {
-        user_id: "NON-EXISTING-USER-ID",
-        label: "Linear Algebra",
-        slug: "linear_algebra",
-        parent: "",
-        path: "",
-        position: 0
-      }
+      user: user.email,
+      label: "",
+      parent: "",
+      position: 0
     }
   end
 
@@ -64,18 +56,14 @@ RSpec.describe "/collections", type: :request do
     end
 
     context "when adding a collection under an existing parent" do
-      let!(:parent) { create(:collection, user: user, label: "Mathematics", slug: "mathematics", path: "") }
+      let!(:parent) { create(:collection, user: user, label: "Core Mathematics", slug: "mathematics", path: "mathematics") }
 
       let(:attributes) do
         {
-          collection: {
-            user_id: user.id,
-            label: "Algebra",
-            slug: "algebra",
-            parent_id: parent.id,
-            path: parent.path,
-            position: 1
-          }
+          user: user.email,
+          label: "Linear Algebra",
+          parent_id: parent.id,
+          position: 1
         }
       end
 
@@ -87,9 +75,18 @@ RSpec.describe "/collections", type: :request do
         expect(response).to have_http_status(:created)
         expect(response.content_type).to match(a_string_including("application/json"))
 
+        expected_attributes = {
+          "user_id" => user.id,
+          "label" => "Linear Algebra",
+          "parent_id" => parent.id,
+          "path" => "core_mathematics.linear_algebra",
+          "position" => 1,
+          "slug" => "linear-algebra"
+        }
+
         body = JSON.parse(response.body)
-        puts body
-        expect(body["parent_id"]).to eq(parent.id)
+
+        expect(body).to include(expected_attributes)
       end
     end
   end
