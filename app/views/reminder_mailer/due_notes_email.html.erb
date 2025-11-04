@@ -65,6 +65,10 @@
       .markdown-body table { border-collapse: collapse; width: 100%; margin: 0 0 12px; }
       .markdown-body th, .markdown-body td { border: 1px solid #e5e7eb; padding: 6px 8px; text-align: left; }
       .markdown-body a { color: #1e3a8a; text-decoration: underline; }
+
+      .katex-html {
+        display: none;
+      }
     </style>
   </head>
   <body>
@@ -75,9 +79,15 @@
         <div class="chunk markdown-body">
           <%= raw Kramdown::Document.new(
                 note,
-                input: 'GFM',            # GitHub‑Flavored Markdown support (tables, fenced code, etc.)
-                hard_wrap: false,        # respect paragraphs/line breaks
-                syntax_highlighter: nil  # avoid external highlighters in emails
+                input: "GFM",
+                math_engine: "katex",
+                hard_wrap: false,
+                syntax_highlighter: nil,
+                math_engine_opts: {
+                  display_math_delims:  ['$$','$$'],
+                  inline_math_delims:   ['$', '$'],
+                  katex_options: { trust: true }
+                }
               ).to_html %>
         </div>
       <% end %>

@@ -12,6 +12,7 @@ require "action_mailbox/engine"
 require "action_text/engine"
 require "action_view/railtie"
 require "action_cable/engine"
+require "sprockets/railtie"
 # require "rails/test_unit/railtie"
 
 # Require the gems listed in Gemfile, including any gems
@@ -26,7 +27,7 @@ module MemolyApi
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
     # Common ones are `templates`, `generators`, or `middleware`, for example.
-    config.autoload_lib(ignore: %w[assets tasks])
+    config.autoload_lib(ignore: %w[tasks])
 
     # Configuration for the application, engines, and railties goes here.
     #
@@ -40,5 +41,23 @@ module MemolyApi
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
+
+    # # --- Enable Asset Pipeline in API-only app ---
+    # # Serve static files from /public (needed for emails/precompiled assets in production)
+    # config.public_file_server.enabled = true
+
+    # # Turn on Sprockets and configure common asset paths
+    # config.assets.enabled = true
+    # config.assets.quiet = true
+    # config.assets.paths << Rails.root.join("app", "assets")
+    # config.assets.paths << Rails.root.join("vendor", "assets")
+    # # If you keep Action Mailer views with images/CSS under app/assets, they will compile.
+
+    # # Allow generators to create asset files when requested
+    # config.generators do |g|
+    #   g.assets true
+    #   g.stylesheets true
+    #   g.javascripts true
+    # end
   end
 end

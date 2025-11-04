@@ -9,6 +9,7 @@ gem "puma", ">= 5.0"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
 gem "pg"
+gem "sprockets-rails", require: "sprockets/railtie"
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"
@@ -29,6 +30,9 @@ gem "kamal", require: false
 
 gem "kramdown"
 gem "kramdown-parser-gfm"
+gem "kramdown-math-katex"
+gem "execjs"
+gem "mini_racer"
 
 # Add HTTP asset caching/compression and X-Sendfile acceleration to Puma [https://github.com/basecamp/thruster/]
 gem "thruster", require: false
