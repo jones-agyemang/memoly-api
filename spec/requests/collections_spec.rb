@@ -22,14 +22,14 @@ RSpec.describe "/collections", type: :request do
 
   describe "POST create" do
     subject(:create_collection) do
-      post collections_url, params: attributes, headers: {}, as: :json
+      post user_collections_url(user_id: user.id), params: attributes, headers: {}, as: :json
     end
 
     context "with valid parameters" do
       let(:attributes) { valid_attributes }
 
       it "creates a new Collection" do
-        expect { create_collection }.to change(Collection, :count).by(1)
+        expect { create_collection }.to change(user.collections, :count).by(1)
       end
 
       it "renders a JSON response with the new collection" do
@@ -92,19 +92,14 @@ RSpec.describe "/collections", type: :request do
   end
 
   describe "GET index" do
-    subject(:get_collections) do |example|
-      params = example.metadata[:params] || {}
-      get collections_url, params: params, headers: {}, as: :json
-    end
-
     context "when scoping to a user" do
       let!(:parent) { create(:collection, user: user, label: "Core Mathematics", slug: "core_mathematics", path: "core_mathematics") }
       let!(:child) { create(:collection, user: user, label: "Linear Algebra", parent: parent, position: 1) }
       let!(:other_user) { create(:user) }
       let!(:other_collection) { create(:collection, user: other_user, label: "Other Stuff") }
 
-      it "returns only the user's root collections with nested children", params: { user: user.email } do
-        get_collections
+      it "returns only the user's root collections with nested children" do
+        get user_collections_url(user_id: user.id), headers: {}, as: :json
 
         expect(response).to have_http_status(:ok)
         expect(response.content_type).to match(a_string_including("application/json"))
@@ -112,12 +107,10 @@ RSpec.describe "/collections", type: :request do
         body = JSON.parse(response.body)
         expect(body).to be_an(Array)
 
-        # Only the root for the user should be present (parent)
         expect(body.length).to eq(1)
         root = body.first
         expect(root["label"]).to eq("Core Mathematics")
 
-        # children should include the Linear Algebra node
         expect(root["children"]).to be_an(Array)
         expect(root["children"].first["label"]).to eq("Linear Algebra")
       end

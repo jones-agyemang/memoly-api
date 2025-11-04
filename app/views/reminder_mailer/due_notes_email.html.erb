@@ -55,16 +55,16 @@
     <div class="container">
       <h1>💡 Today's Notes</h1>
 
-      <% @contents.each do |content| %>
+      <% @notes.each do |note| %>
         <div class="chunk">
-          <%= simple_format(content) %>
+          <%= simple_format(note.raw_content) %>
         </div>
       <% end %>
 
       <div class="footer">
         Keep learning, one step at a time 💡  
         <br>
-        <a href=<%= ENV.fetch("APP_URL") %> class="button">Review More Notes</a>
+        <a href=<%= ENV.fetch("APP_URL", "") %> class="button">Review More Notes</a>
       </div>
     </div>
   </body>

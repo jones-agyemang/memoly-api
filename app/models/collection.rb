@@ -7,7 +7,7 @@ class Collection < ApplicationRecord
 
   before_save :update_path, :generate_slug
 
-  default_scope { where(parent_id: nil) }
+  scope :top_level, -> { where(parent_id: nil) }
 
   private
 

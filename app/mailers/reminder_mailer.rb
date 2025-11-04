@@ -5,7 +5,7 @@ class ReminderMailer < ApplicationMailer
 
   def due_notes_email
     user = User.find params[:user]
-    @contents = params[:notes]
+    @notes = params[:notes]
 
     mail(
       subject: "Notes for Today",

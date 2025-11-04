@@ -28,7 +28,7 @@ class AuthenticationController < ApplicationController
     expiry_time = user.authentication_code.expires_at
     raise ExpiredAuthenticationCode if expiry_time.past?
 
-    render json: { message: "Authorized: #{email}." }, status: :created
+    render json: { user:, message: "Authorized: #{email}." }, status: :created
 
   rescue ActiveRecord::RecordNotFound
     render json: { message: "Invalid user credentials." }, status: :unauthorized
