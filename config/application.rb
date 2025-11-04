@@ -42,22 +42,24 @@ module MemolyApi
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
 
-    # # --- Enable Asset Pipeline in API-only app ---
-    # # Serve static files from /public (needed for emails/precompiled assets in production)
-    # config.public_file_server.enabled = true
+    # --- Enable Asset Pipeline in API-only app ---
+    # Serve static files from /public (needed for emails/precompiled assets in production)
+    config.public_file_server.enabled = true
 
-    # # Turn on Sprockets and configure common asset paths
-    # config.assets.enabled = true
-    # config.assets.quiet = true
-    # config.assets.paths << Rails.root.join("app", "assets")
+    # Turn on Sprockets and configure common asset paths
+    config.assets.enabled = true
+    config.assets.quiet = true
+    config.assets.paths << Rails.root.join("app", "assets")
     # config.assets.paths << Rails.root.join("vendor", "assets")
-    # # If you keep Action Mailer views with images/CSS under app/assets, they will compile.
+    # If you keep Action Mailer views with images/CSS under app/assets, they will compile.
 
-    # # Allow generators to create asset files when requested
-    # config.generators do |g|
-    #   g.assets true
-    #   g.stylesheets true
-    #   g.javascripts true
-    # end
+    # Allow generators to create asset files when requested
+    config.generators do |g|
+      g.assets true
+      g.stylesheets true
+      g.javascripts true
+    end
   end
 end
+
+# url(fonts/KaTe

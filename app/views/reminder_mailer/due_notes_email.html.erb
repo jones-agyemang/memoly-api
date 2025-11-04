@@ -2,74 +2,9 @@
 <html lang="en">
   <head>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
-    <style>
-      body {
-        margin: 0;
-        padding: 0;
-        background-color: #f9fafb;
-        font-family: "Century Schoolbook", Georgia, serif;
-        color: #111827;
-      }
-      .container {
-        max-width: 600px;
-        margin: 0 auto;
-        background-color: #ffffff;
-        border-radius: 12px;
-        padding: 24px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-      }
-      h1 {
-        text-align: center;
-        font-size: 20px;
-        color: #1e3a8a;
-        margin-bottom: 20px;
-      }
-      .chunk {
-        margin-bottom: 16px;
-        padding: 16px;
-        background-color: #f3f4f6;
-        border-left: 4px solid #cccccc;
-        border-radius: 2px;
-        font-size: 15px;
-        line-height: 1.6;
-      }
-      .footer {
-        text-align: center;
-        margin-top: 28px;
-        font-size: 13px;
-        color: #6b7280;
-      }
-      a.button {
-        display: inline-block;
-        margin-top: 12px;
-        padding: 10px 16px;
-        background-color: #1e3a8a;
-        color: #ffffff !important;
-        text-decoration: none;
-        border-radius: 6px;
-        font-size: 14px;
-      }
-      /* Markdown rendering defaults */
-      .markdown-body p { margin: 0 0 12px; }
-      .markdown-body h1, .markdown-body h2, .markdown-body h3,
-      .markdown-body h4, .markdown-body h5, .markdown-body h6 {
-        margin: 16px 0 8px; line-height: 1.25; color: #111827;
-      }
-      .markdown-body h1 { font-size: 22px; }
-      .markdown-body h2 { font-size: 18px; }
-      .markdown-body h3 { font-size: 16px; }
-      .markdown-body ul, .markdown-body ol { margin: 0 0 12px 20px; }
-      .markdown-body code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 13px; background: #f3f4f6; padding: 2px 4px; border-radius: 4px; }
-      .markdown-body pre { background: #f3f4f6; padding: 12px; border-radius: 6px; overflow: auto; }
-      .markdown-body blockquote { margin: 0 0 12px; padding-left: 12px; border-left: 4px solid #e5e7eb; color: #374151; }
-      .markdown-body table { border-collapse: collapse; width: 100%; margin: 0 0 12px; }
-      .markdown-body th, .markdown-body td { border: 1px solid #e5e7eb; padding: 6px 8px; text-align: left; }
-      .markdown-body a { color: #1e3a8a; text-decoration: underline; }
-
-      .katex-html {
-        display: none;
-      }
-    </style>
+    <%= stylesheet_link_tag "katex" %>
+    <%= stylesheet_link_tag "markdown" %>
+    <%= stylesheet_link_tag "mailer" %>
   </head>
   <body>
     <div class="container">
