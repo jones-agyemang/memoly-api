@@ -11,6 +11,8 @@ class ReminderMailerPreview < ActionMailer::Preview
     content = []
     1.upto(5) do
       content << Faker::Lorem.paragraph(sentence_count: [ *30..45 ].sample)
+      content << Faker::Markdown.block_code
+      content << Faker::Markdown.emphasis
     end
     content
   end
