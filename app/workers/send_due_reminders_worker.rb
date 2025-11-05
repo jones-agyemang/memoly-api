@@ -5,14 +5,7 @@ class SendDueRemindersWorker
 
   def perform(*args)
     Rails.logger.info "Running reminders worker..."
-
-    user_notes = Note
-      .includes(:reminders, :user)
-      .where(reminders: { completed: false, due_date: Date.today.all_day })
-      .references(:reminders, :user)
-      .select("notes.id", "users.id AS user_id", "notes.raw_content", "reminders.id AS reminder_id")
-      .distinct
-      .group_by(&:user_id)
+    user_notes = DueNotes.call
 
     return if user_notes.blank?
 

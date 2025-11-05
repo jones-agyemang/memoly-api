@@ -14,20 +14,18 @@
         <div class="chunk markdown-body">
           <%= raw Kramdown::Document.new(
                 MathDelimiters.normalize_inline(note),
-                input: "GFM",
+                input: "kramdown",
                 math_engine: :katex,
                 hard_wrap: false,
                 syntax_highlighter: nil,
                 math_engine_opts: {
                   display_math_delims:  ['$$','$$'],
                   inline_math_delims:   ['$', '$'],
-                  katex_options: {
-                    throwOnError: false,
-                    trust: true
-                  }
+                  katex_options: { throwOnError: false, strict: "ignore", trust: true }
                 }
               ).to_html %>
         </div>
+        <hr>
       <% end %>
 
       <div class="footer">
