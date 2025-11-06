@@ -107,8 +107,8 @@ RSpec.describe "/collections", type: :request do
         body = JSON.parse(response.body)
         expect(body).to be_an(Array)
 
-        expect(body.length).to eq(1)
-        root = body.first
+        expect(body.length).to eq(2)
+        root = body.second
         expect(root["label"]).to eq("Core Mathematics")
 
         expect(root["children"]).to be_an(Array)

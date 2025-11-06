@@ -15,28 +15,59 @@ RSpec.describe "Notes", type: :request do
         }
       end
 
-      it "creates a new note for user" do
-        travel_to(Time.parse("2025-03-28 15:30:00")) do
-          post "/users/#{user.id}/notes", params: valid_attributes, headers: { "ACCEPT": "application/json" }
+      context "when collection is undefined" do
+        it "creates and assigns a new note in the default collection" do
+          travel_to(Time.parse("2025-03-28 15:30:00")) do
+            post "/users/#{user.id}/notes", params: valid_attributes, headers: { "ACCEPT": "application/json" }
 
-          response_body = JSON.parse(response.body)
+            response_body = JSON.parse(response.body)
 
-          expect(response).to have_http_status(:created)
+            expect(response).to have_http_status(:created)
 
-          expect(response_body).to include(
-            "id" => be_a(Integer),
-            "user" => {
-              "email" => user.email
-            },
-            "raw_content" => "Lorem ipsum",
-            "reminders" => [
-              { "due_date" => "2025-03-29", "completed" => false },
-              { "due_date" => "2025-03-31", "completed" => false },
-              { "due_date" => "2025-04-04", "completed" => false },
-              { "due_date" => "2025-04-11", "completed" => false },
-              { "due_date" => "2025-04-17", "completed" => false }
-            ]
-          )
+            puts response_body
+
+            expect(response_body).to include(
+              "id" => be_a(Integer),
+              "user" => { "email" => user.email },
+          "collection" => { "label" => Collection::DEFAULT_CATEGORY_LABEL },
+              "raw_content" => "Lorem ipsum",
+              "reminders" => [
+                { "due_date" => "2025-03-29", "completed" => false },
+                { "due_date" => "2025-03-31", "completed" => false },
+                { "due_date" => "2025-04-04", "completed" => false },
+                { "due_date" => "2025-04-11", "completed" => false },
+                { "due_date" => "2025-04-17", "completed" => false }
+              ]
+            )
+          end
+        end
+      end
+
+      context "when collection is defined" do
+        it "creates and assigns a new note in the specified collection" do
+          travel_to(Time.parse("2025-03-28 15:30:00")) do
+            collection = create(:collection, user:)
+
+            post "/users/#{user.id}/notes", params: valid_attributes.merge({ collection_id: collection.id }), headers: { "ACCEPT": "application/json" }
+
+            response_body = JSON.parse(response.body)
+
+            expect(response).to have_http_status(:created)
+
+            expect(response_body).to include(
+              "id" => be_a(Integer),
+              "user" => { "email" => user.email },
+              "collection" => { "label" => collection.label },
+              "raw_content" => "Lorem ipsum",
+              "reminders" => [
+                { "due_date" => "2025-03-29", "completed" => false },
+                { "due_date" => "2025-03-31", "completed" => false },
+                { "due_date" => "2025-04-04", "completed" => false },
+                { "due_date" => "2025-04-11", "completed" => false },
+                { "due_date" => "2025-04-17", "completed" => false }
+              ]
+            )
+          end
         end
       end
     end
@@ -55,39 +86,69 @@ RSpec.describe "Notes", type: :request do
     let(:other_user) { create(:user) }
 
     it "returns user notes" do
-      create(:note, user:)
-      create(:note, user: other_user)
+      create(:note, collection: create(:collection, user:))
+      create(:note, collection: create(:collection, user: other_user))
 
-
-      get "/users/#{user.id}/notes", headers: { "ACCEPT" => "application/json" }
+      get user_notes_url(user_id: user.id), params: {}, headers: { "ACCEPT" => "application/json" }
 
       response_body = JSON.parse(response.body)
 
       expect(response_body.map { _1["user"]["email"] }).to include user.email
       expect(response_body.map { _1["user"]["email"] }).not_to include other_user.email
+
+      puts response_body
     end
 
-    it "returns list of notes" do
-      create(:note, raw_content: "First note", user:)
-      create(:note, raw_content: "Second note", user:)
+    describe "filter by collection" do
+      let(:maths) { create(:collection, user:, label: "Maths") }
+      let(:physics) { create(:collection, user:, label: "Physics") }
 
-      get "/users/#{user.id}/notes", headers: { "ACCEPT" => "application/json" }
+      before do
+        create(:note, raw_content: "Linear algebra", collection: maths)
+        create(:note, raw_content: "Quantum physics", collection: physics)
+      end
 
-      response_body = JSON.parse(response.body)
+      context "when collection is undefined" do
+        it "returns notes unscoped by collection" do
+          get "/users/#{user.id}/notes", params: { dummy: "foo" }, headers: { "ACCEPT" => "application/json" }
 
-      expect(response_body).to be_an(Array)
-      expect(response_body.size).to eq(2)
-      expect(response).to have_http_status(:ok)
-      expect(response_body.first).to include(
-        "id" => be_a(Integer),
-        "raw_content" => "Second note"
-      )
+          response_body = JSON.parse(response.body)
+
+          expect(response).to have_http_status(:ok)
+          expect(response_body).to be_an(Array)
+          expect(response_body.size).to eq(2)
+          expect(response_body.first).to include(
+            "id" => be_a(Integer),
+            "raw_content" => "Quantum physics"
+            )
+          expect(response_body.second).to include(
+            "id" => be_a(Integer),
+            "raw_content" => "Linear algebra"
+          )
+        end
+      end
+
+      context "when collection is defined" do
+        it "returns notes scoped by collection" do
+          get "/users/#{user.id}/notes", params: { collection_id: maths.id }, headers: { "ACCEPT" => "application/json" }
+
+          response_body = JSON.parse(response.body)
+
+          expect(response).to have_http_status(:ok)
+          expect(response_body).to be_an(Array)
+          expect(response_body.size).to eq(1)
+          expect(response_body.first).to include(
+            "id" => be_a(Integer),
+            "raw_content" => "Linear algebra"
+          )
+        end
+      end
     end
 
     it 'returns notes ordered by date modified' do
       create(:user)
-      create(:note, raw_content: "First note", user:)
-      create(:note, raw_content: "Second note", user:)
+      create(:note, raw_content: "First note", collection: create(:collection, user:))
+      create(:note, raw_content: "Second note", collection: create(:collection, user:))
 
       get "/users/#{user.id}/notes", headers: { "ACCEPT" => "application/json" }
 
@@ -101,7 +162,7 @@ RSpec.describe "Notes", type: :request do
 
   describe "PATCH /users/:user_id/notes/:id" do
     let(:user) { create(:user) }
-    let!(:note) { create(:note, user:, raw_content: "Original note") }
+    let!(:note) { create(:note, collection: create(:collection, user:), raw_content: "Original note") }
 
     it "updates the note for the user" do
       travel_to(Time.zone.parse("2025-05-29 10:30:00")) do
@@ -129,7 +190,7 @@ RSpec.describe "Notes", type: :request do
 
     it "returns not found when the note belongs to another user" do
       other_user = create(:user)
-      other_note = create(:note, user: other_user)
+      other_note = create(:note, collection: create(:collection, user: other_user))
 
       patch "/users/#{user.id}/notes/#{other_note.id}",
             params: { note: { raw_content: "Updated note" } },
@@ -141,7 +202,7 @@ RSpec.describe "Notes", type: :request do
 
   describe "DELETE /users/:user_id/notes/:id" do
     let(:user) { create(:user) }
-    let!(:note) { create(:note, user:) }
+    let!(:note) { create(:note, collection: create(:collection, user:)) }
 
     it "removes the note for the user" do
       delete "/users/#{user.id}/notes/#{note.id}", headers: { "ACCEPT" => "application/json" }
@@ -161,7 +222,7 @@ RSpec.describe "Notes", type: :request do
 
     it "returns not found when the note belongs to another user" do
       other_user = create(:user)
-      other_note = create(:note, user: other_user)
+      other_note = create(:note, collection: create(:collection, user: other_user))
 
       delete "/users/#{user.id}/notes/#{other_note.id}", headers: { "ACCEPT" => "application/json" }
 

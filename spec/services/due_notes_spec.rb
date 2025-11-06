@@ -19,8 +19,12 @@ RSpec.describe DueNotes do
     context "when notes have reminders due for the date" do
       let(:user) { create(:user) }
       let(:other_user) { create(:user) }
-      let!(:note_due_today) { create(:note, :with_reminder_due_today, user:, raw_content: "Due for primary user") }
-      let!(:other_note_due_today) { create(:note, :with_reminder_due_today, user: other_user, raw_content: "Due for secondary user") }
+      let!(:note_due_today) do
+        create(:note, :with_reminder_due_today, collection: create(:collection, user:), raw_content: "Due for primary user")
+      end
+      let!(:other_note_due_today) do
+        create(:note, :with_reminder_due_today, collection: create(:collection, user: other_user), raw_content: "Due for secondary user")
+      end
       let!(:completed_reminder) do
         create(:reminder, note: other_note_due_today, due_date: date.beginning_of_day + 4.hours, completed: true)
       end
@@ -57,7 +61,7 @@ RSpec.describe DueNotes do
 
     context "when no reminders are due for the date" do
       let!(:note_with_reminder_for_other_day) do
-        create(:note, :with_reminder_due_today, user: create(:user))
+        create(:note, :with_reminder_due_today, collection: create(:collection, user: create(:user)))
       end
       let(:date) { Time.zone.today - 1.day }
 

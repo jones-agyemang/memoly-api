@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :note do
-    association :user
+    association :collection
 
     raw_content { "MyString" }
     source { "MyString" }

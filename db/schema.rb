@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_28_114926) do
+ActiveRecord::Schema[8.0].define(version: 2025_11_06_081445) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
   enable_extension "pg_catalog.plpgsql"
@@ -46,6 +46,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_28_114926) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
+    t.bigint "collection_id"
+    t.index ["collection_id"], name: "index_notes_on_collection_id"
     t.index ["user_id"], name: "index_notes_on_user_id"
   end
 
@@ -69,6 +71,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_28_114926) do
   add_foreign_key "authentication_codes", "users"
   add_foreign_key "collections", "collections", column: "parent_id", on_delete: :cascade
   add_foreign_key "collections", "users", on_delete: :cascade
+  add_foreign_key "notes", "collections"
   add_foreign_key "notes", "users"
   add_foreign_key "reminders", "notes"
 end

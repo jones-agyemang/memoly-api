@@ -3,8 +3,9 @@ require "rails_helper"
 RSpec.describe ReminderMailer, type: :mailer do
   let(:raw_content) { "Lorem ipsum" }
   let(:user) { create(:user) }
+  let(:collection) { create(:collection, user:) }
   let!(:notes) do
-    create_list(:note, 3, :with_reminder_due_today, raw_content:, user:)
+    create_list(:note, 3, :with_reminder_due_today, raw_content:, collection:).pluck(:raw_content)
   end
 
   subject(:email) { described_class.with(user: user.id, notes:).due_notes_email }

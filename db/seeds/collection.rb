@@ -4,6 +4,7 @@ def seed_collection
   puts "Successfully seeded Collection Data!"
 
   user = User.find_or_create_by(email: "mightyj@hotmail.co.uk")
+  user.collections.create(label: Collection::DEFAULT_CATEGORY_LABEL)
 
   parent = Collection.create(user:, label: "Mathematics", parent_id: nil, position: 0)
   Collection.create(user:, label: "Linear Algebra", parent:, position: 0)

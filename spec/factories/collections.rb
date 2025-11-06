@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :collection do
-    user { nil }
+    association :user
     label { "MyString" }
     slug { "MyString" }
     parent_id { "" }
