@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 
     resources :users do
       resources :notes, only: %i[ create index update destroy ]
-      resources :collections, only: %i[ index create ]
+      resources :collections, only: %i[ index create update ]
     end
 
     resources :quiz, controller: :quizzes, only: %i[create show]

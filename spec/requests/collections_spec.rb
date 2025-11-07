@@ -116,4 +116,41 @@ RSpec.describe "/collections", type: :request do
       end
     end
   end
+
+  describe "PATCH /users/:user_id/collections/:id" do
+    let!(:collection) { create(:collection, user: user, label: "Original Label", slug: "original-label", path: "original_label") }
+
+    it "updates the collection label" do
+      patch user_collection_url(user_id: user.id, id: collection.id),
+            params: { collection: { label: "Renamed Label" } },
+            headers: {}, as: :json
+
+      expect(response).to have_http_status(:ok)
+      expect(response.content_type).to match(a_string_including("application/json"))
+
+      body = JSON.parse(response.body)
+      expect(body["label"]).to eq("Renamed Label")
+      expect(collection.reload.label).to eq("Renamed Label")
+    end
+
+    it "returns validation errors when label is blank" do
+      patch user_collection_url(user_id: user.id, id: collection.id),
+            params: { collection: { label: "" } },
+            headers: {}, as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(JSON.parse(response.body)).to include("label")
+    end
+
+    it "returns not found when the collection belongs to another user" do
+      other_user = create(:user)
+      other_collection = create(:collection, user: other_user)
+
+      patch user_collection_url(user_id: user.id, id: other_collection.id),
+            params: { collection: { label: "Renamed Label" } },
+            headers: {}, as: :json
+
+      expect(response).to have_http_status(:not_found)
+    end
+  end
 end

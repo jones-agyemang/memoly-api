@@ -1,5 +1,6 @@
 class CollectionsController < ApplicationController
   before_action :set_user
+  before_action :set_collection, only: %i[ update ]
 
   def index
     @collections = @user.collections.top_level.order(:position)
@@ -20,10 +21,22 @@ class CollectionsController < ApplicationController
     end
   end
 
+  def update
+    if @collection.update collection_params
+      render :show, status: :ok, formats: [ :json ]
+    else
+      render json: @collection.errors, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def set_user
     @user = User.find(user_id_param) || User.find_by(email: user_params)
+  end
+
+  def set_collection
+    @collection = @user.collections.find(params.expect(:id))
   end
 
   def user_id_param
