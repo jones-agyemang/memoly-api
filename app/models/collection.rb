@@ -5,8 +5,10 @@ class Collection < ApplicationRecord
   has_many :notes, dependent: :destroy
 
   validates :label, presence: true
+  validate :validate_parent_scope
 
   before_save :update_path, :generate_slug
+  after_save :refresh_descendant_paths, if: :saved_change_to_path?
 
   scope :top_level, -> { where(parent_id: nil) }
 
@@ -20,6 +22,31 @@ class Collection < ApplicationRecord
 
   def generate_slug
     self.slug = label.parameterize
+  end
+
+  def refresh_descendant_paths
+    children.find_each(&:save!)
+  end
+
+  def validate_parent_scope
+    return if parent_id.blank?
+
+    if parent.nil?
+      errors.add(:parent_id, :invalid)
+      return
+    end
+
+    if parent.user_id != user_id
+      errors.add(:parent_id, :invalid)
+    end
+
+    if id.present? && parent_id == id
+      errors.add(:parent_id, :invalid)
+    end
+
+    if path.present? && parent.path.present? && parent.path.start_with?("#{path}.")
+      errors.add(:parent_id, :invalid)
+    end
   end
 
   def update_path

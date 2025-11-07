@@ -152,5 +152,39 @@ RSpec.describe "/collections", type: :request do
 
       expect(response).to have_http_status(:not_found)
     end
+
+    context "when reassigning a collection to a new parent" do
+      let!(:destination) { create(:collection, user:, label: "New Parent", slug: "new-parent", path: "new_parent") }
+      let!(:moved_child) { create(:collection, user:, label: "Movable", slug: "movable", path: "movable") }
+      let!(:nested_child) { create(:collection, user:, parent: moved_child, label: "Nested", slug: "nested", path: "movable.nested") }
+
+      it "updates the parent and refreshes descendant paths" do
+        patch user_collection_url(user_id: user.id, id: moved_child.id),
+              params: { collection: { parent_id: destination.id } },
+              headers: {}, as: :json
+
+        expect(response).to have_http_status(:ok)
+        expect(moved_child.reload.parent_id).to eq(destination.id)
+        expect(nested_child.reload.path).to start_with("#{moved_child.path}.")
+      end
+
+      it "returns unprocessable_entity when assigning to a descendant" do
+        patch user_collection_url(user_id: user.id, id: moved_child.id),
+              params: { collection: { parent_id: nested_child.id } },
+              headers: {}, as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it "returns unprocessable_entity when assigning to another user's collection" do
+        stranger_parent = create(:collection, label: "Other")
+
+        patch user_collection_url(user_id: user.id, id: moved_child.id),
+              params: { collection: { parent_id: stranger_parent.id } },
+              headers: {}, as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+    end
   end
 end

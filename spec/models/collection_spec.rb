@@ -28,4 +28,39 @@ RSpec.describe Collection, type: :model do
       end
     end
   end
+
+  describe "hierarchy management" do
+    let(:user) { create(:user) }
+
+    it "updates descendant paths when parent path changes" do
+      parent = create(:collection, user:, label: "Sciences")
+      child = create(:collection, user:, parent:, label: "Chemistry")
+      new_parent = create(:collection, user:, label: "STEM")
+
+      parent.update!(parent: new_parent)
+
+      expect(parent.reload.path).to eq("#{new_parent.reload.path}.sciences")
+      expect(child.reload.path).to eq("#{parent.path}.chemistry")
+    end
+
+    it "does not allow assigning a collection to one of its descendants" do
+      parent = create(:collection, user:, label: "Root")
+      child = create(:collection, user:, parent:, label: "Child")
+
+      parent.parent = child
+
+      expect(parent).not_to be_valid
+      expect(parent.errors[:parent_id]).to be_present
+    end
+
+    it "does not allow assigning a collection to a parent from another user" do
+      parent = create(:collection, user:, label: "Root")
+      other_parent = create(:collection, label: "Other Root")
+
+      parent.parent = other_parent
+
+      expect(parent).not_to be_valid
+      expect(parent.errors[:parent_id]).to be_present
+    end
+  end
 end
