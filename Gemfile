@@ -34,6 +34,8 @@ gem "kramdown-math-katex"
 gem "execjs"
 gem "mini_racer"
 
+gem "data_migrate", "~> 11.3"
+
 # Add HTTP asset caching/compression and X-Sendfile acceleration to Puma [https://github.com/basecamp/thruster/]
 gem "thruster", require: false
 
