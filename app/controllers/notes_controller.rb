@@ -27,7 +27,7 @@ class NotesController < ApplicationController
   end
 
   def update
-    if @note.update note_params
+    if @note.update note_update_params
       render :show
     else
       render json: @note.errors, status: :unprocessable_entity
@@ -68,5 +68,18 @@ class NotesController < ApplicationController
 
   def note_params
     params.expect(note: [ :raw_content, :source ])
+  end
+
+  def note_update_params
+    params.expect(note: [ :raw_content, :source, :collection_id ]).tap do |attributes|
+      collection_id = attributes[:collection_id]
+
+      if collection_id.blank?
+        attributes.delete(:collection_id)
+        next
+      end
+
+      attributes[:collection_id] = @user.collections.find(collection_id).id
+    end
   end
 end

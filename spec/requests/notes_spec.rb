@@ -27,7 +27,6 @@ RSpec.describe "Notes", type: :request do
             expect(response_body).to include(
               "id" => be_a(Integer),
               "user" => { "email" => user.email },
-              "collection" => { "label" => Collection::DEFAULT_CATEGORY_LABEL },
               "raw_content" => "Lorem ipsum",
               "reminders" => [
                 { "due_date" => "2025-03-29", "completed" => false },
@@ -36,6 +35,10 @@ RSpec.describe "Notes", type: :request do
                 { "due_date" => "2025-04-11", "completed" => false },
                 { "due_date" => "2025-04-17", "completed" => false }
               ]
+            )
+            expect(response_body.fetch("collection")).to include(
+              "id" => be_a(Integer),
+              "label" => Collection::DEFAULT_CATEGORY_LABEL
             )
           end
         end
@@ -63,7 +66,6 @@ RSpec.describe "Notes", type: :request do
             expect(response_body).to include(
               "id" => be_a(Integer),
               "user" => { "email" => user.email },
-              "collection" => { "label" => collection.label },
               "raw_content" => "Lorem ipsum",
               "reminders" => [
                 { "due_date" => "2025-03-29", "completed" => false },
@@ -72,6 +74,10 @@ RSpec.describe "Notes", type: :request do
                 { "due_date" => "2025-04-11", "completed" => false },
                 { "due_date" => "2025-04-17", "completed" => false }
               ]
+            )
+            expect(response_body.fetch("collection")).to include(
+              "id" => collection.id,
+              "label" => collection.label
             )
           end
         end
@@ -183,6 +189,39 @@ RSpec.describe "Notes", type: :request do
           "raw_content" => "Updated note",
           "updated_at" => note.updated_at.as_json
         )
+        expect(response_body.fetch("collection")).to include(
+          "id" => note.collection.id,
+          "label" => note.collection.label
+        )
+      end
+    end
+
+    context "when a new collection is provided" do
+      let!(:new_collection) { create(:collection, user:, label: "Target Collection") }
+
+      it "reassigns the note to the selected collection" do
+        patch "/users/#{user.id}/notes/#{note.id}",
+              params: { note: { collection_id: new_collection.id } },
+              headers: { "ACCEPT" => "application/json" }
+
+        response_body = JSON.parse(response.body)
+
+        expect(response).to have_http_status(:ok)
+        expect(note.reload.collection_id).to eq(new_collection.id)
+        expect(response_body.fetch("collection")).to include(
+          "id" => new_collection.id,
+          "label" => "Target Collection"
+        )
+      end
+
+      it "returns not found when collection belongs to another user" do
+        other_collection = create(:collection)
+
+        patch "/users/#{user.id}/notes/#{note.id}",
+              params: { note: { collection_id: other_collection.id } },
+              headers: { "ACCEPT" => "application/json" }
+
+        expect(response).to have_http_status(:not_found)
       end
     end
 
