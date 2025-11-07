@@ -24,12 +24,10 @@ RSpec.describe "Notes", type: :request do
 
             expect(response).to have_http_status(:created)
 
-            puts response_body
-
             expect(response_body).to include(
               "id" => be_a(Integer),
               "user" => { "email" => user.email },
-          "collection" => { "label" => Collection::DEFAULT_CATEGORY_LABEL },
+              "collection" => { "label" => Collection::DEFAULT_CATEGORY_LABEL },
               "raw_content" => "Lorem ipsum",
               "reminders" => [
                 { "due_date" => "2025-03-29", "completed" => false },
@@ -44,11 +42,19 @@ RSpec.describe "Notes", type: :request do
       end
 
       context "when collection is defined" do
+        let(:collection) { create(:collection, user:) }
+        let(:valid_attributes) do
+          {
+            note: {
+              raw_content: "Lorem ipsum",
+              collection_id: collection.id
+            }
+          }
+        end
+
         it "creates and assigns a new note in the specified collection" do
           travel_to(Time.parse("2025-03-28 15:30:00")) do
-            collection = create(:collection, user:)
-
-            post "/users/#{user.id}/notes", params: valid_attributes.merge({ collection_id: collection.id }), headers: { "ACCEPT": "application/json" }
+            post "/users/#{user.id}/notes", params: valid_attributes, headers: { "ACCEPT": "application/json" }
 
             response_body = JSON.parse(response.body)
 
@@ -95,8 +101,6 @@ RSpec.describe "Notes", type: :request do
 
       expect(response_body.map { _1["user"]["email"] }).to include user.email
       expect(response_body.map { _1["user"]["email"] }).not_to include other_user.email
-
-      puts response_body
     end
 
     describe "filter by collection" do
@@ -130,7 +134,7 @@ RSpec.describe "Notes", type: :request do
 
       context "when collection is defined" do
         it "returns notes scoped by collection" do
-          get "/users/#{user.id}/notes", params: { collection_id: maths.id }, headers: { "ACCEPT" => "application/json" }
+          get "/users/#{user.id}/notes", params: { note: { collection_id: maths.id } }, headers: { "ACCEPT" => "application/json" }
 
           response_body = JSON.parse(response.body)
 

@@ -14,7 +14,8 @@ class NotesController < ApplicationController
   end
 
   def index
-    @notes = @collection.default? ? @user.notes.order(updated_at: :desc) : @collection.notes.order(updated_at: :desc)
+    notes = @collection.default? ? @user.notes : @collection.notes
+    @notes = notes.order(updated_at: :desc)
 
     render :index
   end
@@ -48,14 +49,21 @@ class NotesController < ApplicationController
   end
 
   def set_collection
-    @collection ||= (
-      @user.collections.find_by(id: params[:collection_id]) ||
-      @user.collections.find_by(label: Collection::DEFAULT_CATEGORY_LABEL)
-    )
+    @collection ||= (get_collection || default_collection)
+  rescue ActionController::ParameterMissing
+    @collection ||= default_collection
+  end
+
+  def get_collection
+    @user.collections.find_by(id: collection_params[:collection_id])
+  end
+
+  def default_collection
+    @user.collections.find_by(label: Collection::DEFAULT_CATEGORY_LABEL)
   end
 
   def collection_params
-    params.permit(:collection_id)
+    params.require(:note).permit(:collection_id)
   end
 
   def note_params

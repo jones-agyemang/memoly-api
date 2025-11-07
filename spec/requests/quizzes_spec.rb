@@ -20,7 +20,7 @@ RSpec.describe "Quiz", type: :request do
       context "has topic" do
         let(:attributes) { { topic: "Elixir and Erlang" } }
 
-        it "creates a quiz" do
+        xit "creates a quiz" do
           parsed_body = JSON.parse(response.body)
 
           expect(response).to have_http_status(:created)

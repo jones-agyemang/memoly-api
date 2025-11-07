@@ -2,7 +2,7 @@ class Collection < ApplicationRecord
   belongs_to :user
   belongs_to :parent, class_name: "Collection", optional: true
   has_many :children, class_name: "Collection", foreign_key: :parent_id, dependent: :destroy
-  has_many :notes
+  has_many :notes, dependent: :destroy
 
   validates :label, presence: true
 

@@ -5,6 +5,11 @@ json.array!(@notes) do |note|
   json.created_at note.created_at
   json.updated_at note.updated_at
 
+  json.collection do
+    json.id note.collection&.id
+    json.label note.collection&.label
+  end
+
   json.user do
     json.email note.user&.email
   end

@@ -7,6 +7,7 @@ def seed_collection
   user.collections.create(label: Collection::DEFAULT_CATEGORY_LABEL)
 
   parent = Collection.create(user:, label: "Mathematics", parent_id: nil, position: 0)
+  Note.create(user:, collection_id: parent.id, raw_content: "Gaussian Theorem is fun")
   Collection.create(user:, label: "Linear Algebra", parent:, position: 0)
 
   parent = Collection.create(user:, label: "Computer Science", parent_id: nil, position: 0)
@@ -23,5 +24,7 @@ def seed_collection
 end
 
 def delete_existing_collections
+  Reminder.delete_all
+  Note.delete_all
   Collection.delete_all
 end
