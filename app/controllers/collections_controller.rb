@@ -1,6 +1,6 @@
 class CollectionsController < ApplicationController
   before_action :set_user
-  before_action :set_collection, only: %i[ update ]
+  before_action :set_collection, only: %i[ update destroy ]
 
   def index
     @collections = @user.collections.top_level.order(:position)
@@ -24,6 +24,19 @@ class CollectionsController < ApplicationController
   def update
     if @collection.update collection_params
       render :show, status: :ok, formats: [ :json ]
+    else
+      render json: @collection.errors, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    if @collection.default?
+      render json: { error: "Default collection cannot be deleted" }, status: :unprocessable_entity
+      return
+    end
+
+    if @collection.destroy
+      head :no_content
     else
       render json: @collection.errors, status: :unprocessable_entity
     end

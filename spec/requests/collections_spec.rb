@@ -187,4 +187,37 @@ RSpec.describe "/collections", type: :request do
       end
     end
   end
+
+  describe "DELETE /users/:user_id/collections/:id" do
+    let!(:collection) { create(:collection, user:, label: "Removable", slug: "removable", path: "removable") }
+
+    it "removes the collection and its descendants" do
+      child = create(:collection, user:, parent: collection, label: "Child", slug: "child", path: "removable.child")
+
+      delete user_collection_url(user_id: user.id, id: collection.id), headers: {}, as: :json
+
+      expect(response).to have_http_status(:no_content)
+      expect(Collection.exists?(collection.id)).to be(false)
+      expect(Collection.exists?(child.id)).to be(false)
+    end
+
+    it "returns not found when attempting to delete another user's collection" do
+      stranger = create(:user)
+      strangers_collection = create(:collection, user: stranger)
+
+      delete user_collection_url(user_id: user.id, id: strangers_collection.id), headers: {}, as: :json
+
+      expect(response).to have_http_status(:not_found)
+    end
+
+    it "prevents deleting the default collection" do
+      default_collection = create(:collection, user:, label: Collection::DEFAULT_CATEGORY_LABEL)
+
+      delete user_collection_url(user_id: user.id, id: default_collection.id), headers: {}, as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(JSON.parse(response.body)).to include("error")
+      expect(Collection.exists?(default_collection.id)).to be(true)
+    end
+  end
 end
