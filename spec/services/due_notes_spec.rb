@@ -70,4 +70,37 @@ RSpec.describe DueNotes do
       end
     end
   end
+
+  describe ".call with user_id" do
+    subject(:service_call) { described_class.call(date:, user_id: user.id) }
+
+    let(:user) { create(:user) }
+    let(:collection) { create(:collection, user:) }
+    let(:other_collection) { create(:collection, user:) }
+    let(:date) { Date.new(2024, 6, 2) }
+    let!(:note_due_today) do
+      create(:note, :without_due_reminders, collection:).tap do |note|
+        create(:reminder, note:, due_date: date.beginning_of_day + 8.hours, completed: false)
+      end
+    end
+    let!(:other_collection_note_due_today) do
+      create(:note, :without_due_reminders, collection: other_collection).tap do |note|
+        create(:reminder, note:, due_date: date.beginning_of_day + 9.hours, completed: false)
+      end
+    end
+    let!(:note_due_on_other_day) do
+      create(:note, :without_due_reminders, collection:).tap do |note|
+        create(:reminder, note:, due_date: (date + 1.day).beginning_of_day + 10.hours, completed: false)
+      end
+    end
+
+    it "returns notes grouped by collection label for the given date" do
+      result = service_call
+
+      expect(result.keys).to contain_exactly(collection.label, other_collection.label)
+      expect(result[collection.label].map(&:id)).to eq([ note_due_today.id ])
+      expect(result[other_collection.label].map(&:id)).to eq([ other_collection_note_due_today.id ])
+      expect(result[collection.label].first.collection_label).to eq(collection.label)
+    end
+  end
 end
