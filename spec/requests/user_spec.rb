@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe "Users", type: :request do
-  describe "GET /users by Email" do
-    let(:user) { create(:user) }
+  let!(:user) { create(:user) }
 
+  describe "GET /users by Email" do
     context "when user exists" do
       it "returns http success" do
         get "/users?email=#{user.email}"

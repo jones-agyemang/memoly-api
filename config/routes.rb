@@ -3,6 +3,7 @@ Rails.application.routes.draw do
     resources :users, only: %i[ index ]
 
     resources :users do
+      get "due_notes", controller: "review_notes"
       resources :notes, only: %i[ create index update destroy ]
       resources :collections, only: %i[ index create update destroy ]
     end
