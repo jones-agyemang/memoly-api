@@ -19,4 +19,27 @@ RSpec.describe Note, type: :model do
 
     expect(note.user).to eq(collection.user)
   end
+
+  describe "#publicly_visible?" do
+    let(:collection) { create(:collection, :public_collection) }
+
+    it "returns true when note and collection are public" do
+      note = build(:note, :public_note, collection:)
+
+      expect(note.publicly_visible?).to be(true)
+    end
+
+    it "returns false when note is private" do
+      note = build(:note, collection:, public: false)
+
+      expect(note.publicly_visible?).to be(false)
+    end
+
+    it "returns false when collection is private" do
+      private_collection = create(:collection, public: false)
+      note = build(:note, :public_note, collection: private_collection)
+
+      expect(note.publicly_visible?).to be(false)
+    end
+  end
 end

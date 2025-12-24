@@ -4,6 +4,11 @@ FactoryBot.define do
 
     raw_content { "MyString" }
     source { "MyString" }
+    public { false }
+
+    trait :public_note do
+      public { true }
+    end
   end
 
   trait :with_reminder_due_today do

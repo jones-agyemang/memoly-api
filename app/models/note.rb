@@ -9,6 +9,10 @@ class Note < ApplicationRecord
 
   before_validation :assign_user_from_collection, if: -> { collection.present? }
 
+  def publicly_visible?
+    public? && collection&.publicly_visible?
+  end
+
   private
 
   def assign_user_from_collection

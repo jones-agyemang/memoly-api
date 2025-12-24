@@ -4,6 +4,7 @@ json.array!(@notes) do |note|
   json.source note.source
   json.created_at note.created_at
   json.updated_at note.updated_at
+  json.public note.public
 
   json.collection do
     json.id note.collection&.id

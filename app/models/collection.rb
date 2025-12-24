@@ -11,11 +11,25 @@ class Collection < ApplicationRecord
   after_save :refresh_descendant_paths, if: :saved_change_to_path?
 
   scope :top_level, -> { where(parent_id: nil) }
+  scope :publicly_visible, -> { where(public: true) }
 
   DEFAULT_CATEGORY_LABEL = "Uncategorised"
 
   def default?
     label == DEFAULT_CATEGORY_LABEL
+  end
+
+  def publicly_visible?
+    return false unless public?
+    return true unless parent
+
+    parent.publicly_visible?
+  end
+
+  def public_notes
+    return Note.none unless publicly_visible?
+
+    notes.where(public: true)
   end
 
   private

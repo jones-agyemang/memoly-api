@@ -1,4 +1,4 @@
-json.extract! collection, :id, :label, :slug, :path, :parent_id, :position
+json.extract! collection, :id, :label, :slug, :path, :parent_id, :position, :public
 
 if collection.children.any?
   json.children collection.children do |child|

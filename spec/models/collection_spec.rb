@@ -63,4 +63,30 @@ RSpec.describe Collection, type: :model do
       expect(parent.errors[:parent_id]).to be_present
     end
   end
+
+  describe "public visibility" do
+    let(:user) { create(:user) }
+
+    it "returns true when collection and ancestors are public" do
+      parent = create(:collection, :public_collection, user:, label: "Library")
+      child = create(:collection, :public_collection, user:, parent:, label: "Shelf A")
+
+      expect(child.publicly_visible?).to be(true)
+    end
+
+    it "returns false when an ancestor is private" do
+      parent = create(:collection, user:, label: "Private Library")
+      child = create(:collection, :public_collection, user:, parent:, label: "Shelf B")
+
+      expect(child.publicly_visible?).to be(false)
+    end
+
+    it "returns only public notes when collection is public" do
+      collection = create(:collection, :public_collection, user:, label: "Highlights")
+      public_note = create(:note, :public_note, collection:, raw_content: "Public snippet")
+      create(:note, collection:, raw_content: "Hidden snippet")
+
+      expect(collection.public_notes).to contain_exactly(public_note)
+    end
+  end
 end

@@ -61,6 +61,6 @@ class CollectionsController < ApplicationController
   end
 
   def collection_params
-    params.expect(collection: [ :label, :parent_id, :position ])
+    params.expect(collection: [ :label, :parent_id, :position, :public ])
   end
 end

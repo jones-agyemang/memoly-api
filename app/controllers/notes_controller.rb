@@ -67,11 +67,11 @@ class NotesController < ApplicationController
   end
 
   def note_params
-    params.expect(note: [ :raw_content, :source ])
+    params.expect(note: [ :raw_content, :source, :public ])
   end
 
   def note_update_params
-    params.expect(note: [ :raw_content, :source, :collection_id ]).tap do |attributes|
+    params.expect(note: [ :raw_content, :source, :collection_id, :public ]).tap do |attributes|
       collection_id = attributes[:collection_id]
 
       if collection_id.blank?

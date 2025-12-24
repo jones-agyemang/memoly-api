@@ -1,1 +1,1 @@
-json.(@collection, :user_id, :label, :slug, :path, :parent_id, :position)
+json.(@collection, :user_id, :label, :slug, :path, :parent_id, :position, :public)

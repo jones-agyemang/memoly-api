@@ -1,4 +1,4 @@
-json.(@note, :id, :raw_content, :source, :created_at, :updated_at)
+json.(@note, :id, :raw_content, :source, :created_at, :updated_at, :public)
 json.user { json.email @note.user&.email }
 json.collection do
   json.id @note.collection&.id

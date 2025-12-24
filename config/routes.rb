@@ -12,5 +12,7 @@ Rails.application.routes.draw do
 
     post "authentication/request-code"
     post "authentication/verify-code"
+
+    get "discovery", to: "discovery#index", as: :discovery
   end
 end
