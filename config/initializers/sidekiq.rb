@@ -8,12 +8,5 @@ end
 
 Sidekiq.configure_server do |config|
   config.redis = { url: ENV.fetch("REDIS_URL", "") }
-  schedule_file = Rails.root.join("config/sidekiq.yml")
-
-  if File.exist?(schedule_file)
-    schedule = YAML.load_file(schedule_file)
-    Sidekiq::Cron::Job.load_from_hash(schedule["schedule"] || schedule[:schedule])
-  end
-
   config.logger.level = Logger::DEBUG
 end
