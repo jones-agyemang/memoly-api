@@ -1,0 +1,5 @@
+# :schedule:
+#   send_due_reminders:
+#     cron: "0 * * * *" # Every hour
+#     class: "SendDueRemindersWorker"
+#     queue: default
