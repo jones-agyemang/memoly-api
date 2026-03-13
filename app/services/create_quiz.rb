@@ -14,7 +14,7 @@ class CreateQuiz
     client = OpenAI::Client.new(access_token:, log_errors:)
 
     # set call definitions
-    model = "gpt-4o"
+    model = "gpt-5.4"
     temperature = 0.7
     messages = [
       {
