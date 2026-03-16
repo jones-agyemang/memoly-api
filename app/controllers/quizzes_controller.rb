@@ -2,10 +2,10 @@ class QuizzesController < ApplicationController
   # POST /quizzes
   # POST /quizzes.json
   def create
-    topic = quiz_params[:topic].presence || due_notes_topic
+    topics = quiz_params[:topic].presence || due_notes_topic
 
-    if topic.present?
-      result = ::CreateQuiz.call topic
+    if topics.present?
+      result = ::CreateQuiz.call topics
       render json: result, status: :created
     else
       render json: { message: "Topic is missing" }, status: :unprocessable_entity
@@ -32,7 +32,7 @@ class QuizzesController < ApplicationController
       "#{label}: #{contents.join('; ')}"
     end.compact
 
-    topic_segments.join("\n").presence
+    topic_segments
   end
 
   def requested_date

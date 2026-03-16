@@ -14,8 +14,21 @@ RSpec.describe CreateQuiz, type: :service do
   context 'when there is a single topic' do
     it 'returns the quiz for that topic' do
       VCR.use_cassette('create_quiz') do
-        quiz_response = described_class.call('Gradient-descent is an optimisation method.')
+        quiz_response = described_class.call([ 'Gradient-descent is an optimisation method.' ])
         expect(quiz_response).to match_response_schema('quiz')
+      end
+    end
+
+    context 'when there are multiple topics' do
+      it 'returns the quiz for multiple topics' do
+        VCR.use_cassette('multi-quiz') do
+          topics = [
+            'Gradient-descent is an optimisation method.',
+            'CNNs have revolutionised image recognition technology'
+          ]
+          quiz_response = described_class.call(topics)
+          expect(quiz_response).to match_response_schema 'quiz'
+        end
       end
     end
   end

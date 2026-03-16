@@ -1,0 +1,154 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.openai.com/v1/chat/completions
+    body:
+      encoding: UTF-8
+      string: '{"model":"gpt-5.4","temperature":0.7,"messages":[{"role":"system","content":"Respond
+        only with a valid JSON structure, without any Markdown or explanation text."},{"role":"user","content":"Create
+        multiple choice quiz with explanations based on: Mathematics: Linear algebra
+        review"}],"tools":[{"type":"function","function":{"name":"create_quiz","parameters":{"type":"object","properties":{"title":{"type":"string"},"questions":{"type":"array","items":{"type":"object","properties":{"question":{"type":"string"},"choices":{"type":"array","items":{"type":"string"}},"answer":{"type":"string"},"explanation":{"type":"string"}},"required":["question","choices","answer","explanation"]}}},"required":["questions","title"]}}}],"tool_choice":"auto"}'
+    headers:
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer sk-svcacct-sDUs-
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      date:
+      - Mon, 16 Mar 2026 16:32:47 GMT
+      content-type:
+      - application/json
+      transfer-encoding:
+      - chunked
+      connection:
+      - keep-alive
+      cf-ray:
+      - 9dd5279ee91a932e-ACC
+      cf-cache-status:
+      - DYNAMIC
+      server:
+      - cloudflare
+      strict-transport-security:
+      - max-age=31536000; includeSubDomains; preload
+      x-content-type-options:
+      - nosniff
+      access-control-expose-headers:
+      - X-Request-ID
+      openai-organization:
+      - user-xlzivmxiqqqylndbjt1wcikq
+      openai-processing-ms:
+      - '11285'
+      openai-project:
+      - proj_lfb19RuyT21hrZID5S5UHpBH
+      openai-version:
+      - '2020-10-01'
+      x-openai-proxy-wasm:
+      - v0.1
+      x-ratelimit-limit-requests:
+      - '500'
+      x-ratelimit-limit-tokens:
+      - '500000'
+      x-ratelimit-remaining-requests:
+      - '499'
+      x-ratelimit-remaining-tokens:
+      - '499953'
+      x-ratelimit-reset-requests:
+      - 120ms
+      x-ratelimit-reset-tokens:
+      - 5ms
+      x-request-id:
+      - req_bace302308e3494d965a651429a7f24c
+      set-cookie:
+      - __cf_bm=1lIr1AIR.Eavv9E1qy51FKPXn2St.x1bbedCjOw69uM-1773678755.6616256-1.0.1.1-z70CkbdlLoh3_cYIwynmUvgV11MbCDQrtTKNTp0ne.5UqMeJsdSkbLEzpUmwZKynvm4mMEC5SL8yEFIbRTY.5.Zaxw4AiGaSJeXynEbyYLgZ9DSuryrlON.9vAuYU0n.;
+        HttpOnly; Secure; Path=/; Domain=api.openai.com; Expires=Mon, 16 Mar 2026
+        17:02:47 GMT
+      content-encoding:
+      - gzip
+      alt-svc:
+      - h3=":443"; ma=86400
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        ewogICJpZCI6ICJjaGF0Y21wbC1ESzU5b2FST2tHa1E3WGE4T3ZFZ1VCYVpLQzdpUCIsCiAgIm9iamVjdCI6ICJjaGF0LmNvbXBsZXRpb24iLAogICJjcmVhdGVkIjogMTc3MzY3ODc1NiwKICAibW9kZWwiOiAiZ3B0LTUuNC0yMDI2LTAzLTA1IiwKICAiY2hvaWNlcyI6IFsKICAgIHsKICAgICAgImluZGV4IjogMCwKICAgICAgIm1lc3NhZ2UiOiB7CiAgICAgICAgInJvbGUiOiAiYXNzaXN0YW50IiwKICAgICAgICAiY29udGVudCI6IG51bGwsCiAgICAgICAgInRvb2xfY2FsbHMiOiBbCiAgICAgICAgICB7CiAgICAgICAgICAgICJpZCI6ICJjYWxsX0J4UXpmbDhzM0NhZ1pmRnRoV3RsdFlIayIsCiAgICAgICAgICAgICJ0eXBlIjogImZ1bmN0aW9uIiwKICAgICAgICAgICAgImZ1bmN0aW9uIjogewogICAgICAgICAgICAgICJuYW1lIjogImNyZWF0ZV9xdWl6IiwKICAgICAgICAgICAgICAiYXJndW1lbnRzIjogIntcInRpdGxlXCI6XCJNYXRoZW1hdGljczogTGluZWFyIEFsZ2VicmEgUmV2aWV3XCIsXCJxdWVzdGlvbnNcIjpbe1wicXVlc3Rpb25cIjpcIldoYXQgaXMgdGhlIGRldGVybWluYW50IG9mIHRoZSBtYXRyaXggW1syLCAzXSwgWzEsIDRdXT9cIixcImNob2ljZXNcIjpbXCI1XCIsXCI4XCIsXCItNVwiLFwiMTFcIl0sXCJhbnN3ZXJcIjpcIjVcIixcImV4cGxhbmF0aW9uXCI6XCJGb3IgYSAyw5cyIG1hdHJpeCBbW2EsIGJdLCBbYywgZF1dLCB0aGUgZGV0ZXJtaW5hbnQgaXMgYWQgLSBiYy4gSGVyZSwgMsK3NCAtIDPCtzEgPSA4IC0gMyA9IDUuXCJ9LHtcInF1ZXN0aW9uXCI6XCJXaGljaCBjb25kaXRpb24gZ3VhcmFudGVlcyB0aGF0IGEgc3F1YXJlIG1hdHJpeCBpcyBpbnZlcnRpYmxlP1wiLFwiY2hvaWNlc1wiOltcIkl0cyBkZXRlcm1pbmFudCBpcyAwXCIsXCJJdHMgZGV0ZXJtaW5hbnQgaXMgbm9uemVyb1wiLFwiSXQgaGFzIGF0IGxlYXN0IG9uZSB6ZXJvIGVudHJ5XCIsXCJJdHMgdHJhY2UgaXMgMVwiXSxcImFuc3dlclwiOlwiSXRzIGRldGVybWluYW50IGlzIG5vbnplcm9cIixcImV4cGxhbmF0aW9uXCI6XCJBIHNxdWFyZSBtYXRyaXggaXMgaW52ZXJ0aWJsZSBpZiBhbmQgb25seSBpZiBpdHMgZGV0ZXJtaW5hbnQgaXMgbm90IHplcm8uXCJ9LHtcInF1ZXN0aW9uXCI6XCJXaGF0IGlzIHRoZSBkb3QgcHJvZHVjdCBvZiB2ZWN0b3JzICgxLCAyLCAzKSBhbmQgKDQsIC0xLCAyKT9cIixcImNob2ljZXNcIjpbXCI4XCIsXCIxMFwiLFwiNFwiLFwiMTJcIl0sXCJhbnN3ZXJcIjpcIjhcIixcImV4cGxhbmF0aW9uXCI6XCJDb21wdXRlIDHCtzQgKyAywrcoLTEpICsgM8K3MiA9IDQgLSAyICsgNiA9IDguXCJ9LHtcInF1ZXN0aW9uXCI6XCJXaGF0IGlzIHRoZSBkaW1lbnNpb24gb2YgdGhlIG51bGwgc3BhY2Ugb2YgYSAzw5c1IG1hdHJpeCB3aXRoIHJhbmsgMz9cIixcImNob2ljZXNcIjpbXCIwXCIsXCIyXCIsXCIzXCIsXCI1XCJdLFwiYW5zd2VyXCI6XCIyXCIsXCJleHBsYW5hdGlvblwiOlwiQnkgdGhlIHJhbmstbnVsbGl0eSB0aGVvcmVtLCBudWxsaXR5ID0gbnVtYmVyIG9mIGNvbHVtbnMgLSByYW5rID0gNSAtIDMgPSAyLlwifSx7XCJxdWVzdGlvblwiOlwiV2hpY2ggb2YgdGhlIGZvbGxvd2luZyBzZXRzIG9mIHZlY3RvcnMgaXMgbGluZWFybHkgZGVwZW5kZW50P1wiLFwiY2hvaWNlc1wiOltcIigxLDApLCAoMCwxKVwiLFwiKDEsMiksICgyLDQpXCIsXCIoMSwxKSwgKDEsLTEpXCIsXCIoMiwzKSwgKDMsMilcIl0sXCJhbnN3ZXJcIjpcIigxLDIpLCAoMiw0KVwiLFwiZXhwbGFuYXRpb25cIjpcIlRoZSB2ZWN0b3IgKDIsNCkgaXMgYSBzY2FsYXIgbXVsdGlwbGUgb2YgKDEsMiksIHNvIHRoZSBzZXQgaXMgbGluZWFybHkgZGVwZW5kZW50LlwifSx7XCJxdWVzdGlvblwiOlwiSWYgQSBpcyBhIDLDlzMgbWF0cml4IGFuZCB4IGlzIGEgM8OXMSB2ZWN0b3IsIHdoYXQgaXMgdGhlIHNpemUgb2YgQXg/XCIsXCJjaG9pY2VzXCI6W1wiMsOXMVwiLFwiM8OXMVwiLFwiMsOXM1wiLFwiM8OXMlwiXSxcImFuc3dlclwiOlwiMsOXMVwiLFwiZXhwbGFuYXRpb25cIjpcIk1hdHJpeCBtdWx0aXBsaWNhdGlvbiBvZiBhIDLDlzMgbWF0cml4IGJ5IGEgM8OXMSB2ZWN0b3IgaXMgZGVmaW5lZCwgYW5kIHRoZSByZXN1bHQgaGFzIHRoZSBvdXRlciBkaW1lbnNpb25zIDLDlzEuXCJ9LHtcInF1ZXN0aW9uXCI6XCJXaGF0IGlzIGFuIGVpZ2VudmVjdG9yIG9mIGEgbWF0cml4IEE/XCIsXCJjaG9pY2VzXCI6W1wiQW55IHZlY3RvciBpbiB0aGUgbnVsbCBzcGFjZSBvZiBBXCIsXCJBIG5vbnplcm8gdmVjdG9yIHYgc3VjaCB0aGF0IEF2ID0gzrt2IGZvciBzb21lIHNjYWxhciDOu1wiLFwiQW55IHJvdyBvZiBBXCIsXCJBIHZlY3RvciBvcnRob2dvbmFsIHRvIGV2ZXJ5IGNvbHVtbiBvZiBBXCJdLFwiYW5zd2VyXCI6XCJBIG5vbnplcm8gdmVjdG9yIHYgc3VjaCB0aGF0IEF2ID0gzrt2IGZvciBzb21lIHNjYWxhciDOu1wiLFwiZXhwbGFuYXRpb25cIjpcIkFuIGVpZ2VudmVjdG9yIGlzIGEgbm9uemVybyB2ZWN0b3Igd2hvc2UgZGlyZWN0aW9uIGlzIHByZXNlcnZlZCBieSB0aGUgbWF0cml4LCBzY2FsZWQgYnkgYW4gZWlnZW52YWx1ZSDOuy5cIn0se1wicXVlc3Rpb25cIjpcIldoYXQgaXMgdGhlIHRyYWNlIG9mIHRoZSBtYXRyaXggW1sxLCAyXSwgWzMsIDRdXT9cIixcImNob2ljZXNcIjpbXCIxMFwiLFwiNFwiLFwiNVwiLFwiM1wiXSxcImFuc3dlclwiOlwiNVwiLFwiZXhwbGFuYXRpb25cIjpcIlRoZSB0cmFjZSBpcyB0aGUgc3VtIG9mIHRoZSBkaWFnb25hbCBlbnRyaWVzOiAxICsgNCA9IDUuXCJ9XX0iCiAgICAgICAgICAgIH0KICAgICAgICAgIH0KICAgICAgICBdLAogICAgICAgICJyZWZ1c2FsIjogbnVsbCwKICAgICAgICAiYW5ub3RhdGlvbnMiOiBbXQogICAgICB9LAogICAgICAiZmluaXNoX3JlYXNvbiI6ICJ0b29sX2NhbGxzIgogICAgfQogIF0sCiAgInVzYWdlIjogewogICAgInByb21wdF90b2tlbnMiOiAxNzEsCiAgICAiY29tcGxldGlvbl90b2tlbnMiOiA2ODcsCiAgICAidG90YWxfdG9rZW5zIjogODU4LAogICAgInByb21wdF90b2tlbnNfZGV0YWlscyI6IHsKICAgICAgImNhY2hlZF90b2tlbnMiOiAwLAogICAgICAiYXVkaW9fdG9rZW5zIjogMAogICAgfSwKICAgICJjb21wbGV0aW9uX3Rva2Vuc19kZXRhaWxzIjogewogICAgICAicmVhc29uaW5nX3Rva2VucyI6IDAsCiAgICAgICJhdWRpb190b2tlbnMiOiAwLAogICAgICAiYWNjZXB0ZWRfcHJlZGljdGlvbl90b2tlbnMiOiAwLAogICAgICAicmVqZWN0ZWRfcHJlZGljdGlvbl90b2tlbnMiOiAwCiAgICB9CiAgfSwKICAic2VydmljZV90aWVyIjogImRlZmF1bHQiLAogICJzeXN0ZW1fZmluZ2VycHJpbnQiOiBudWxsCn0K
+  recorded_at: Mon, 16 Mar 2026 16:32:47 GMT
+- request:
+    method: post
+    uri: https://api.openai.com/v1/chat/completions
+    body:
+      encoding: UTF-8
+      string: '{"model":"gpt-5.4","temperature":0.7,"messages":[{"role":"system","content":"Respond
+        only with a valid JSON structure, without any Markdown or explanation text."},{"role":"user","content":"Create
+        multiple choice quiz with explanations based on: Physics: Study thermodynamics"}],"tools":[{"type":"function","function":{"name":"create_quiz","parameters":{"type":"object","properties":{"title":{"type":"string"},"questions":{"type":"array","items":{"type":"object","properties":{"question":{"type":"string"},"choices":{"type":"array","items":{"type":"string"}},"answer":{"type":"string"},"explanation":{"type":"string"}},"required":["question","choices","answer","explanation"]}}},"required":["questions","title"]}}}],"tool_choice":"auto"}'
+    headers:
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer sk-svcacct-sDUs-
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      date:
+      - Mon, 16 Mar 2026 16:32:57 GMT
+      content-type:
+      - application/json
+      transfer-encoding:
+      - chunked
+      connection:
+      - keep-alive
+      cf-ray:
+      - 9dd527eb1d91932d-ACC
+      cf-cache-status:
+      - DYNAMIC
+      server:
+      - cloudflare
+      strict-transport-security:
+      - max-age=31536000; includeSubDomains; preload
+      x-content-type-options:
+      - nosniff
+      access-control-expose-headers:
+      - X-Request-ID
+      openai-organization:
+      - user-xlzivmxiqqqylndbjt1wcikq
+      openai-processing-ms:
+      - '9749'
+      openai-project:
+      - proj_lfb19RuyT21hrZID5S5UHpBH
+      openai-version:
+      - '2020-10-01'
+      x-openai-proxy-wasm:
+      - v0.1
+      x-ratelimit-limit-requests:
+      - '500'
+      x-ratelimit-limit-tokens:
+      - '500000'
+      x-ratelimit-remaining-requests:
+      - '499'
+      x-ratelimit-remaining-tokens:
+      - '499955'
+      x-ratelimit-reset-requests:
+      - 120ms
+      x-ratelimit-reset-tokens:
+      - 5ms
+      x-request-id:
+      - req_d8c74c9525d84c778446a8204795549d
+      set-cookie:
+      - __cf_bm=1VbEqGs8WatD45ZhNb8obaeUHkb943qC2h1TID1snfA-1773678767.8581657-1.0.1.1-x7WksqupYD3nRWu0G.qh3aRnb84yDwN6ovIqIiLhPh8hKpqHY5Ku4mr9O2UxANa.RoROR96WWF_O1pEslfTPVljy46PxmdQWQ6tEym5Pyp7UI6hmG5xj.B.ceELQPhAj;
+        HttpOnly; Secure; Path=/; Domain=api.openai.com; Expires=Mon, 16 Mar 2026
+        17:02:57 GMT
+      content-encoding:
+      - gzip
+      alt-svc:
+      - h3=":443"; ma=86400
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        ewogICJpZCI6ICJjaGF0Y21wbC1ESzVBMGNVRkI2S1QzaTNxUHkySVc5ZWI4MTc1SSIsCiAgIm9iamVjdCI6ICJjaGF0LmNvbXBsZXRpb24iLAogICJjcmVhdGVkIjogMTc3MzY3ODc2OCwKICAibW9kZWwiOiAiZ3B0LTUuNC0yMDI2LTAzLTA1IiwKICAiY2hvaWNlcyI6IFsKICAgIHsKICAgICAgImluZGV4IjogMCwKICAgICAgIm1lc3NhZ2UiOiB7CiAgICAgICAgInJvbGUiOiAiYXNzaXN0YW50IiwKICAgICAgICAiY29udGVudCI6IG51bGwsCiAgICAgICAgInRvb2xfY2FsbHMiOiBbCiAgICAgICAgICB7CiAgICAgICAgICAgICJpZCI6ICJjYWxsX2gzTDhidHY4aUQzM2ZvRTkxN2RaSTQ4ZSIsCiAgICAgICAgICAgICJ0eXBlIjogImZ1bmN0aW9uIiwKICAgICAgICAgICAgImZ1bmN0aW9uIjogewogICAgICAgICAgICAgICJuYW1lIjogImNyZWF0ZV9xdWl6IiwKICAgICAgICAgICAgICAiYXJndW1lbnRzIjogIntcInRpdGxlXCI6XCJQaHlzaWNzOiBTdHVkeSBUaGVybW9keW5hbWljc1wiLFwicXVlc3Rpb25zXCI6W3tcInF1ZXN0aW9uXCI6XCJXaGF0IGlzIHRoZSB6ZXJvdGggbGF3IG9mIHRoZXJtb2R5bmFtaWNzIHByaW1hcmlseSBhYm91dD9cIixcImNob2ljZXNcIjpbXCJDb25zZXJ2YXRpb24gb2YgZW5lcmd5XCIsXCJUaGVybWFsIGVxdWlsaWJyaXVtXCIsXCJFbnRyb3B5IGluY3JlYXNlXCIsXCJXb3JrIGRvbmUgYnkgZ2FzZXNcIl0sXCJhbnN3ZXJcIjpcIlRoZXJtYWwgZXF1aWxpYnJpdW1cIixcImV4cGxhbmF0aW9uXCI6XCJUaGUgemVyb3RoIGxhdyBzdGF0ZXMgdGhhdCBpZiB0d28gc3lzdGVtcyBhcmUgZWFjaCBpbiB0aGVybWFsIGVxdWlsaWJyaXVtIHdpdGggYSB0aGlyZCBzeXN0ZW0sIHRoZXkgYXJlIGluIHRoZXJtYWwgZXF1aWxpYnJpdW0gd2l0aCBlYWNoIG90aGVyLiBUaGlzIGVzdGFibGlzaGVzIHRlbXBlcmF0dXJlIGFzIGEgbWVhbmluZ2Z1bCBjb25jZXB0LlwifSx7XCJxdWVzdGlvblwiOlwiQWNjb3JkaW5nIHRvIHRoZSBmaXJzdCBsYXcgb2YgdGhlcm1vZHluYW1pY3MsIHdoYXQgaGFwcGVucyB0byBlbmVyZ3kgaW4gYW4gaXNvbGF0ZWQgc3lzdGVtP1wiLFwiY2hvaWNlc1wiOltcIkl0IGlzIGRlc3Ryb3llZCBvdmVyIHRpbWVcIixcIkl0IGlzIGNyZWF0ZWQgZnJvbSBoZWF0XCIsXCJJdCByZW1haW5zIGNvbnN0YW50XCIsXCJJdCBhbHdheXMgY29udmVydHMgZW50aXJlbHkgdG8gd29ya1wiXSxcImFuc3dlclwiOlwiSXQgcmVtYWlucyBjb25zdGFudFwiLFwiZXhwbGFuYXRpb25cIjpcIlRoZSBmaXJzdCBsYXcgaXMgdGhlIGxhdyBvZiBlbmVyZ3kgY29uc2VydmF0aW9uOiBlbmVyZ3kgY2Fubm90IGJlIGNyZWF0ZWQgb3IgZGVzdHJveWVkLCBvbmx5IHRyYW5zZmVycmVkIG9yIHRyYW5zZm9ybWVkLCBzbyB0aGUgdG90YWwgZW5lcmd5IG9mIGFuIGlzb2xhdGVkIHN5c3RlbSBzdGF5cyBjb25zdGFudC5cIn0se1wicXVlc3Rpb25cIjpcIldoYXQgZG9lcyB0aGUgc2Vjb25kIGxhdyBvZiB0aGVybW9keW5hbWljcyBzYXkgYWJvdXQgZW50cm9weSBpbiBhbiBpc29sYXRlZCBzeXN0ZW0/XCIsXCJjaG9pY2VzXCI6W1wiSXQgYWx3YXlzIGRlY3JlYXNlc1wiLFwiSXQgcmVtYWlucyB6ZXJvXCIsXCJJdCB0ZW5kcyB0byBpbmNyZWFzZVwiLFwiSXQgaXMgZXF1YWwgdG8gdGVtcGVyYXR1cmVcIl0sXCJhbnN3ZXJcIjpcIkl0IHRlbmRzIHRvIGluY3JlYXNlXCIsXCJleHBsYW5hdGlvblwiOlwiVGhlIHNlY29uZCBsYXcgc3RhdGVzIHRoYXQgdGhlIHRvdGFsIGVudHJvcHkgb2YgYW4gaXNvbGF0ZWQgc3lzdGVtIHRlbmRzIHRvIGluY3JlYXNlIG92ZXIgdGltZSwgcmVmbGVjdGluZyB0aGUgbmF0dXJhbCBkaXJlY3Rpb24gb2Ygc3BvbnRhbmVvdXMgcHJvY2Vzc2VzLlwifSx7XCJxdWVzdGlvblwiOlwiV2hpY2ggdGhlcm1vZHluYW1pYyBwcm9jZXNzIG9jY3VycyBhdCBjb25zdGFudCB0ZW1wZXJhdHVyZT9cIixcImNob2ljZXNcIjpbXCJJc29iYXJpY1wiLFwiSXNvY2hvcmljXCIsXCJBZGlhYmF0aWNcIixcIklzb3RoZXJtYWxcIl0sXCJhbnN3ZXJcIjpcIklzb3RoZXJtYWxcIixcImV4cGxhbmF0aW9uXCI6XCJBbiBpc290aGVybWFsIHByb2Nlc3MgaXMgb25lIGluIHdoaWNoIHRoZSB0ZW1wZXJhdHVyZSByZW1haW5zIGNvbnN0YW50IHRocm91Z2hvdXQgdGhlIHByb2Nlc3MuXCJ9LHtcInF1ZXN0aW9uXCI6XCJJbiBhbiBhZGlhYmF0aWMgcHJvY2Vzcywgd2hpY2ggcXVhbnRpdHkgaXMgemVybz9cIixcImNob2ljZXNcIjpbXCJUZW1wZXJhdHVyZSBjaGFuZ2VcIixcIlByZXNzdXJlXCIsXCJIZWF0IHRyYW5zZmVyXCIsXCJXb3JrXCJdLFwiYW5zd2VyXCI6XCJIZWF0IHRyYW5zZmVyXCIsXCJleHBsYW5hdGlvblwiOlwiQW4gYWRpYWJhdGljIHByb2Nlc3MgaW52b2x2ZXMgbm8gaGVhdCBleGNoYW5nZSBiZXR3ZWVuIHRoZSBzeXN0ZW0gYW5kIGl0cyBzdXJyb3VuZGluZ3MsIHNvIGhlYXQgdHJhbnNmZXIgUSA9IDAuXCJ9LHtcInF1ZXN0aW9uXCI6XCJXaGF0IGlzIHRoZSBTSSB1bml0IG9mIGVudHJvcHk/XCIsXCJjaG9pY2VzXCI6W1wiSlwiLFwiUGFcIixcIkovS1wiLFwiV1wiXSxcImFuc3dlclwiOlwiSi9LXCIsXCJleHBsYW5hdGlvblwiOlwiRW50cm9weSBpcyBtZWFzdXJlZCBpbiBqb3VsZXMgcGVyIGtlbHZpbiAoSi9LKSBpbiB0aGUgU0kgc3lzdGVtLlwifSx7XCJxdWVzdGlvblwiOlwiV2hpY2ggZW5naW5lIGVmZmljaWVuY3kgc2V0cyB0aGUgdGhlb3JldGljYWwgdXBwZXIgbGltaXQgZm9yIGhlYXQgZW5naW5lcyBvcGVyYXRpbmcgYmV0d2VlbiB0d28gdGVtcGVyYXR1cmVzP1wiLFwiY2hvaWNlc1wiOltcIk90dG8gZWZmaWNpZW5jeVwiLFwiRGllc2VsIGVmZmljaWVuY3lcIixcIkNhcm5vdCBlZmZpY2llbmN5XCIsXCJJc290aGVybWFsIGVmZmljaWVuY3lcIl0sXCJhbnN3ZXJcIjpcIkNhcm5vdCBlZmZpY2llbmN5XCIsXCJleHBsYW5hdGlvblwiOlwiQ2Fybm90IGVmZmljaWVuY3kgZ2l2ZXMgdGhlIG1heGltdW0gcG9zc2libGUgZWZmaWNpZW5jeSBmb3IgYW55IGhlYXQgZW5naW5lIG9wZXJhdGluZyBiZXR3ZWVuIGEgaG90IGFuZCBhIGNvbGQgcmVzZXJ2b2lyLlwifSx7XCJxdWVzdGlvblwiOlwiV2hhdCBwcm9wZXJ0eSByZW1haW5zIGNvbnN0YW50IGR1cmluZyBhbiBpc29jaG9yaWMgcHJvY2Vzcz9cIixcImNob2ljZXNcIjpbXCJQcmVzc3VyZVwiLFwiVm9sdW1lXCIsXCJUZW1wZXJhdHVyZVwiLFwiRW50cm9weVwiXSxcImFuc3dlclwiOlwiVm9sdW1lXCIsXCJleHBsYW5hdGlvblwiOlwiQW4gaXNvY2hvcmljIHByb2Nlc3Mgb2NjdXJzIGF0IGNvbnN0YW50IHZvbHVtZSwgbWVhbmluZyB0aGUgc3lzdGVtIGRvZXMgbm90IGV4cGFuZCBvciBjb250cmFjdC5cIn0se1wicXVlc3Rpb25cIjpcIkZvciBhbiBpZGVhbCBnYXMsIHdoaWNoIGVxdWF0aW9uIHJlbGF0ZXMgcHJlc3N1cmUsIHZvbHVtZSwgYW5kIHRlbXBlcmF0dXJlP1wiLFwiY2hvaWNlc1wiOltcIkYgPSBtYVwiLFwiUFYgPSBuUlRcIixcIlEgPSBtY86UVFwiLFwiVyA9IEZkXCJdLFwiYW5zd2VyXCI6XCJQViA9IG5SVFwiLFwiZXhwbGFuYXRpb25cIjpcIlRoZSBpZGVhbCBnYXMgbGF3LCBQViA9IG5SVCwgcmVsYXRlcyB0aGUgcHJlc3N1cmUsIHZvbHVtZSwgYW1vdW50IG9mIGdhcywgYW5kIHRlbXBlcmF0dXJlIG9mIGFuIGlkZWFsIGdhcy5cIn0se1wicXVlc3Rpb25cIjpcIldoeSBjYW4gbm8gcmVhbCBoZWF0IGVuZ2luZSBiZSAxMDAlIGVmZmljaWVudD9cIixcImNob2ljZXNcIjpbXCJCZWNhdXNlIGFsbCBlbmVyZ3kgYmVjb21lcyBtYXNzXCIsXCJCZWNhdXNlIGVudHJvcHkgbXVzdCBpbmNyZWFzZSBhbmQgc29tZSBoZWF0IG11c3QgYmUgcmVqZWN0ZWRcIixcIkJlY2F1c2UgdGVtcGVyYXR1cmUgY2Fubm90IGNoYW5nZVwiLFwiQmVjYXVzZSBwcmVzc3VyZSBpcyBhbHdheXMgY29uc3RhbnRcIl0sXCJhbnN3ZXJcIjpcIkJlY2F1c2UgZW50cm9weSBtdXN0IGluY3JlYXNlIGFuZCBzb21lIGhlYXQgbXVzdCBiZSByZWplY3RlZFwiLFwiZXhwbGFuYXRpb25cIjpcIkJ5IHRoZSBzZWNvbmQgbGF3IG9mIHRoZXJtb2R5bmFtaWNzLCBzb21lIGVuZXJneSBtdXN0IGJlIGV4cGVsbGVkIGFzIHdhc3RlIGhlYXQgdG8gYSBjb2xkZXIgcmVzZXJ2b2lyLCBzbyBubyByZWFsIGhlYXQgZW5naW5lIGNhbiBjb252ZXJ0IGFsbCBhYnNvcmJlZCBoZWF0IGludG8gd29yay5cIn1dfSIKICAgICAgICAgICAgfQogICAgICAgICAgfQogICAgICAgIF0sCiAgICAgICAgInJlZnVzYWwiOiBudWxsLAogICAgICAgICJhbm5vdGF0aW9ucyI6IFtdCiAgICAgIH0sCiAgICAgICJmaW5pc2hfcmVhc29uIjogInRvb2xfY2FsbHMiCiAgICB9CiAgXSwKICAidXNhZ2UiOiB7CiAgICAicHJvbXB0X3Rva2VucyI6IDE3MSwKICAgICJjb21wbGV0aW9uX3Rva2VucyI6IDczOCwKICAgICJ0b3RhbF90b2tlbnMiOiA5MDksCiAgICAicHJvbXB0X3Rva2Vuc19kZXRhaWxzIjogewogICAgICAiY2FjaGVkX3Rva2VucyI6IDAsCiAgICAgICJhdWRpb190b2tlbnMiOiAwCiAgICB9LAogICAgImNvbXBsZXRpb25fdG9rZW5zX2RldGFpbHMiOiB7CiAgICAgICJyZWFzb25pbmdfdG9rZW5zIjogMCwKICAgICAgImF1ZGlvX3Rva2VucyI6IDAsCiAgICAgICJhY2NlcHRlZF9wcmVkaWN0aW9uX3Rva2VucyI6IDAsCiAgICAgICJyZWplY3RlZF9wcmVkaWN0aW9uX3Rva2VucyI6IDAKICAgIH0KICB9LAogICJzZXJ2aWNlX3RpZXIiOiAiZGVmYXVsdCIsCiAgInN5c3RlbV9maW5nZXJwcmludCI6IG51bGwKfQo=
+  recorded_at: Mon, 16 Mar 2026 16:32:57 GMT
+recorded_with: VCR 6.3.1

@@ -6,8 +6,8 @@ end
 require "openai"
 
 class CreateQuiz
-  def self.call(topic)
-    return [] if topic == ""
+  def self.call(topics)
+    return [] unless topics.present?
 
     # Create client
     access_token = ENV.fetch("OPENAI_ACCESS_TOKEN")
@@ -18,7 +18,21 @@ class CreateQuiz
     # set call definitions
     model = "gpt-5.4"
     temperature = 0.7
-    messages = [
+    tool_choice = "auto"
+
+    parsed_responses = {}
+    topics.each do |topic|
+      messages = self.form_message_for(topic:)
+      response = client.chat(parameters: { model:, temperature:, messages:, tools: self.tools_definition, tool_choice: })
+      result = JSON.parse response.dig("choices", 0, "message", "tool_calls", 0, "function", "arguments")
+      parsed_responses[topic] = result
+    end
+
+    parsed_responses
+  end
+
+  def self.form_message_for(topic:)
+    [
       {
         role: "system",
         content: "Respond only with a valid JSON structure, without any Markdown or explanation text."
@@ -28,8 +42,10 @@ class CreateQuiz
         content: "Create multiple choice quiz with explanations based on: #{topic}"
       }
     ]
-    tool_choice = "auto"
-    tools = [
+  end
+
+  def self.tools_definition
+    [
       {
         type: "function",
         function: {
@@ -57,8 +73,5 @@ class CreateQuiz
         }
       }
     ]
-
-    response = client.chat(parameters: { model:, temperature:, messages:, tools:, tool_choice: })
-    JSON.parse response.dig("choices", 0, "message", "tool_calls", 0, "function", "arguments")
   end
 end

@@ -1,0 +1,243 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.openai.com/v1/chat/completions
+    body:
+      encoding: UTF-8
+      string: '{"model":"gpt-5.4","temperature":0.7,"messages":[{"role":"system","content":"Respond
+        only with a valid JSON structure, without any Markdown or explanation text."},{"role":"user","content":"Create
+        multiple choice quiz with explanations based on: Gradient-descent is an optimisation
+        method."}],"tools":[{"type":"function","function":{"name":"create_quiz","parameters":{"type":"object","properties":{"title":{"type":"string"},"questions":{"type":"array","items":{"type":"object","properties":{"question":{"type":"string"},"choices":{"type":"array","items":{"type":"string"}},"answer":{"type":"string"},"explanation":{"type":"string"}},"required":["question","choices","answer","explanation"]}}},"required":["questions","title"]}}}],"tool_choice":"auto"}'
+    headers:
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer sk-svcacct-sDUs-
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      date:
+      - Mon, 16 Mar 2026 15:10:18 GMT
+      content-type:
+      - application/json
+      transfer-encoding:
+      - chunked
+      connection:
+      - keep-alive
+      cf-ray:
+      - 9dd4aef67c1b9339-ACC
+      cf-cache-status:
+      - DYNAMIC
+      server:
+      - cloudflare
+      strict-transport-security:
+      - max-age=31536000; includeSubDomains; preload
+      x-content-type-options:
+      - nosniff
+      access-control-expose-headers:
+      - X-Request-ID
+      openai-organization:
+      - user-xlzivmxiqqqylndbjt1wcikq
+      openai-processing-ms:
+      - '4835'
+      openai-project:
+      - proj_lfb19RuyT21hrZID5S5UHpBH
+      openai-version:
+      - '2020-10-01'
+      x-openai-proxy-wasm:
+      - v0.1
+      x-ratelimit-limit-requests:
+      - '500'
+      x-ratelimit-limit-tokens:
+      - '500000'
+      x-ratelimit-remaining-requests:
+      - '499'
+      x-ratelimit-remaining-tokens:
+      - '499951'
+      x-ratelimit-reset-requests:
+      - 120ms
+      x-ratelimit-reset-tokens:
+      - 5ms
+      x-request-id:
+      - req_d0370399c5e8413997bebc1fe9727f51
+      set-cookie:
+      - __cf_bm=7PyI4l0Odg3qQ87X__q.RjZ6vtzaL336U01DXVR135g-1773673813.5189102-1.0.1.1-171U5p6t7X3YW.oEDXEhN30TgQJ0.DK7XWnRVcvN1E5RIF6uqPGUqdL8w1hiDd7IeNXq7lQMTHIpEZuMqDcPKd1Y75WQzsLLMYtt4qd9fowHi3BL0gVGdf8xJ5tyeysB;
+        HttpOnly; Secure; Path=/; Domain=api.openai.com; Expires=Mon, 16 Mar 2026
+        15:40:18 GMT
+      content-encoding:
+      - gzip
+      alt-svc:
+      - h3=":443"; ma=86400
+    body:
+      encoding: ASCII-8BIT
+      string: |
+        {
+          "id": "chatcmpl-DK3s5L1GipJjj6LhHhj3DEYBNB0CE",
+          "object": "chat.completion",
+          "created": 1773673813,
+          "model": "gpt-5.4-2026-03-05",
+          "choices": [
+            {
+              "index": 0,
+              "message": {
+                "role": "assistant",
+                "content": null,
+                "tool_calls": [
+                  {
+                    "id": "call_zVAicXaueLnh3YoScFn0PS8F",
+                    "type": "function",
+                    "function": {
+                      "name": "create_quiz",
+                      "arguments": "{\"title\":\"Gradient Descent Quiz\",\"questions\":[{\"question\":\"What is gradient descent primarily used for?\",\"choices\":[\"Encrypting data\",\"Optimising a function\",\"Sorting numbers\",\"Rendering graphics\"],\"answer\":\"Optimising a function\",\"explanation\":\"Gradient descent is an optimisation method used to find the minimum of a function by iteratively moving in the direction of steepest decrease.\"},{\"question\":\"In gradient descent, which direction do you move to reduce the value of a function?\",\"choices\":[\"In the direction of the gradient\",\"Opposite the gradient\",\"Randomly\",\"Perpendicular to the gradient\"],\"answer\":\"Opposite the gradient\",\"explanation\":\"The gradient points in the direction of steepest increase, so moving opposite to it decreases the function value.\"},{\"question\":\"What role does the learning rate play in gradient descent?\",\"choices\":[\"It determines the size of each update step\",\"It counts the number of variables\",\"It measures model accuracy\",\"It chooses the initial point\"],\"answer\":\"It determines the size of each update step\",\"explanation\":\"The learning rate controls how far gradient descent moves along the negative gradient at each iteration.\"},{\"question\":\"What is the goal of gradient descent in many machine learning problems?\",\"choices\":[\"To maximize the loss function\",\"To minimize the loss function\",\"To increase the number of features\",\"To randomize the parameters\"],\"answer\":\"To minimize the loss function\",\"explanation\":\"In machine learning, gradient descent is commonly used to minimize a loss function so the model fits the data better.\"}]}"
+                    }
+                  }
+                ],
+                "refusal": null,
+                "annotations": []
+              },
+              "finish_reason": "tool_calls"
+            }
+          ],
+          "usage": {
+            "prompt_tokens": 174,
+            "completion_tokens": 321,
+            "total_tokens": 495,
+            "prompt_tokens_details": {
+              "cached_tokens": 0,
+              "audio_tokens": 0
+            },
+            "completion_tokens_details": {
+              "reasoning_tokens": 0,
+              "audio_tokens": 0,
+              "accepted_prediction_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "service_tier": "default",
+          "system_fingerprint": null
+        }
+  recorded_at: Mon, 16 Mar 2026 15:10:18 GMT
+- request:
+    method: post
+    uri: https://api.openai.com/v1/chat/completions
+    body:
+      encoding: UTF-8
+      string: '{"model":"gpt-5.4","temperature":0.7,"messages":[{"role":"system","content":"Respond
+        only with a valid JSON structure, without any Markdown or explanation text."},{"role":"user","content":"Create
+        multiple choice quiz with explanations based on: CNNs have revolutionised
+        image recognition technology"}],"tools":[{"type":"function","function":{"name":"create_quiz","parameters":{"type":"object","properties":{"title":{"type":"string"},"questions":{"type":"array","items":{"type":"object","properties":{"question":{"type":"string"},"choices":{"type":"array","items":{"type":"string"}},"answer":{"type":"string"},"explanation":{"type":"string"}},"required":["question","choices","answer","explanation"]}}},"required":["questions","title"]}}}],"tool_choice":"auto"}'
+    headers:
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer sk-svcacct-
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      date:
+      - Mon, 16 Mar 2026 15:10:26 GMT
+      content-type:
+      - application/json
+      transfer-encoding:
+      - chunked
+      connection:
+      - keep-alive
+      cf-ray:
+      - 9dd4af18bbf9932a-ACC
+      cf-cache-status:
+      - DYNAMIC
+      server:
+      - cloudflare
+      strict-transport-security:
+      - max-age=31536000; includeSubDomains; preload
+      x-content-type-options:
+      - nosniff
+      access-control-expose-headers:
+      - X-Request-ID
+      openai-organization:
+      - user-xlzivmxiqqqylndbjt1wcikq
+      openai-processing-ms:
+      - '6848'
+      openai-project:
+      - proj_lfb19RuyT21hrZID5S5UHpBH
+      openai-version:
+      - '2020-10-01'
+      x-openai-proxy-wasm:
+      - v0.1
+      x-ratelimit-limit-requests:
+      - '500'
+      x-ratelimit-limit-tokens:
+      - '500000'
+      x-ratelimit-remaining-requests:
+      - '499'
+      x-ratelimit-remaining-tokens:
+      - '499949'
+      x-ratelimit-reset-requests:
+      - 120ms
+      x-ratelimit-reset-tokens:
+      - 6ms
+      x-request-id:
+      - req_4b9028900ae14b8782fce9755841f21f
+      set-cookie:
+      - __cf_bm=R4836kd_DiaFYDhblftXFGN7pFL8CoTHcmBH0PVZGxw-1773673818.9978764-1.0.1.1-.mJwk97xg_RkgERBXv8cMTMN_VeSIoxGKGgF4O3E_TPZT9LI9kkFxBayC1sIm45f6basUIJ7ocL5I_gGH10FvP3DlbYJuEhaAD2f6vPk9aLcNfrQZ.gdOjrO6AfsOwKa;
+        HttpOnly; Secure; Path=/; Domain=api.openai.com; Expires=Mon, 16 Mar 2026
+        15:40:26 GMT
+      content-encoding:
+      - gzip
+      alt-svc:
+      - h3=":443"; ma=86400
+    body:
+      encoding: ASCII-8BIT
+      string: |
+        {
+          "id": "chatcmpl-DK3sBNN9xczoboxW4ecdDnmPURMTU",
+          "object": "chat.completion",
+          "created": 1773673819,
+          "model": "gpt-5.4-2026-03-05",
+          "choices": [
+            {
+              "index": 0,
+              "message": {
+                "role": "assistant",
+                "content": null,
+                "tool_calls": [
+                  {
+                    "id": "call_iGfF3Wuqk4qJiaubrzRvppEp",
+                    "type": "function",
+                    "function": {
+                      "name": "create_quiz",
+                      "arguments": "{\"title\":\"CNNs Have Revolutionised Image Recognition Technology\",\"questions\":[{\"question\":\"What does CNN stand for in image recognition?\",\"choices\":[\"Central Neural Network\",\"Convolutional Neural Network\",\"Connected Node Network\",\"Computer Neural Nexus\"],\"answer\":\"Convolutional Neural Network\",\"explanation\":\"CNN stands for Convolutional Neural Network, a deep learning architecture especially effective for processing image data.\"},{\"question\":\"Why are CNNs particularly well-suited for image recognition tasks?\",\"choices\":[\"They process text faster than other models\",\"They can automatically learn spatial features from images\",\"They require no training data\",\"They only work on black-and-white images\"],\"answer\":\"They can automatically learn spatial features from images\",\"explanation\":\"CNNs are designed to detect patterns such as edges, textures, and shapes directly from pixel data, making them highly effective for image recognition.\"},{\"question\":\"Which CNN component is mainly responsible for detecting features like edges and textures?\",\"choices\":[\"Pooling layer\",\"Fully connected layer\",\"Convolutional layer\",\"Output layer\"],\"answer\":\"Convolutional layer\",\"explanation\":\"Convolutional layers apply filters across an image to detect local features such as edges, corners, and textures.\"},{\"question\":\"How have CNNs revolutionised image recognition technology?\",\"choices\":[\"By eliminating the need for computers\",\"By making manual feature extraction largely unnecessary\",\"By replacing all other forms of AI\",\"By only recognizing simple geometric shapes\"],\"answer\":\"By making manual feature extraction largely unnecessary\",\"explanation\":\"Before CNNs, image recognition often relied on handcrafted features. CNNs learn relevant features automatically, greatly improving accuracy and scalability.\"},{\"question\":\"What is a common real-world application of CNN-based image recognition?\",\"choices\":[\"Spreadsheet formatting\",\"Face recognition in photos\",\"Audio compression\",\"Word processing\"],\"answer\":\"Face recognition in photos\",\"explanation\":\"CNNs are widely used in face recognition, object detection, medical imaging, and many other image-based applications.\"}]}"
+                    }
+                  }
+                ],
+                "refusal": null,
+                "annotations": []
+              },
+              "finish_reason": "tool_calls"
+            }
+          ],
+          "usage": {
+            "prompt_tokens": 174,
+            "completion_tokens": 407,
+            "total_tokens": 581,
+            "prompt_tokens_details": {
+              "cached_tokens": 0,
+              "audio_tokens": 0
+            },
+            "completion_tokens_details": {
+              "reasoning_tokens": 0,
+              "audio_tokens": 0,
+              "accepted_prediction_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "service_tier": "default",
+          "system_fingerprint": null
+        }
+  recorded_at: Mon, 16 Mar 2026 15:10:26 GMT
+recorded_with: VCR 6.3.1

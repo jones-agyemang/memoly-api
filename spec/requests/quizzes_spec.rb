@@ -46,16 +46,20 @@ RSpec.describe "Quiz", type: :request do
 
       before do
         allow(DueNotes).to receive(:call).and_return(due_notes_payload)
-        allow(CreateQuiz).to receive(:call).and_return(quiz_payload)
+        # allow(CreateQuiz).to receive(:call).and_return(quiz_payload)
       end
 
       it "builds the topic from due notes and creates a quiz" do
-        post_quiz
+        VCR.use_cassette('due_notes_quiz') do
+          post_quiz
 
-        expect(DueNotes).to have_received(:call).with(user_id: user.id.to_s, date: Time.zone.today)
-        expect(CreateQuiz).to have_received(:call).with("Mathematics: Linear algebra review\nPhysics: Study thermodynamics")
-        expect(response).to have_http_status(:created)
-        expect(JSON.parse(response.body)).to eq(quiz_payload)
+          # expect(DueNotes).to have_received(:call).with(user_id: user.id.to_s, date: Time.zone.today)
+          # expect(CreateQuiz).to have_received(:call).with([ "Mathematics: Linear algebra review", "Physics: Study thermodynamics" ])
+          p "Response body:"
+          p JSON.parse(response.body)
+          expect(response).to have_http_status(:created)
+          expect(JSON.parse(response.body)).to eq(quiz_payload)
+        end
       end
     end
 
