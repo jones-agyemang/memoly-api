@@ -63,6 +63,7 @@ group :development, :test do
 end
 
 group :test do
+  gem "json-schema"
   gem "shoulda-matchers"
 end
 

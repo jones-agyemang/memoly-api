@@ -7,6 +7,8 @@ require "openai"
 
 class CreateQuiz
   def self.call(topic)
+    return [] if topic == ""
+
     # Create client
     access_token = ENV.fetch("OPENAI_ACCESS_TOKEN")
     log_errors = true

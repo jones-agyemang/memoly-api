@@ -1,0 +1,123 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.openai.com/v1/chat/completions
+    body:
+      encoding: UTF-8
+      string: '{"model":"gpt-5.4","temperature":0.7,"messages":[{"role":"system","content":"Respond
+        only with a valid JSON structure, without any Markdown or explanation text."},{"role":"user","content":"Create
+        multiple choice quiz with explanations based on: Gradient-descent is an optimisation
+        method."}],"tools":[{"type":"function","function":{"name":"create_quiz","parameters":{"type":"object","properties":{"title":{"type":"string"},"questions":{"type":"array","items":{"type":"object","properties":{"question":{"type":"string"},"choices":{"type":"array","items":{"type":"string"}},"answer":{"type":"string"},"explanation":{"type":"string"}},"required":["question","choices","answer","explanation"]}}},"required":["questions","title"]}}}],"tool_choice":"auto"}'
+    headers:
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer sk-svcacct-sDUs
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      date:
+      - Mon, 16 Mar 2026 02:35:54 GMT
+      content-type:
+      - application/json
+      transfer-encoding:
+      - chunked
+      connection:
+      - keep-alive
+      cf-ray:
+      - 9dd05dd65c679345-ACC
+      cf-cache-status:
+      - DYNAMIC
+      server:
+      - cloudflare
+      strict-transport-security:
+      - max-age=31536000; includeSubDomains; preload
+      x-content-type-options:
+      - nosniff
+      access-control-expose-headers:
+      - X-Request-ID
+      openai-organization:
+      - user-xlzivmxiqqqylndbjt1wcikq
+      openai-processing-ms:
+      - '6479'
+      openai-project:
+      - proj_lfb19RuyT21hrZID5S5UHpBH
+      openai-version:
+      - '2020-10-01'
+      x-openai-proxy-wasm:
+      - v0.1
+      x-ratelimit-limit-requests:
+      - '500'
+      x-ratelimit-limit-tokens:
+      - '500000'
+      x-ratelimit-remaining-requests:
+      - '499'
+      x-ratelimit-remaining-tokens:
+      - '499951'
+      x-ratelimit-reset-requests:
+      - 120ms
+      x-ratelimit-reset-tokens:
+      - 5ms
+      x-request-id:
+      - req_91a9b718c3c1446b87fd7c67cc748625
+      set-cookie:
+      - __cf_bm=Z5ysf99aD5a8IxYlkx.zowUBtTSVUtaM168ohSdtd.M-1773628547.5721219-1.0.1.1-iIdnZCgvAQuc8dqWXiodA4Q14zzI5KYGhsuo4IGfORoHcCHwWq8cZ_rZcazNpqI8p7zp2iDnNHtMFM7j4h0V4K7UkY4vzkhMrtign8xqC2xqHhoa_umSW0lKkMF8U8TN;
+        HttpOnly; Secure; Path=/; Domain=api.openai.com; Expires=Mon, 16 Mar 2026
+        03:05:54 GMT
+      content-encoding:
+      - gzip
+      alt-svc:
+      - h3=":443"; ma=86400
+    body:
+      encoding: ASCII-8BIT
+      string: |
+        {
+          "id": "chatcmpl-DJs60nhkgJ0GG8wTbR742AegD2558",
+          "object": "chat.completion",
+          "created": 1773628548,
+          "model": "gpt-5.4-2026-03-05",
+          "choices": [
+            {
+              "index": 0,
+              "message": {
+                "role": "assistant",
+                "content": null,
+                "tool_calls": [
+                  {
+                    "id": "call_idJdbz0vbvMtIaHl7L7HaojV",
+                    "type": "function",
+                    "function": {
+                      "name": "create_quiz",
+                      "arguments": "{\"title\":\"Gradient Descent Quiz\",\"questions\":[{\"question\":\"What is gradient descent primarily used for?\",\"choices\":[\"Encrypting data\",\"Optimising a function by minimizing its value\",\"Sorting numbers\",\"Generating random variables\"],\"answer\":\"Optimising a function by minimizing its value\",\"explanation\":\"Gradient descent is an optimisation method used to find values of parameters that reduce a function, often a loss or cost function.\"},{\"question\":\"In gradient descent, what does the 'gradient' indicate?\",\"choices\":[\"The color of a graph\",\"The direction of steepest increase of a function\",\"The exact minimum point immediately\",\"The average of all parameter values\"],\"answer\":\"The direction of steepest increase of a function\",\"explanation\":\"The gradient points in the direction where the function increases most rapidly, so gradient descent moves in the opposite direction to decrease the function.\"},{\"question\":\"Why does gradient descent move opposite to the gradient?\",\"choices\":[\"To maximize the function\",\"To avoid calculating derivatives\",\"To reduce the function value\",\"To make the algorithm slower\"],\"answer\":\"To reduce the function value\",\"explanation\":\"Since the gradient shows the direction of steepest ascent, moving opposite to it helps decrease the function and approach a minimum.\"},{\"question\":\"What role does the learning rate play in gradient descent?\",\"choices\":[\"It determines the step size for each update\",\"It counts the number of variables\",\"It guarantees the global minimum\",\"It removes the need for gradients\"],\"answer\":\"It determines the step size for each update\",\"explanation\":\"The learning rate controls how far the algorithm moves along the negative gradient at each step; too large can overshoot, too small can be slow.\"}]}"
+                    }
+                  }
+                ],
+                "refusal": null,
+                "annotations": []
+              },
+              "finish_reason": "tool_calls"
+            }
+          ],
+          "usage": {
+            "prompt_tokens": 174,
+            "completion_tokens": 351,
+            "total_tokens": 525,
+            "prompt_tokens_details": {
+              "cached_tokens": 0,
+              "audio_tokens": 0
+            },
+            "completion_tokens_details": {
+              "reasoning_tokens": 0,
+              "audio_tokens": 0,
+              "accepted_prediction_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "service_tier": "default",
+          "system_fingerprint": null
+        }
+  recorded_at: Mon, 16 Mar 2026 02:35:54 GMT
+recorded_with: VCR 6.3.1

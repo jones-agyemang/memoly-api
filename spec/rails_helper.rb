@@ -78,6 +78,21 @@ RSpec.configure do |config|
   end
 end
 
+RSpec::Matchers.define :match_response_schema do |schema|
+  match do |response|
+    schema_directory = "#{Dir.pwd}/spec/support/api/schemas"
+    schema_path = "#{schema_directory}/#{schema}.json"
+
+    response_body = if response.respond_to?(:body)
+      response.body
+    else
+      response
+    end
+
+    JSON::Validator.validate!(schema_path, response_body, strict: true)
+  end
+end
+
 VCR.configure do |config|
   config.cassette_library_dir = "spec/fixtures/vcr_cassettes"
   config.hook_into :faraday
