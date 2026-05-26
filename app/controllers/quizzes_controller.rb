@@ -2,10 +2,10 @@ class QuizzesController < ApplicationController
   # POST /quizzes
   # POST /quizzes.json
   def create
-    topics = quiz_params[:topic].presence || due_notes_topic
+    topics = Array(quiz_params[:topic].presence || due_notes_topic)
 
     if topics.present?
-      result = ::CreateQuiz.call topics
+      result = ::CreateQuiz.call(topics)
       render json: result, status: :created
     else
       render json: { message: "Topic is missing" }, status: :unprocessable_entity
