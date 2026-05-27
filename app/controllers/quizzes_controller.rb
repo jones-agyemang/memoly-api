@@ -2,7 +2,7 @@ class QuizzesController < ApplicationController
   # POST /quizzes
   # POST /quizzes.json
   def create
-    topics = Array(quiz_params[:topic].presence || due_notes_topic)
+    topics = normalized_topics.presence || due_notes_topic
 
     if topics.present?
       result = ::CreateQuiz.call(topics)
@@ -15,7 +15,12 @@ class QuizzesController < ApplicationController
   private
 
   def quiz_params
-    params.permit(:topic, :user_id, :date)
+    source = params[:quiz].presence || params
+    source.slice(:topic, :user_id, :date).permit(:topic, :user_id, :date, topic: [])
+  end
+
+  def normalized_topics
+    Array(quiz_params[:topic]).compact_blank
   end
 
   def due_notes_topic
@@ -39,7 +44,7 @@ class QuizzesController < ApplicationController
     value = quiz_params[:date]
     return Time.zone.today if value.blank?
 
-    Time.zone.parse(value).to_date
+    Time.zone.parse(value)&.to_date || Time.zone.today
   rescue ArgumentError, TypeError
     Time.zone.today
   end
