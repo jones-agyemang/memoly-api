@@ -103,6 +103,8 @@ GEM
       reline (>= 0.3.8)
     debug_inspector (1.2.0)
     diff-lcs (1.6.2)
+    doorkeeper (5.9.1)
+      railties (>= 5)
     dotenv (3.1.8)
     drb (2.2.1)
     ed25519 (1.4.0)
@@ -418,6 +420,7 @@ DEPENDENCIES
   brakeman
   data_migrate (~> 11.3)
   debug
+  doorkeeper
   dotenv
   execjs
   factory_bot_rails

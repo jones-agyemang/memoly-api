@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  use_doorkeeper
   defaults format: :json do
     resources :users, only: %i[ index ]
 
