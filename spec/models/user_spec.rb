@@ -7,6 +7,19 @@ RSpec.describe User, type: :model do
 
   it { should validate_uniqueness_of(:email) }
 
+  describe "authorization" do
+    it do
+      should have_many(:access_grants).class_name("Doorkeeper::AccessGrant")
+                                      .with_foreign_key(:resource_owner_id)
+                                      .dependent(:delete_all)
+    end
+    it do
+      should have_many(:access_tokens).class_name("Doorkeeper::AccessToken")
+                                      .with_foreign_key(:resource_owner_id)
+                                      .dependent(:delete_all)
+    end
+  end
+
   describe "default collection" do
     it "creates a collection for the new user" do
       expect { described_class.create!(email: "text@example.com") }

@@ -14,7 +14,7 @@ class AuthenticationController < ApplicationController
         .with(user_id: @user.id)
         .send_authentication_code.deliver_later
 
-      render json: { "message": "Request code sent to user: #{@user.email}." }, status: :created
+      render json: { "message": "Request code sent to user." }, status: :created
     end
   end
 
