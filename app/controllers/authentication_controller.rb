@@ -22,14 +22,22 @@ class AuthenticationController < ApplicationController
     email = verify_code_params[:email]
     code = verify_code_params[:authentication_code]
 
-    authentication_code = AuthenticationCode.joins(:user)
-                                            .includes(:user)
-                                            .find_by!(code:, users: { email: })
+    auth = AuthenticationCode.joins(:user)
+                             .includes(:user)
+                             .find_by!(code:, users: { email: })
 
-    expiry_time = authentication_code.expires_at
+    expiry_time = auth.expires_at
     raise ExpiredAuthenticationCode if expiry_time.past?
 
-    user = authentication_code.user
+    user = auth.user
+    application = Doorkeeper::Application.find_by!(name: "Memoly Web Client")
+    Doorkeeper::AccessToken.create!(
+      resource_owner_id: user.id,
+      application_id: application.id,
+      expires_in: 1.weeks,
+      scopes: "user"
+    )
+
     render json: { user:, message: "Successfully authorized." }, status: :created
 
   rescue ActiveRecord::RecordNotFound

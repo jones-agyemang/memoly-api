@@ -1,10 +1,11 @@
 class NotesController < ApplicationController
+  before_action :doorkeeper_authorize!
   before_action :set_user
   before_action :set_collection, on: %i[ create index show ]
   before_action :set_note, only: %i[ update destroy ]
 
   def create
-    @note = @user.notes.build **note_params, collection: @collection
+    @note = @user.notes.build(**note_params, collection: @collection)
 
     if @note.save
       render :show, status: :created
@@ -37,11 +38,17 @@ class NotesController < ApplicationController
   private
 
   def set_user
-    @user = User.find user_params
+    @user ||= current_user
+
+    return if ids_match?
+
+    render json: { message: "Forbidden" }, status: :forbidden
   end
 
-  def user_params
-    params.expect(:user_id)
+  def ids_match?
+    @user.id == Integer(params.expect(:user_id))
+  rescue ArgumentError
+    false
   end
 
   def set_note

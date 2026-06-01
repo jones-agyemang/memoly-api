@@ -1,8 +1,14 @@
 # frozen_string_literal: true
 
 require "rails_helper"
+require "rake"
 
 RSpec.describe "Verify Code", type: :request do
+  before(:all) do
+    Rails.application.load_tasks
+    Rake::Task["setup:application"].invoke
+  end
+
   describe "non-existent user" do
     before do
       post "/authentication/verify-code", params: invalid_attributes
@@ -49,13 +55,13 @@ RSpec.describe "Verify Code", type: :request do
         }
       end
 
-      before do
-        post "/authentication/verify-code", params: attributes
-      end
-
       context 'when authentication code is not expired' do
-        it 'successfully authenticates' do
+        it 'successfully authenticates and provision auth tokens' do
           expect(response).to have_http_status(:created)
+        end
+
+        it 'provisions user access token' do
+          expect(user.reload.access_tokens.count).to eq(1)
         end
       end
 
