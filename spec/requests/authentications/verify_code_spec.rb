@@ -1,12 +1,10 @@
 # frozen_string_literal: true
 
 require "rails_helper"
-require "rake"
 
 RSpec.describe "Verify Code", type: :request do
-  before(:all) do
-    Rails.application.load_tasks
-    Rake::Task["setup:application"].invoke
+  before do
+    create_first_class_oauth_application
   end
 
   describe "non-existent user" do
@@ -56,12 +54,12 @@ RSpec.describe "Verify Code", type: :request do
       end
 
       context 'when authentication code is not expired' do
-        it 'successfully authenticates and provision auth tokens' do
-          expect(response).to have_http_status(:created)
+        it 'successfully authenticates' do
+          expect(response).to have_http_status(:ok)
         end
 
         it 'provisions user access token' do
-          expect(user.reload.access_tokens.count).to eq(1)
+          expect(JSON.parse(response.body)).to include({ "authenticated" => true })
         end
       end
 

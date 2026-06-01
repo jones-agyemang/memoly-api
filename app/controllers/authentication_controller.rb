@@ -30,15 +30,17 @@ class AuthenticationController < ApplicationController
     raise ExpiredAuthenticationCode if expiry_time.past?
 
     user = auth.user
-    application = Doorkeeper::Application.find_by!(name: "Memoly Web Client")
-    Doorkeeper::AccessToken.create!(
-      resource_owner_id: user.id,
-      application_id: application.id,
-      expires_in: 1.weeks,
-      scopes: "user"
-    )
+    access_token = issue_token(owner: user)
 
-    render json: { user:, message: "Successfully authorized." }, status: :created
+    cookies.encrypted[:access_token] = {
+      value: access_token.token,
+      httponly: true,
+      secure: Rails.env.production?,
+      same_site: :lax,
+      expires: 2.hours.from_now
+    }
+
+    render json: { authenticated: true }
 
   rescue ActiveRecord::RecordNotFound
     render json: { message: "Invalid user credentials." }, status: :unauthorized
