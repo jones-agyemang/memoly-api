@@ -56,10 +56,11 @@ RSpec.describe "Verify Code", type: :request do
       context 'when authentication code is not expired' do
         it 'successfully authenticates' do
           expect(response).to have_http_status(:ok)
+          expect(JSON.parse(response.body)).to include({ "authenticated" => true })
         end
 
-        it 'provisions user access token' do
-          expect(JSON.parse(response.body)).to include({ "authenticated" => true })
+        it 'provisions user access token cookie' do
+          expect(response.headers["Set-Cookie"]).to include("access_token=")
         end
       end
 
