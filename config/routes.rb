@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   use_doorkeeper
   defaults format: :json do
+    delete "session/logout"
     resources :users, only: %i[ index ]
 
     resources :users do
