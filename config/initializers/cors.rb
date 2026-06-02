@@ -5,9 +5,20 @@
 
 # Read more: https://github.com/cyu/rack-cors
 
+# binding.pry
+module OriginHelper
+  def fetch_origin
+    # allow requests from localhost
+    %r{\Ahttp?://localhost(:\d+)?\z} if Rails.env.local?
+
+    ENV.fetch("APP_URL")
+  end
+end
+
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins "http://localhost:3001"
+    extend OriginHelper
+    origins fetch_origin
 
     resource "*",
       headers: :any,
