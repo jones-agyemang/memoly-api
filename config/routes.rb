@@ -9,6 +9,10 @@ Rails.application.routes.draw do
       resources :collections, only: %i[ index create update destroy ]
     end
 
+    resource :user, only: [] do
+      get "me", to: "users#me"
+    end
+
     resources :quiz, controller: :quizzes, only: %i[create show]
 
     post "authentication/request-code"

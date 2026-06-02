@@ -1,6 +1,8 @@
 class ApplicationController < ActionController::API
   include ActionController::Cookies
 
+  before_action :set_authorization_header_from_cookie
+
   private
 
   def current_user
@@ -20,5 +22,12 @@ class ApplicationController < ActionController::API
       expires_in: 1.weeks,
       scopes: "users"
     )
+  end
+
+  def set_authorization_header_from_cookie
+    access_token = cookies.encrypted[:access_token]
+    return if access_token.blank?
+
+    request.headers["Authorization"] ||= "Bearer #{access_token}"
   end
 end
