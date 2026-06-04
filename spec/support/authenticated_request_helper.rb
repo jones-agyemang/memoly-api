@@ -9,7 +9,7 @@ module AuthenticatedRequestHelper
       value: access_token.token,
       httponly: true,
       secure: false,
-      same_site: :lax,
+      same_site: :none,
       expires: 2.hours.from_now
     }
 

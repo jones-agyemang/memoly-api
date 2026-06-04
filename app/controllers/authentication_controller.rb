@@ -36,7 +36,7 @@ class AuthenticationController < ApplicationController
       value: access_token.token,
       httponly: true,
       secure: Rails.env.production?,
-      same_site: :lax,
+      same_site: :none,
       expires: 2.hours.from_now
     }
 

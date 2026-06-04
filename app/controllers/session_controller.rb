@@ -6,7 +6,7 @@ class SessionController < ApplicationController
       :access_token,
       httponly: true,
       secure: Rails.env.production?,
-      same_site: :lax
+      same_site: :none
     )
 
     head :no_content
