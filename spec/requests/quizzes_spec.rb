@@ -3,6 +3,12 @@
 require "rails_helper"
 
 RSpec.describe "Quiz", type: :request do
+  let(:user) { create(:user) }
+
+  before do
+    sign_in_with_encrypted_cookie(user)
+  end
+
   describe "POST /quiz" do
     subject(:post_quiz) { post "/quiz", params: attributes }
 
@@ -66,7 +72,6 @@ RSpec.describe "Quiz", type: :request do
     end
 
     context "when due notes are available" do
-      let(:user) { create(:user) }
       let(:attributes) { { user_id: user.id, date: "2026-05-26" } }
 
       let(:math_note) { instance_double(Note, raw_content: "Linear algebra review") }
@@ -74,7 +79,7 @@ RSpec.describe "Quiz", type: :request do
 
       before do
         allow(DueNotes).to receive(:call)
-          .with(user_id: user.id.to_s, date: Date.new(2026, 5, 26))
+          .with(user_id: user.id, date: Date.new(2026, 5, 26))
           .and_return(
             "Mathematics" => [ math_note ],
             "Physics" => [ physics_note ]
@@ -97,13 +102,12 @@ RSpec.describe "Quiz", type: :request do
     end
 
     context "when due notes are requested with an invalid date" do
-      let(:user) { create(:user) }
       let(:attributes) { { user_id: user.id, date: "not-a-date" } }
       let(:note) { instance_double(Note, raw_content: "Backpropagation review") }
 
       before do
         allow(DueNotes).to receive(:call)
-          .with(user_id: user.id.to_s, date: Time.zone.today)
+          .with(user_id: user.id, date: Time.zone.today)
           .and_return("Neural Networks" => [ note ])
       end
 
@@ -120,7 +124,6 @@ RSpec.describe "Quiz", type: :request do
     end
 
     context "when due notes are unavailable" do
-      let(:user) { create(:user) }
       let(:attributes) { { user_id: user.id } }
 
       before do

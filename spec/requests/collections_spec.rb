@@ -20,6 +20,10 @@ RSpec.describe "/collections", type: :request do
     }
   end
 
+  before do
+    sign_in_with_encrypted_cookie(user)
+  end
+
   describe "POST create" do
     subject(:create_collection) do
       post user_collections_url(user_id: user.id), params: attributes, headers: {}, as: :json

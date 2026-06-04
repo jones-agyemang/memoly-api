@@ -20,10 +20,11 @@ RSpec.describe "Setup::Application", type: :task do
 
   context "when application already exists" do
     it "does not re-create it" do
-      Doorkeeper::Application.destroy_all
+      oauth_application_name = "Memoly Web Client[Test]"
+      allow(ENV).to receive(:fetch).and_return(oauth_application_name)
 
       Doorkeeper::Application.create!(
-        name: "Memoly Web Client",
+        name: oauth_application_name,
         redirect_uri: "https://localhost:3000/oauth/callback",
         confidential: [ true, false ].sample,
         scopes: [ "users", "documents" ].sample
