@@ -9,7 +9,7 @@
 module OriginHelper
   def fetch_origin
     # allow requests from localhost
-    %r{\Ahttp?://localhost(:\d+)?\z} if Rails.env.local?
+    return %r{\Ahttp?://localhost(:\d+)?\z} if Rails.env.local?
 
     ENV.fetch("APP_URL")
   end

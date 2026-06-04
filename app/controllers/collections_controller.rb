@@ -1,4 +1,5 @@
 class CollectionsController < ApplicationController
+  before_action :doorkeeper_authorize!
   before_action :set_user
   before_action :set_collection, only: %i[ update destroy ]
 

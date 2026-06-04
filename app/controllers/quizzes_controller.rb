@@ -1,4 +1,6 @@
 class QuizzesController < ApplicationController
+  before_action :doorkeeper_authorize!
+
   # POST /quizzes
   # POST /quizzes.json
   def create
@@ -24,9 +26,9 @@ class QuizzesController < ApplicationController
   end
 
   def due_notes_topic
-    return if quiz_params[:user_id].blank?
+    return unless current_user
 
-    notes = DueNotes.call(user_id: quiz_params[:user_id], date: requested_date)
+    notes = DueNotes.call(user_id: current_user.id, date: requested_date)
     return if notes.blank?
 
     topic_segments = notes.map do |collection_label, note_records|
