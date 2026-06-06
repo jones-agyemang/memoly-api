@@ -1,4 +1,5 @@
 class ExpiredAuthenticationCode < StandardError; end
+
 class AuthenticationController < ApplicationController
   before_action :set_user, only: %i[request_code]
 
@@ -35,9 +36,9 @@ class AuthenticationController < ApplicationController
     cookies.encrypted[:access_token] = {
       value: access_token.token,
       httponly: true,
-      secure: Rails.env.production?,
+      secure: true,
       same_site: :none,
-      expires: 2.hours.from_now
+      expires: 24.hours.from_now
     }
 
     render json: { authenticated: true }
@@ -65,7 +66,7 @@ class AuthenticationController < ApplicationController
   def create_authentication_code
     attrs = {
       code: generate_authentication_code,
-      expires_at: Time.zone.now + 15.minutes
+      expires_at: 15.minutes.from_now
     }
 
     code = @user.authentication_code || @user.build_authentication_code
