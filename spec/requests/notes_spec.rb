@@ -135,6 +135,16 @@ RSpec.describe "Notes", type: :request do
       expect(response_body.map { _1["user"]["email"] }).not_to include other_user.email
     end
 
+    describe "pagination" do
+      it "returns paginated results" do
+        create_list(:note, 10, collection: create(:collection, user: user))
+
+        get "/users/#{user.id}/notes", headers: headers
+
+        expect(JSON.parse(response.body)).to include({ "count" => 10 })
+      end
+    end
+
     describe "filter by collection" do
       let(:maths) { create(:collection, user: user, label: "Maths") }
       let(:physics) { create(:collection, user: user, label: "Physics") }

@@ -28,7 +28,7 @@ RSpec.describe "Verify Code", type: :request do
     let(:user) { create(:user, :with_valid_auth) }
 
     before do
-      post "/authentication/verify-code", params: attributes
+      post "/authentication/verify-code", params: attributes, headers: { "HTTPS" => "on" }
     end
 
     describe "invalid authentication code" do
@@ -61,6 +61,16 @@ RSpec.describe "Verify Code", type: :request do
 
         it 'provisions user access token cookie' do
           expect(response.headers["Set-Cookie"]).to include("access_token=")
+        end
+
+        it "returns bearer token fallback metadata" do
+          response_body = JSON.parse(response.body)
+
+          expect(response_body).to include(
+            "access_token" => be_present,
+            "token_type" => "Bearer",
+            "expires_in" => 1.week.to_i
+          )
         end
       end
 

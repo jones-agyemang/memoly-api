@@ -41,7 +41,12 @@ class AuthenticationController < ApplicationController
       expires: 24.hours.from_now
     }
 
-    render json: { authenticated: true }
+    render json: {
+      authenticated: true,
+      access_token: access_token.token,
+      token_type: "Bearer",
+      expires_in: access_token.expires_in
+    }
 
   rescue ActiveRecord::RecordNotFound
     render json: { message: "Invalid user credentials." }, status: :unauthorized

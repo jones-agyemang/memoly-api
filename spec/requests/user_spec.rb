@@ -68,6 +68,22 @@ RSpec.describe "Users", type: :request do
           expect(response).to have_http_status(:ok)
           expect(JSON.parse(response.body)).to include(expected_response_body)
         end
+
+        it "returns user details with bearer token authentication" do
+          access_token = create(:access_token, user:)
+
+          get "/user/me", headers: { "Authorization" => "Bearer #{access_token.token}" }
+
+          expected_response_body = {
+            "id" => user.id,
+            "email" => user.email,
+            "first_name" => user&.first_name,
+            "last_name" => user&.last_name
+          }
+
+          expect(response).to have_http_status(:ok)
+          expect(JSON.parse(response.body)).to include(expected_response_body)
+        end
       end
     end
   end
