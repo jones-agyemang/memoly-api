@@ -1,66 +1,42 @@
 source "https://rubygems.org"
 
+gem "bootsnap", require: false
+gem "data_migrate", "~> 11.3"
 gem "doorkeeper"
-
-# Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 8.0.2"
-# Use sqlite3 as the database for Active Record
-gem "sqlite3", ">= 2.1"
-# Use the Puma web server [https://github.com/puma/puma]
-gem "puma", ">= 5.0"
-# Build JSON APIs with ease [https://github.com/rails/jbuilder]
+gem "execjs"
+gem "faker", "~> 3.5"
 gem "jbuilder"
+gem "kamal", require: false
+gem "kramdown"
+gem "kramdown-math-katex"
+gem "kramdown-parser-gfm"
+gem "mini_racer"
 gem "pg"
-gem "sprockets-rails", require: "sprockets/railtie"
-
-# Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
-# gem "bcrypt", "~> 3.1.7"
-
-# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
-
-# Use the database-backed adapters for Rails.cache, Active Job, and Action Cable
+gem "postmark-rails", "~> 0.22.1"
+gem "puma", ">= 5.0"
+gem "rack-cors", "~> 2.0"
+gem "rails", "~> 8.0.2"
+gem "ruby-openai", "~> 8.1"
+gem "sidekiq", "~> 8.0"
+gem "sidekiq-cron", "~> 2.2"
+gem "solid_cable"
 gem "solid_cache"
 gem "solid_queue"
-gem "solid_cable"
-
-# Reduces boot times through caching; required in config/boot.rb
-gem "bootsnap", require: false
-
-# Deploy this application anywhere as a Docker container [https://kamal-deploy.org]
-gem "kamal", require: false
-
-gem "kramdown"
-gem "kramdown-parser-gfm"
-gem "kramdown-math-katex"
-gem "execjs"
-gem "mini_racer"
-
-gem "data_migrate", "~> 11.3"
-
-# Add HTTP asset caching/compression and X-Sendfile acceleration to Puma [https://github.com/basecamp/thruster/]
+gem "sprockets-rails", require: "sprockets/railtie"
+gem "strong_migrations", "~> 2.3"
+gem "sqlite3", ">= 2.1"
 gem "thruster", require: false
-
-# Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
-# gem "image_processing", "~> 1.2"
-
-# Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin Ajax possible
-# gem "rack-cors"
+gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 
 group :development, :test do
-  gem "rspec-rails"
-  # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
+  gem "binding_of_caller"
+  gem "brakeman", require: false
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
   gem "dotenv"
-
-  # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
-  gem "brakeman", require: false
-
-  # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
-  gem "rubocop-rails-omakase", require: false
-  gem "binding_of_caller"
-  gem "pry"
   gem "factory_bot_rails"
+  gem "rspec-rails"
+  gem "pry"
+  gem "rubocop-rails-omakase", require: false
   gem "vcr"
 end
 
@@ -68,17 +44,3 @@ group :test do
   gem "json-schema"
   gem "shoulda-matchers"
 end
-
-gem "sidekiq", "~> 8.0"
-
-gem "sidekiq-cron", "~> 2.2"
-
-gem "postmark-rails", "~> 0.22.1"
-
-gem "rack-cors", "~> 2.0"
-
-gem "faker", "~> 3.5"
-
-gem "ruby-openai", "~> 8.1"
-
-gem "strong_migrations", "~> 2.3"
