@@ -4,6 +4,8 @@ class NotesController < ApplicationController
   before_action :set_collection, on: %i[ create index show ]
   before_action :set_note, only: %i[ update destroy ]
 
+  include Pagy::Method
+
   def create
     @note = @user.notes.build(**note_params, collection: @collection)
 
