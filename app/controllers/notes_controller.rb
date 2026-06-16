@@ -21,11 +21,9 @@ class NotesController < ApplicationController
     set = notes.order(updated_at: :desc)
 
     @pagy, @records = pagy(:keyset, set)
+    @count = set.size
 
-    render json: {
-      data: @records,
-      pagination: { "next": @pagy.next, "limit": @pagy.limit, "count": set.size }
-    }
+    render :index
   end
 
   def destroy
