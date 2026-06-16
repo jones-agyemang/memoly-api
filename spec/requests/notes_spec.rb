@@ -122,26 +122,48 @@ RSpec.describe "Notes", type: :request do
   describe "GET /users/:user_id/notes" do
     let(:other_user) { create(:user) }
 
-    it "returns user notes" do
+    it "returns only the authenticated user's notes" do
       create(:note, collection: create(:collection, user: user))
       create(:note, collection: create(:collection, user: other_user))
 
       get user_notes_url(user_id: user.id), params: {}, headers: headers
 
-      response_body = JSON.parse(response.body)
+      response_body = JSON.parse(response.body).fetch('data')
+      owner_ids = response_body.pluck('user_id')
 
       expect(response).to have_http_status(:ok)
-      expect(response_body.map { _1["user"]["email"] }).to include user.email
-      expect(response_body.map { _1["user"]["email"] }).not_to include other_user.email
+      expect(owner_ids).to include(user.id)
+      expect(owner_ids).not_to include(other_user.id)
     end
 
     describe "pagination" do
+      let(:number_of_notes) { 10 }
+      before do
+        create_list(:note, number_of_notes, collection: create(:collection, user: user))
+      end
+
       it "returns paginated results" do
-        create_list(:note, 10, collection: create(:collection, user: user))
+        get "/users/#{user.id}/notes", params: { limit: 2 }, headers: headers
 
-        get "/users/#{user.id}/notes", headers: headers
+        response_body = JSON.parse(response.body)
 
-        expect(JSON.parse(response.body)).to include({ "count" => 10 })
+        expected_pagination_results = { "next" => be_a(String), "limit" => 2, "count" => number_of_notes }
+
+        expect(response).to have_http_status(:ok)
+        expect(response_body.fetch('data').size).to eq(2)
+        expect(response_body.fetch('pagination')).to include(expected_pagination_results)
+      end
+
+      it "fetches next paginated results" do
+        get "/users/#{user.id}/notes", params: { limit: 2 }, headers: headers
+
+        next_pointer = JSON.parse(response.body)["pagination"]["next"]
+
+        get "/users/#{user.id}/notes", params: { limit: 2, page: { page: next_pointer } }, headers: headers
+
+        subsequent_pointer = JSON.parse(response.body)["pagination"]["next"]
+
+        expect(next_pointer).not_to eq(subsequent_pointer)
       end
     end
 
@@ -158,10 +180,9 @@ RSpec.describe "Notes", type: :request do
         it "returns notes unscoped by collection" do
           get "/users/#{user.id}/notes", params: { dummy: "foo" }, headers: headers
 
-          response_body = JSON.parse(response.body)
+          response_body = JSON.parse(response.body).fetch('data')
 
           expect(response).to have_http_status(:ok)
-          expect(response_body).to be_an(Array)
           expect(response_body.size).to eq(2)
           expect(response_body.first).to include(
             "id" => be_a(Integer),
@@ -178,10 +199,9 @@ RSpec.describe "Notes", type: :request do
         it "returns notes scoped by collection" do
           get "/users/#{user.id}/notes", params: { note: { collection_id: maths.id } }, headers: headers
 
-          response_body = JSON.parse(response.body)
+          response_body = JSON.parse(response.body).fetch('data')
 
           expect(response).to have_http_status(:ok)
-          expect(response_body).to be_an(Array)
           expect(response_body.size).to eq(1)
           expect(response_body.first).to include(
             "id" => be_a(Integer),
@@ -192,16 +212,26 @@ RSpec.describe "Notes", type: :request do
     end
 
     it 'returns notes ordered by date modified' do
-      create(:note, raw_content: "First note", collection: create(:collection, user: user))
-      create(:note, raw_content: "Second note", collection: create(:collection, user: user))
+      older_note = create(
+        :note,
+        raw_content: "First note",
+        collection: create(:collection, user: user),
+        updated_at: 2.days.ago
+      )
+      newer_note = create(
+        :note,
+        raw_content: "Second note",
+        collection: create(:collection, user: user),
+        updated_at: 1.day.ago
+      )
 
       get "/users/#{user.id}/notes", headers: headers
 
-      response_body = JSON.parse(response.body)
-      expected_response_body = response_body.map { _1["raw_content"] }
+      response_body = JSON.parse(response.body).fetch('data')
+      expected_response_body = response_body.pluck('id')
 
       expect(response).to have_http_status(:ok)
-      expect(expected_response_body).to eq [ 'Second note', 'First note' ]
+      expect(expected_response_body).to eq([ newer_note.id, older_note.id ])
     end
   end
 

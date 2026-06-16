@@ -11,6 +11,10 @@ class AuthenticationController < ApplicationController
     else
       create_authentication_code
 
+      if Rails.env.development?
+        return render json: { message: "Auth code: #{@user.authentication_code.code}" }
+      end
+
       SendRequestedCodeMailer
         .with(user_id: @user.id)
         .send_authentication_code.deliver_later

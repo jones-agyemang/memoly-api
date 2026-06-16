@@ -18,9 +18,14 @@ class NotesController < ApplicationController
 
   def index
     notes = @collection.default? ? @user.notes : @collection.notes
-    @notes = notes.order(updated_at: :desc)
+    set = notes.order(updated_at: :desc)
 
-    render :index
+    @pagy, @records = pagy(:keyset, set)
+
+    render json: {
+      data: @records,
+      pagination: { "next": @pagy.next, "limit": @pagy.limit, "count": set.size }
+    }
   end
 
   def destroy
