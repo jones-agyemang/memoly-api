@@ -196,17 +196,34 @@ RSpec.describe "Notes", type: :request do
       end
 
       context "when collection is defined" do
-        it "returns notes scoped by collection" do
-          get "/users/#{user.id}/notes", params: { note: { collection_id: maths.id } }, headers: headers
+        context "when wrapped in 'note' key" do
+          it "returns notes scoped by collection" do
+            get "/users/#{user.id}/notes", params: { note: { collection_id: maths.id } }, headers: headers
 
-          response_body = JSON.parse(response.body).fetch('data')
+            response_body = JSON.parse(response.body).fetch('data')
 
-          expect(response).to have_http_status(:ok)
-          expect(response_body.size).to eq(1)
-          expect(response_body.first).to include(
-            "id" => be_a(Integer),
-            "raw_content" => "Linear algebra"
-          )
+            expect(response).to have_http_status(:ok)
+            expect(response_body.size).to eq(1)
+            expect(response_body.first).to include(
+              "id" => be_a(Integer),
+              "raw_content" => "Linear algebra"
+            )
+          end
+        end
+
+        context "when not wrapped in 'note' key" do
+          it "returns notes scoped by collection" do
+            get "/users/#{user.id}/notes", params: { collection_id: maths.id }, headers: headers
+
+            response_body = JSON.parse(response.body).fetch('data')
+
+            expect(response).to have_http_status(:ok)
+            expect(response_body.size).to eq(1)
+            expect(response_body.first).to include(
+              "id" => be_a(Integer),
+              "raw_content" => "Linear algebra"
+            )
+          end
         end
       end
     end

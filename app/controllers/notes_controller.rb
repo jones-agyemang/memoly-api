@@ -67,15 +67,16 @@ class NotesController < ApplicationController
   end
 
   def get_collection
-    @user.collections.find_by(id: collection_params[:collection_id])
+    @user.collections.find_by(id: collection_id)
   end
 
   def default_collection
     @user.collections.find_by(label: Collection::DEFAULT_CATEGORY_LABEL)
   end
 
-  def collection_params
-    params.require(:note).permit(:collection_id)
+  def collection_id
+    return params.expect(:collection_id) if params.key?(:collection_id)
+    params.expect(note: :collection_id)["collection_id"]
   end
 
   def note_params
