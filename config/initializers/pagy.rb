@@ -1,7 +1,7 @@
 require "pagy"
 
 options = {
-  limit: 25,
+  limit: 10,
   client_max_limit: 100,
   jsonapi: true,
   page_key: "page",

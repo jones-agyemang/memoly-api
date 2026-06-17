@@ -76,7 +76,7 @@ class NotesController < ApplicationController
 
   def collection_id
     return params.expect(:collection_id) if params.key?(:collection_id)
-    params.expect(note: :collection_id)["collection_id"]
+    params.expect(note: :collection_id)[:collection_id]
   end
 
   def note_params
