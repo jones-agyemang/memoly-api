@@ -178,7 +178,7 @@ RSpec.describe "Notes", type: :request do
 
       context "when collection is undefined" do
         it "returns notes unscoped by collection" do
-          get "/users/#{user.id}/notes", params: { dummy: "foo" }, headers: headers
+          get "/users/#{user.id}/notes", params: { note: {} }, headers: headers
 
           response_body = JSON.parse(response.body).fetch('data')
 

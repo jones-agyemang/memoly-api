@@ -7,7 +7,8 @@ class NotesController < ApplicationController
   include Pagy::Method
 
   def create
-    @note = @user.notes.build(**note_params, collection: @collection)
+    collection = @collection.presence || default_collection
+    @note = @user.notes.build(**note_params, collection:)
 
     if @note.save
       render :show, status: :created
@@ -17,10 +18,9 @@ class NotesController < ApplicationController
   end
 
   def index
-    notes = @collection.default? ? @user.notes : @collection.notes
-    set = notes.order(updated_at: :desc)
+    set = @collection ? @collection.notes : @user.notes
 
-    @pagy, @records = pagy(:keyset, set)
+    @pagy, @records = pagy(:keyset, set.order(updated_at: :desc))
     @count = set.size
 
     render :index
@@ -61,13 +61,7 @@ class NotesController < ApplicationController
   end
 
   def set_collection
-    @collection ||= (get_collection || default_collection)
-  rescue ActionController::ParameterMissing
-    @collection ||= default_collection
-  end
-
-  def get_collection
-    @user.collections.find_by(id: collection_id)
+    @collection ||= @user.collections.find_by(id: collection_id)
   end
 
   def default_collection
@@ -76,7 +70,10 @@ class NotesController < ApplicationController
 
   def collection_id
     return params.expect(:collection_id) if params.key?(:collection_id)
+
     params.expect(note: :collection_id)[:collection_id]
+  rescue ActionController::ParameterMissing
+    nil
   end
 
   def note_params
