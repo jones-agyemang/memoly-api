@@ -5,7 +5,8 @@ class SourceIntakeController < ApplicationController
     @source_intake = current_user.source_intakes.build(source_intake_params)
 
     if @source_intake.save
-      render json: @source_intake, status: :ok
+      SourceParserWorker.perform_async
+      render json: @source_intake, status: :accepted
     else
       render json: { message: @source_intake.errors.full_messages }, status: :unprocessable_entity
     end
