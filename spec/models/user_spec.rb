@@ -1,11 +1,17 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  it { is_expected.to have_many(:notes) }
-  it { is_expected.to have_one(:authentication_code) }
-  it { is_expected.to have_many(:collections) }
+  describe 'validations' do
+    it { is_expected.to have_many(:notes) }
+    it { is_expected.to have_one(:authentication_code) }
+    it { is_expected.to have_many(:collections) }
 
-  it { should validate_uniqueness_of(:email) }
+    it { should validate_uniqueness_of(:email) }
+  end
+
+  describe 'associations' do
+    it { is_expected.to have_many(:source_intakes) }
+  end
 
   describe "authorization" do
     it do

@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   use_doorkeeper
+
   defaults format: :json do
     delete "session/logout"
     resources :users, only: %i[ index ]
@@ -8,6 +9,7 @@ Rails.application.routes.draw do
       get "due_notes", controller: "review_notes"
       resources :notes, only: %i[ create index update destroy ]
       resources :collections, only: %i[ index create update destroy ]
+      resources :source_intake
     end
 
     resource :user, only: [] do
