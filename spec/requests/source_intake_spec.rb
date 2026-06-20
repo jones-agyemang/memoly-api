@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'sidekiq/testing'
 
 RSpec.describe "SourceIntakes", type: :request do
   let(:user) { create(:user) }
@@ -10,6 +11,10 @@ RSpec.describe "SourceIntakes", type: :request do
     }
   end
 
+  before do
+    Sidekiq::Worker.clear_all
+  end
+
   describe "POST /users/:id/source_intake" do
     describe "valid attributes" do
       let(:valid_attributes) { { source_type: "url", source: "https://www.reactjs.com" } }
@@ -17,15 +22,21 @@ RSpec.describe "SourceIntakes", type: :request do
       it "returns http success" do
         post "/users/#{user.id}/source_intake", params: valid_attributes, headers: headers
 
-        expect(response).to have_http_status(:success)
+        expect(response).to have_http_status(:accepted)
+      end
+
+      it "enqueues a source parser worker" do
+        expect do
+          post "/users/#{user.id}/source_intake", params: valid_attributes, headers: headers
+        end.to change(SourceParserWorker.jobs, :size).by(1)
       end
     end
 
     describe 'invalid attributes' do
-      let(:valid_attributes) { { source_type: 'foo', source: "https://www.reactjs.com" } }
+      let(:invalid_attributes) { { source_type: 'foo', source: "https://www.reactjs.com" } }
 
       it 'returns an error' do
-        post "/users/#{user.id}/source_intake", params: valid_attributes, headers: headers
+        post "/users/#{user.id}/source_intake", params: invalid_attributes, headers: headers
 
         expect(response).to have_http_status(:unprocessable_entity)
         expect(JSON.parse(response.body).dig('message').join(', ')).to match(/Source type is not included in the list/)
