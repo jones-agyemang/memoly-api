@@ -10,10 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_05_29_154931) do
+ActiveRecord::Schema[8.0].define(version: 2026_06_20_120708) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
   enable_extension "pg_catalog.plpgsql"
+
+  # Custom types defined in this database.
+  # Note that some types may not work with other database engines. Be careful if changing database.
+  create_enum "source_intake_type", ["url"]
 
   create_table "authentication_codes", force: :cascade do |t|
     t.string "code", null: false
@@ -109,6 +113,15 @@ ActiveRecord::Schema[8.0].define(version: 2026_05_29_154931) do
     t.index ["note_id"], name: "index_reminders_on_note_id"
   end
 
+  create_table "source_intakes", force: :cascade do |t|
+    t.enum "source_type", null: false, enum_type: "source_intake_type"
+    t.text "source"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_source_intakes_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email"
     t.string "first_name"
@@ -125,4 +138,5 @@ ActiveRecord::Schema[8.0].define(version: 2026_05_29_154931) do
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
   add_foreign_key "reminders", "notes"
+  add_foreign_key "source_intakes", "users"
 end
