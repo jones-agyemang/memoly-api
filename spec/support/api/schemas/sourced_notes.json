@@ -1,0 +1,30 @@
+{
+  "type": "object",
+  "properties": {
+    "collections": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "parent_label": {
+            "type": ["string", "null"]
+          },
+          "position": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "notes": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": ["parent_label", "position", "notes"]
+      }
+    }
+  },
+  "required": ["collections"]
+}
