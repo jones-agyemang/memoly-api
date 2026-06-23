@@ -3,6 +3,6 @@ FactoryBot.define do
     association :user
 
     source_type { %w[ url ].sample }
-    source { Faker::Internet.url }
+    source { "https://react.dev/reference/react/useContext" }
   end
 end
