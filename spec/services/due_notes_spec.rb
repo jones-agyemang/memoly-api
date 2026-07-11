@@ -75,8 +75,8 @@ RSpec.describe DueNotes do
     subject(:service_call) { described_class.call(date:, user_id: user.id) }
 
     let(:user) { create(:user) }
-    let(:collection) { create(:collection, user:) }
-    let(:other_collection) { create(:collection, user:) }
+    let(:collection) { create(:collection, user:, label: "Gradient Descent") }
+    let(:other_collection) { create(:collection, user:, label: "Convolutional Neural Networks") }
     let(:date) { Date.new(2024, 6, 2) }
     let!(:note_due_today) do
       create(:note, :without_due_reminders, collection:).tap do |note|

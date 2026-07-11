@@ -1,3 +1,4 @@
+
 require 'rails_helper'
 require 'sidekiq/testing'
 
@@ -38,8 +39,10 @@ RSpec.describe "SourceIntakes", type: :request do
       it 'returns an error' do
         post "/users/#{user.id}/source_intake", params: invalid_attributes, headers: headers
 
+        response_body = JSON.parse(response.body).dig('message').join(', ')
+
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(JSON.parse(response.body).dig('message').join(', ')).to match(/Source type is not included in the list/)
+        expect(response_body).to match(/Source type is not included in the list/)
       end
     end
   end

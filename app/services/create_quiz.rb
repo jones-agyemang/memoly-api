@@ -24,6 +24,7 @@ class CreateQuiz
     topics.each do |topic|
       messages = self.form_message_for(topic:)
       response = client.chat(parameters: { model:, temperature:, messages:, tools: self.tools_definition, tool_choice: })
+      response = ActiveSupport::HashWithIndifferentAccess.new(response)
       result = JSON.parse response.dig("choices", 0, "message", "tool_calls", 0, "function", "arguments")
       parsed_responses[topic] = result
     end
