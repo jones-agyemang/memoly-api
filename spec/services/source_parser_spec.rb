@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe SourceParser, type: :service do
   describe '.call' do
-    let(:si) { create(:source_intake) }
+    let(:source_intake) { create(:source_intake) }
     let(:client) { instance_double(OpenAI::Client) }
 
     before do
@@ -15,18 +15,11 @@ RSpec.describe SourceParser, type: :service do
     end
 
     describe 'operational exceptions' do
-      context 'when source intake cannot be found' do
-        it 'raises ActiveRecord::RecordNotFound' do
-          source_intake_id = -1
-          expect { described_class.call(source_intake_id:) }.to raise_error(ActiveRecord::RecordNotFound)
-        end
-      end
-
       context 'when LLM-client is invalid' do
         it 'raises connection error' do
           allow(client).to receive(:chat).and_raise(Faraday::BadRequestError)
 
-          expect { described_class.call(source_intake_id: si.id) }.to raise_error(Faraday::BadRequestError)
+          expect { described_class.call(source_intake) }.to raise_error(Faraday::BadRequestError)
         end
       end
     end
@@ -65,7 +58,7 @@ RSpec.describe SourceParser, type: :service do
 
         allow(client).to receive(:chat).and_return(llm_response)
 
-        response = described_class.call(source_intake_id: si.id)
+        response = described_class.call(source_intake)
 
         expect(response).to match_response_schema('sourced_notes')
       end

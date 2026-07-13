@@ -14,7 +14,7 @@ RSpec.describe SourceParserWorker, type: :worker do
           }
         }
         source_intake =  create(:source_intake)
-        allow(SourceParser).to receive(:call).with(source_intake_id: source_intake.id).and_return(arguments)
+        allow(SourceParser).to receive(:call).with(source_intake).and_return(arguments)
         expect(SourceConsumer).to receive(:call).with(source_intake, arguments)
 
         described_class.new.perform(source_intake.id)
@@ -25,7 +25,8 @@ RSpec.describe SourceParserWorker, type: :worker do
       it "does not call the consumer when parsing fails" do
         source_intake = create(:source_intake)
 
-        allow(SourceParser).to receive(:call).with(source_intake_id: source_intake.id).and_raise(JSON::ParserError)
+        allow(SourceParser).to receive(:call).with(source_intake)
+                                             .and_raise(JSON::ParserError)
 
         expect(SourceConsumer).not_to receive(:call)
 
