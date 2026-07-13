@@ -1,9 +1,8 @@
 class SourceConsumer
   def self.call(source_intake, arguments)
     user_id = source_intake.user_id
-    arguments = ActiveSupport::HashWithIndifferentAccess.new(arguments)
 
-    parsed_raw_source = arguments.fetch(:collections, [])
+    parsed_raw_source = arguments.with_indifferent_access.fetch(:collections, [])
 
     parsed_raw_source.each do |label, attributes|
       base_attrs = { label:, user_id:, position: attributes[:position], public: true }
