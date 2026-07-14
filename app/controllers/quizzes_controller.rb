@@ -31,15 +31,11 @@ class QuizzesController < ApplicationController
     notes = DueNotes.call(user_id: current_user.id, date: requested_date)
     return if notes.blank?
 
-    topic_segments = notes.map do |collection_label, note_records|
-      label = collection_label || "General"
-      contents = note_records.map { |note| note.raw_content.presence }.compact
-      next if contents.empty?
-
-      "#{label}: #{contents.join('; ')}"
-    end.compact
-
-    topic_segments
+    notes.flat_map do |collection_label, note_records|
+      note_records.filter_map do |note|
+        note.raw_content.presence
+      end
+    end
   end
 
   def requested_date

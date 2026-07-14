@@ -99,6 +99,29 @@ RSpec.describe "Quiz", type: :request do
         expect(response).to have_http_status(:created)
         expect(response.parsed_body).to eq(quiz_payload)
       end
+
+      context "when a collection contains multiple due notes" do
+        let(:second_math_note) { instance_double(Note, raw_content: "Practice matrix multiplication") }
+
+        before do
+          allow(DueNotes).to receive(:call)
+            .with(user_id: user.id, date: Date.new(2026, 5, 26))
+            .and_return("Mathematics" => [ math_note, second_math_note ])
+        end
+
+        it "creates a separate quiz topic for each source note" do
+          expect(CreateQuiz).to receive(:call)
+            .with([
+              "Mathematics: Linear algebra review",
+              "Mathematics: Practice matrix multiplication"
+            ])
+            .and_return(quiz_payload)
+
+          post_quiz
+
+          expect(response).to have_http_status(:created)
+        end
+      end
     end
 
     context "when due notes are requested with an invalid date" do

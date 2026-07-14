@@ -18,14 +18,14 @@ class CreateQuiz
     # set call definitions
     model = "gpt-5.4"
     temperature = 0.7
-    tool_choice = "auto"
+    tool_choice = "required"
 
     parsed_responses = {}
     topics.each do |topic|
       messages = self.form_message_for(topic:)
       response = client.chat(parameters: { model:, temperature:, messages:, tools: self.tools_definition, tool_choice: })
       response = response.with_indifferent_access
-      result = JSON.parse response.dig("choices", 0, "message", "tool_calls", 0, "function", "arguments")
+      result = JSON.parse(response.dig("choices", 0, "message", "tool_calls", 0, "function", "arguments"))
       parsed_responses[topic] = result
     end
 
