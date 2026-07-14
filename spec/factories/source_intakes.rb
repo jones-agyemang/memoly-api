@@ -4,5 +4,6 @@ FactoryBot.define do
 
     source_type { %w[ url ].sample }
     source { "https://react.dev/reference/react/useContext" }
+    status { "pending" }
   end
 end

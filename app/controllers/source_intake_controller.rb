@@ -15,8 +15,6 @@ class SourceIntakeController < ApplicationController
   private
 
   def source_intake_params
-    source_type, source, user_id, public = params.expect(:source_type, :source, :user_id, :public)
-
-    { source_type:, source:, user_id:, public: }
+    params.permit(:source_type, :source, :public)
   end
 end

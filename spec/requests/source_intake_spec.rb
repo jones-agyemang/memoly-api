@@ -24,6 +24,13 @@ RSpec.describe "SourceIntakes", type: :request do
         post "/users/#{user.id}/source_intake", params: valid_attributes, headers: headers
 
         expect(response).to have_http_status(:accepted)
+        expect(JSON.parse(response.body)).to include(
+          'source_type' => 'url',
+          'source' => 'https://www.reactjs.com',
+          'status' => 'pending',
+          'validation_result' => {},
+          'error_reason' => nil
+        )
       end
 
       it "enqueues a source parser worker" do
