@@ -16,6 +16,8 @@ cloudflare_r2:
   force_path_style: true
   public: true
   host: <%= ENV.fetch("R2_PUBLIC_DOMAIN", "https://pub-7fe7dac13eb941b8b785320fe1a44d8c.r2.dev") %>
+  request_checksum_calculation: "when_required"
+  response_checksum_validation: "when_required"
 
 # Remember not to checkin your GCS keyfile to a repository
 # google:
