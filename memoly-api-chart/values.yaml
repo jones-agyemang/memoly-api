@@ -101,5 +101,12 @@ database:
 postmark:
   apiKey: ""
 
+r2:
+  accessKeyId: ""
+  secretAccessKey: ""
+  bucketName: memoly-bucket-prod
+  endpointUrl: https://b117eaf8a60a15250e60a40a29e4a92b.r2.cloudflarestorage.com
+  publicDomain: https://pub-7fe7dac13eb941b8b785320fe1a44d8c.r2.dev
+
 rails:
   masterKey: ""

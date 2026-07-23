@@ -5,6 +5,7 @@ gem "data_migrate", "~> 11.3"
 gem "doorkeeper"
 gem "execjs"
 gem "faker", "~> 3.5"
+gem "image_processing", "~> 1.2"
 gem "jbuilder"
 gem "kamal", require: false
 gem "kramdown"
@@ -28,6 +29,7 @@ gem "strong_migrations", "~> 2.3"
 gem "sqlite3", ">= 2.1"
 gem "thruster", require: false
 gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
+gem "aws-sdk-s3", "~> 1.48"
 
 group :development, :test do
   gem "binding_of_caller"

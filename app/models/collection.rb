@@ -1,4 +1,6 @@
 class Collection < ApplicationRecord
+  include ImageAttachable
+
   belongs_to :user
   belongs_to :parent, class_name: "Collection", optional: true
   has_many :children, class_name: "Collection", foreign_key: :parent_id, dependent: :destroy

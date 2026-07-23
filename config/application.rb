@@ -42,6 +42,8 @@ module MemolyApi
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
     config.middleware.use ActionDispatch::Cookies
+    config.active_storage.track_variants = true
+    config.active_storage.variant_processor = :vips
 
     # --- Enable Asset Pipeline in API-only app ---
     # Serve static files from /public (needed for emails/precompiled assets in production)

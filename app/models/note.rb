@@ -1,4 +1,6 @@
 class Note < ApplicationRecord
+  include ImageAttachable
+
   has_many :reminders, dependent: :destroy
   belongs_to :user
   belongs_to :collection

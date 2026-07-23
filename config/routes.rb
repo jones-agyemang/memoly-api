@@ -7,8 +7,12 @@ Rails.application.routes.draw do
 
     resources :users do
       get "due_notes", controller: "review_notes"
-      resources :notes, only: %i[ create index update destroy ]
-      resources :collections, only: %i[ index create update destroy ]
+      resources :notes, only: %i[ create index update destroy ] do
+        resources :images, controller: :image_attachments, only: %i[ create destroy ]
+      end
+      resources :collections, only: %i[ index create update destroy ] do
+        resources :images, controller: :image_attachments, only: %i[ create destroy ]
+      end
       resources :source_intake
     end
 
