@@ -29,7 +29,9 @@ For each collection, include parent_label as null for top-level collections or#{
 the parent collection label for sub-categories, position as a zero-based sibling order, and notes as an array of note strings.#{' '}
 Use markdown formatting for notes.#{' '}
 Provide title as a header for each note.#{' '}
-Wrap code blocks in triple backticks with language tag and inline code with single backticks"
+Wrap code blocks in triple backticks with language tag and inline code with single backticks.#{' '}
+Where helpful/viable include illustrations using mermaid. Wrap mermaid as blocks with triple backticks and "mermaid" as the language tag.
+"
 HEREDOC
     user_message = {
       role: "user",
