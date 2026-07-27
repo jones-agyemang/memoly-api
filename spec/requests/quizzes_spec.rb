@@ -89,8 +89,8 @@ RSpec.describe "Quiz", type: :request do
       it "creates a quiz from due notes" do
         expect(CreateQuiz).to receive(:call)
           .with([
-            "Mathematics: Linear algebra review",
-            "Physics: Study thermodynamics"
+            "Linear algebra review",
+            "Study thermodynamics"
           ])
           .and_return(quiz_payload)
 
@@ -112,8 +112,8 @@ RSpec.describe "Quiz", type: :request do
         it "creates a separate quiz topic for each source note" do
           expect(CreateQuiz).to receive(:call)
             .with([
-              "Mathematics: Linear algebra review",
-              "Mathematics: Practice matrix multiplication"
+              "Linear algebra review",
+              "Practice matrix multiplication"
             ])
             .and_return(quiz_payload)
 
@@ -136,7 +136,7 @@ RSpec.describe "Quiz", type: :request do
 
       it "falls back to today's date" do
         expect(CreateQuiz).to receive(:call)
-          .with([ "Neural Networks: Backpropagation review" ])
+          .with([ "Backpropagation review" ])
           .and_return(quiz_payload)
 
         post_quiz
