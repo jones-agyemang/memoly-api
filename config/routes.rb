@@ -5,6 +5,8 @@ Rails.application.routes.draw do
     delete "session/logout"
     resources :users, only: %i[ index ]
 
+    post "/ocr", to: "ocr#create"
+
     resources :users do
       get "due_notes", controller: "review_notes"
       resources :notes, only: %i[ create index update destroy ] do
