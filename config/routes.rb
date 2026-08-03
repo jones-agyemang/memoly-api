@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
+  get "cable_tokens/create"
   use_doorkeeper
 
   defaults format: :json do
+    post "realtime/cable-token", to: "cable_tokens#create"
     delete "session/logout"
     resources :users, only: %i[ index ]
 
