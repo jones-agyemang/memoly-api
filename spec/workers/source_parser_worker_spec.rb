@@ -3,8 +3,9 @@ require "rails_helper"
 RSpec.describe SourceParserWorker, type: :worker do
   describe '#perform' do
     context "when source is parseable" do
-      it "parses the source and consumes the parsed source" do
-        arguments = {
+      let(:source_intake) { create(:source_intake) }
+      let(:arguments) do
+        {
           collections: {
             "Sidekiq API" => {
               parent_label: nil,
@@ -13,9 +14,23 @@ RSpec.describe SourceParserWorker, type: :worker do
             }
           }
         }
-        source_intake =  create(:source_intake)
+      end
+
+      before do
         allow(SourceParser).to receive(:call).with(source_intake).and_return(arguments)
+      end
+
+      it "parses the source and consumes the parsed source" do
         expect(SourceConsumer).to receive(:call).with(source_intake, arguments)
+
+        described_class.new.perform(source_intake.id)
+      end
+
+      it "should broadcast completion to notes channel" do
+        expect(NotesChannel).to receive(:broadcast_to).with(
+          source_intake.user,
+          hash_including(type: "notes.refresh", source_intake_id: source_intake.id)
+        )
 
         described_class.new.perform(source_intake.id)
       end

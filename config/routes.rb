@@ -31,4 +31,6 @@ Rails.application.routes.draw do
 
     get "discovery", to: "discovery#index", as: :discovery
   end
+
+  mount ActionCable.server => "/cable"
 end

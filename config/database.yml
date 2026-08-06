@@ -5,13 +5,24 @@ default: &default
   url: <%= ENV["DATABASE_URL"] %>
 
 development:
-  <<: *default
-  database: memoly_api_db_development
+  primary:
+    <<: *default
+    database: memoly_api_db_development
+
+  cache:
+    <<: *default
+    database: memoly_api_cache_development
+    migrations_paths: db/cache_migrate
 
   queue:
+    <<: *default
     database: memoly_api_queue_development
     migrations_paths: db/queue_migrate
 
+  cable:
+    <<: *default
+    database: memoly_api_cable_development
+    migrations_paths: db/cable_migrate
 
 test:
   <<: *default
