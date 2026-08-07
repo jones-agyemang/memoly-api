@@ -34,6 +34,22 @@ RSpec.describe SourceParserWorker, type: :worker do
 
         described_class.new.perform(source_intake.id)
       end
+
+      it "does not raise when broadcasting completion fails" do
+        broadcast_error = StandardError.new("broadcast failed")
+
+        expect(SourceConsumer).to receive(:call).with(source_intake, arguments)
+        allow(NotesChannel).to receive(:broadcast_to).and_raise(broadcast_error)
+        expect(Rails.error).to receive(:report).with(
+          broadcast_error,
+          handled: true,
+          context: { source_intake_id: source_intake.id }
+        )
+
+        expect do
+          described_class.new.perform(source_intake.id)
+        end.not_to raise_error
+      end
     end
 
     context "when source is unparseable" do

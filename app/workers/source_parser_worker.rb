@@ -8,12 +8,24 @@ class SourceParserWorker
     parsed_source = SourceParser.call(source_intake)
 
     SourceConsumer.call(source_intake, parsed_source)
+    broadcast_refresh(source_intake)
+  end
+
+  private
+
+  def broadcast_refresh(source_intake)
     NotesChannel.broadcast_to(
       source_intake.user,
       {
         type: "notes.refresh",
         source_intake_id: source_intake.id
       }
+    )
+  rescue StandardError => error
+    Rails.error.report(
+      error,
+      handled: true,
+      context: { source_intake_id: source_intake.id }
     )
   end
 end
