@@ -19,7 +19,7 @@ RSpec.describe ApplicationCable::Connection, type: :channel do
     it 'rejects the connection' do
       expect do
         establish_connection
-      end.to raise_error(ActiveSupport::MessageVerifier::InvalidSignature, 'mismatched digest')
+      end.to raise_error(ActionCable::Connection::Authorization::UnauthorizedError)
     end
   end
 
@@ -29,7 +29,7 @@ RSpec.describe ApplicationCable::Connection, type: :channel do
     it "rejects the connection" do
       expect do
         establish_connection
-      end.to raise_error(ActiveSupport::MessageVerifier::InvalidSignature, 'mismatched digest')
+      end.to raise_error(ActionCable::Connection::Authorization::UnauthorizedError)
     end
   end
 
@@ -39,7 +39,7 @@ RSpec.describe ApplicationCable::Connection, type: :channel do
     it 'rejects the connection' do
       expect do
         establish_connection
-      end.to raise_error(ActiveSupport::MessageVerifier::InvalidSignature, "mismatched purpose")
+      end.to raise_error(ActionCable::Connection::Authorization::UnauthorizedError)
     end
   end
 
