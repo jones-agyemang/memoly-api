@@ -1,25 +1,63 @@
-<h1>Your Authentication Code</h1>
-<div style="font-family: Arial, sans-serif; padding: 20px; background-color: #f8f9fa; color: #333;">
-  <div style="text-align: center; margin-bottom: 20px;">
-    <img src="https://memoly.io/logo.png" alt="Memoly Logo" style="width: 120px; height: auto;">
-    <h2 style="margin: 10px 0;">Memoly</h2>
-  </div>
+<% content_for :head do %>
+  <%= stylesheet_link_tag "mailer", media: "all" %>
+<% end %>
 
-  <div style="background: #ffffff; padding: 20px; border-radius: 6px; box-shadow: 0 0 5px rgba(0,0,0,0.1);">
-    <h3 style="color: #0056b3;">Your Authentication Code</h3>
-        <p>
-      <strong>Access code:</strong>
-      <span style="font-size: 1.5em;"><%= @user.authentication_code.code %></span>
-    </p>
+<% app_url = ENV.fetch("APP_URL", "https://memoly.io/") %>
+<% logo_url = ENV.fetch("MEMOLY_LOGO_URL", "https://memoly.io/logo.png") %>
+<% authentication_code = @user.authentication_code %>
 
-    <p>
-      Your code is valid for the next 15 minutes.<br />
-      It will no longer be valid after
-      <strong><%= @user.authentication_code.expires_at %></strong>.
-    </p>
-  </div>
+<div class="memoly-email authentication-email" style="margin: 0; padding: 16px 8px; background-color: #f7f8fc; color: #111d3f; font-family: Arial, Helvetica, sans-serif;">
+  <table class="email-shell" role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="width: 100%; max-width: 680px; margin: 0 auto; overflow: hidden; background-color: #ffffff; border-radius: 22px; box-shadow: 0 8px 30px rgba(17, 29, 63, 0.08);">
+    <tr>
+      <td class="brand-header" style="padding: 44px 40px 40px; background-color: #f0f3ff;">
+        <img src="<%= logo_url %>" width="225" alt="Memoly" style="display: block; width: 225px; max-width: 70%; height: auto; border: 0;">
+      </td>
+    </tr>
 
-  <p style="font-size: 0.9em; text-align: center; margin-top: 30px; color: #666;">
-    &copy; <%= Time.current.year %> Memoly. All rights reserved.
-  </p>
+    <tr>
+      <td class="email-content" style="padding: 54px 38px 48px;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+          <tr>
+            <td class="hero-copy" style="vertical-align: middle;">
+              <h1 style="margin: 0; color: #111d3f; font-size: 44px; line-height: 1.1; font-weight: 700; letter-spacing: -1.2px; text-align: left;">Your authentication<br>code</h1>
+            </td>
+            <td class="hero-art-cell" width="190" style="width: 190px; vertical-align: middle; text-align: center;">
+              <div class="hero-art auth-hero-art" aria-hidden="true" style="display: inline-block; width: 150px; height: 150px; border-radius: 75px; background-color: #f0f3ff; text-align: center; line-height: 150px; font-size: 72px;">🔐</div>
+            </td>
+          </tr>
+        </table>
+
+        <p class="auth-intro" style="margin: 38px auto 0; max-width: 520px; color: #3f4966; font-size: 20px; line-height: 1.5; text-align: center;">
+          Use the secure code below to finish signing in to Memoly.
+        </p>
+
+        <div class="code-panel" style="margin: 30px auto 0; max-width: 455px; padding: 28px 24px; border: 2px solid #dfe3f7; border-radius: 14px; background-color: #f6f7fc; text-align: center;">
+          <p style="margin: 0; color: #69728c; font-size: 14px; line-height: 1.3; font-weight: 700; letter-spacing: 1.6px; text-transform: uppercase;">Your access code</p>
+          <p class="authentication-code" style="margin: 14px 0 0; color: #2937c7; font-family: 'Courier New', Courier, monospace; font-size: 42px; line-height: 1.15; font-weight: 700; letter-spacing: 7px;"><%= authentication_code.code %></p>
+        </div>
+
+        <div class="expiry-notice" style="margin-top: 30px; padding: 22px 24px; border-radius: 12px; background-color: #f0f3ff; color: #2636bd; font-size: 18px; line-height: 1.5; text-align: center;">
+          <strong style="display: block; margin-bottom: 5px; color: #111d3f; font-size: 19px;">This code expires in 15 minutes</strong>
+          It will no longer be valid after <%= authentication_code.expires_at.to_fs(:long) %>.
+        </div>
+
+        <table class="security-note" role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin-top: 42px;">
+          <tr>
+            <td width="48" style="width: 48px; vertical-align: top; color: #303bc3; font-size: 27px; line-height: 1.3; text-align: center;">◆</td>
+            <td style="color: #59627c; font-size: 16px; line-height: 1.55;">
+              If you didn’t request this code, you can safely ignore this email. Never share your authentication code with anyone.
+            </td>
+          </tr>
+        </table>
+
+        <div class="secondary-action" style="padding-top: 38px; text-align: center;">
+          <%= link_to "Return to Memoly", app_url, class: "secondary-button", style: "display: block; padding: 22px 26px; border: 2px solid #6672df; border-radius: 10px; color: #2636bd; font-size: 22px; line-height: 1.3; font-weight: 600; text-align: center; text-decoration: none;" %>
+        </div>
+
+        <p class="copyright" style="margin: 34px 0 0; color: #8b93a9; font-size: 13px; line-height: 1.5; text-align: center;">
+          &copy; <%= Time.current.year %> Memoly. All rights reserved.
+        </p>
+      </td>
+    </tr>
+  </table>
 </div>

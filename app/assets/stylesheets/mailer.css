@@ -5,68 +5,68 @@ body {
   background-color: #f7f8fc;
 }
 
-.reminder-email,
-.reminder-email table,
-.reminder-email td,
-.reminder-email a,
-.reminder-email p,
-.reminder-email h1,
-.reminder-email blockquote {
+.memoly-email,
+.memoly-email table,
+.memoly-email td,
+.memoly-email a,
+.memoly-email p,
+.memoly-email h1,
+.memoly-email blockquote {
   box-sizing: border-box;
 }
 
-.reminder-email img {
+.memoly-email img {
   border: 0;
   outline: none;
   text-decoration: none;
 }
 
-.reminder-email .primary-button:hover {
+.memoly-email .primary-button:hover {
   background-color: #2530af !important;
 }
 
-.reminder-email .secondary-button:hover {
+.memoly-email .secondary-button:hover {
   background-color: #f4f5ff !important;
 }
 
 @media only screen and (max-width: 620px) {
-  .reminder-email {
+  .memoly-email {
     padding: 0 !important;
   }
 
-  .reminder-email .email-shell {
+  .memoly-email .email-shell {
     border-radius: 0 !important;
   }
 
-  .reminder-email .brand-header {
+  .memoly-email .brand-header {
     padding: 30px 24px !important;
   }
 
-  .reminder-email .brand-header img {
+  .memoly-email .brand-header img {
     width: 180px !important;
   }
 
-  .reminder-email .email-content {
+  .memoly-email .email-content {
     padding: 38px 22px 34px !important;
   }
 
-  .reminder-email .hero-copy,
-  .reminder-email .hero-art-cell {
+  .memoly-email .hero-copy,
+  .memoly-email .hero-art-cell {
     display: block !important;
     width: 100% !important;
     text-align: center !important;
   }
 
-  .reminder-email .hero-copy h1 {
+  .memoly-email .hero-copy h1 {
     font-size: 37px !important;
     text-align: center !important;
   }
 
-  .reminder-email .hero-art-cell {
+  .memoly-email .hero-art-cell {
     padding-top: 24px !important;
   }
 
-  .reminder-email .hero-art {
+  .memoly-email .hero-art {
     width: 126px !important;
     height: 126px !important;
     border-radius: 63px !important;
@@ -103,8 +103,32 @@ body {
     font-size: 18px !important;
   }
 
-  .reminder-email .secondary-button {
+  .memoly-email .secondary-button {
     padding: 20px 14px !important;
     font-size: 19px !important;
+  }
+
+  .authentication-email .auth-intro {
+    margin-top: 30px !important;
+    font-size: 18px !important;
+  }
+
+  .authentication-email .code-panel {
+    margin-top: 24px !important;
+    padding: 24px 14px !important;
+  }
+
+  .authentication-email .authentication-code {
+    font-size: 34px !important;
+    letter-spacing: 4px !important;
+  }
+
+  .authentication-email .expiry-notice {
+    padding: 20px 16px !important;
+    font-size: 16px !important;
+  }
+
+  .authentication-email .security-note {
+    margin-top: 34px !important;
   }
 }
