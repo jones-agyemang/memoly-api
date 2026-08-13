@@ -1,47 +1,110 @@
+html,
 body {
   margin: 0;
   padding: 0;
-  background-color: #f9fafb;
-  font-family: "Century Schoolbook", Georgia, serif;
-  color: #111827;
+  background-color: #f7f8fc;
 }
-.container {
-  text-align: center;
-  max-width: 600px;
-  margin: 0 auto;
-  background-color: #ffffff;
-  border-radius: 12px;
-  padding: 24px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+
+.reminder-email,
+.reminder-email table,
+.reminder-email td,
+.reminder-email a,
+.reminder-email p,
+.reminder-email h1,
+.reminder-email blockquote {
+  box-sizing: border-box;
 }
-h1 {
-  text-align: center;
-  font-size: 20px;
-  color: #1e3a8a;
-  margin-bottom: 20px;
-}
-.chunk {
-  margin-bottom: 16px;
-  padding: 16px;
-  background-color: #f3f4f6;
-  border-left: 4px solid #cccccc;
-  border-radius: 2px;
-  font-size: 15px;
-  line-height: 1.6;
-}
-.footer {
-  text-align: center;
-  margin-top: 28px;
-  font-size: 13px;
-  color: #6b7280;
-}
-a.button {
-  display: inline-block;
-  margin-top: 12px;
-  padding: 10px 16px;
-  background-color: #1e3a8a;
-  color: #ffffff !important;
+
+.reminder-email img {
+  border: 0;
+  outline: none;
   text-decoration: none;
-  border-radius: 6px;
-  font-size: 14px;
+}
+
+.reminder-email .primary-button:hover {
+  background-color: #2530af !important;
+}
+
+.reminder-email .secondary-button:hover {
+  background-color: #f4f5ff !important;
+}
+
+@media only screen and (max-width: 620px) {
+  .reminder-email {
+    padding: 0 !important;
+  }
+
+  .reminder-email .email-shell {
+    border-radius: 0 !important;
+  }
+
+  .reminder-email .brand-header {
+    padding: 30px 24px !important;
+  }
+
+  .reminder-email .brand-header img {
+    width: 180px !important;
+  }
+
+  .reminder-email .email-content {
+    padding: 38px 22px 34px !important;
+  }
+
+  .reminder-email .hero-copy,
+  .reminder-email .hero-art-cell {
+    display: block !important;
+    width: 100% !important;
+    text-align: center !important;
+  }
+
+  .reminder-email .hero-copy h1 {
+    font-size: 37px !important;
+    text-align: center !important;
+  }
+
+  .reminder-email .hero-art-cell {
+    padding-top: 24px !important;
+  }
+
+  .reminder-email .hero-art {
+    width: 126px !important;
+    height: 126px !important;
+    border-radius: 63px !important;
+    font-size: 62px !important;
+    line-height: 126px !important;
+  }
+
+  .reminder-email .due-summary {
+    margin-top: 28px !important;
+    padding: 14px 16px !important;
+    font-size: 19px !important;
+  }
+
+  .reminder-email .primary-button {
+    min-width: 0 !important;
+    padding: 16px 24px !important;
+    font-size: 20px !important;
+  }
+
+  .reminder-email .quote-divider {
+    margin-top: 44px !important;
+  }
+
+  .reminder-email .quote-block {
+    padding-right: 4px !important;
+    padding-left: 4px !important;
+  }
+
+  .reminder-email .quote-block blockquote {
+    font-size: 20px !important;
+  }
+
+  .reminder-email .quote-source {
+    font-size: 18px !important;
+  }
+
+  .reminder-email .secondary-button {
+    padding: 20px 14px !important;
+    font-size: 19px !important;
+  }
 }
