@@ -10,16 +10,21 @@ RSpec.describe ReminderMailer, type: :mailer do
 
   subject(:email) { described_class.with(user: user.id, notes:).due_notes_email }
 
+  before do
+    allow(ENV).to receive(:fetch).and_call_original
+    allow(ENV).to receive(:fetch).with("APP_URL") { "http://www.example.io/" }
+  end
+
   it "delivers reminder email" do
     expect { email.deliver_now }.to change { ActionMailer::Base.deliveries.count }.by(1)
   end
 
   it "renders the subject" do
-    expect(email.subject).to eq("Notes for Today")
+    expect(email.subject).to eq("📲 Notes for Today")
   end
 
-  it "includes due notes in email body" do
-    expect(email.body.encoded).to include(raw_content)
+  it "includes information about number of notes due" do
+    expect(email.body.encoded).to include("You have 3 notes due Today")
   end
 
   context "successful delivery" do

@@ -8,7 +8,7 @@ class ReminderMailer < ApplicationMailer
     @notes = params[:notes]
 
     mail(
-      subject: "Notes for Today",
+      subject: "📲 Notes for Today",
       to: user&.email,
       track_opens: true,
       message_stream: "outbound"

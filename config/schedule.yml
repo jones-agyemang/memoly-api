@@ -1,3 +1,5 @@
-# Intentionally empty: reminders cron disabled
 ---
-{}
+due_mail_digest_dispatch:
+  cron: "0 9 * * *"
+  class: "SendDueRemindersWorker"
+  queue: default

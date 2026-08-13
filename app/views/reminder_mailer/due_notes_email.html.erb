@@ -2,36 +2,29 @@
 <html lang="en">
   <head>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
-    <%= stylesheet_link_tag "katex" %>
-    <%= stylesheet_link_tag "markdown" %>
     <%= stylesheet_link_tag "mailer" %>
   </head>
   <body>
     <div class="container">
-      <h1>💡 Today's Notes</h1>
+      <h1>Review your latest notes</h1>
 
-      <% @notes.each do |note| %>
-        <div class="chunk markdown-body">
-          <%= raw Kramdown::Document.new(
-                MathDelimiters.normalize_inline(note),
-                input: "kramdown",
-                math_engine: :katex,
-                hard_wrap: false,
-                syntax_highlighter: nil,
-                math_engine_opts: {
-                  display_math_delims:  ['$$','$$'],
-                  inline_math_delims:   ['$', '$'],
-                  katex_options: { throwOnError: false, strict: "ignore", trust: true }
-                }
-              ).to_html %>
-        </div>
-        <hr>
-      <% end %>
+      <p>You have <%= pluralize(@notes.count, "note") %> due Today.</p>
+      <%= link_to("Review them here", "#{ENV.fetch("APP_URL")}review-notes") %>
+
+      <div>
+        <blockquote cite="https://www.huxley.net/bnw/four.html">
+          <p>
+            Words can be like X-rays, if you use them properly—they'll go through
+            anything. You read and you're pierced.
+          </p>
+        </blockquote>
+        <p>—Aldous Huxley, <cite>Brave New World</cite></p>
+      </div>
 
       <div class="footer">
-        Keep learning, one step at a time 💡  
+        Keep learning, one step at a time💡
         <br>
-        <a href=<%= ENV.fetch("APP_URL", "") %> class="button">Review More Notes</a>
+        <a href=<%= ENV.fetch("APP_URL") %> class="button">Jump back into your notes</a>
       </div>
     </div>
   </body>
