@@ -2,7 +2,7 @@
 
 class ReviewNotesController < ApplicationController
   def due_notes
-    @results = DueNotes.call(user_id:, date: due_date)
+    @results = DueNotes.call(user_id:, date: due_date, include_completed: true)
 
     render :index
   end
