@@ -1,6 +1,8 @@
 class SourceIntake < ApplicationRecord
   class InvalidStatusTransition < StandardError; end
 
+  self.ignored_columns += [ "source_type" ]
+
   STATUSES = %w[
     pending
     rejected
