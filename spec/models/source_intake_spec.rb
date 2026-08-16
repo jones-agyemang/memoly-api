@@ -4,7 +4,7 @@ RSpec.describe SourceIntake, type: :model do
   describe 'validations' do
     it { is_expected.to validate_presence_of(:source_type) }
     it { is_expected.to validate_presence_of(:source) }
-    it { is_expected.to validate_inclusion_of(:source_type).in_array(%w[url]) }
+    it { is_expected.to validate_inclusion_of(:source_type).in_array(%w[url raw_text]) }
 
     it 'only accepts supported processing statuses' do
       expect(described_class.statuses.keys).to eq(described_class::STATUSES)

@@ -1,8 +1,6 @@
 class SourceIntake < ApplicationRecord
   class InvalidStatusTransition < StandardError; end
 
-  self.ignored_columns += [ "source_type" ]
-
   STATUSES = %w[
     pending
     rejected
@@ -27,7 +25,7 @@ class SourceIntake < ApplicationRecord
   enum :status, STATUSES.index_with(&:itself), default: "pending", validate: true
 
   validates :source_type, :source, presence: true
-  validates :source_type, inclusion: %w[ url ]
+  validates :source_type, inclusion: %w[ url raw_text ]
   validate :validation_result_is_structured
   validate :state_metadata_is_present
   validate :status_transition_is_allowed, on: :update
