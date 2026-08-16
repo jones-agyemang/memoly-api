@@ -47,6 +47,24 @@ RSpec.describe "Discovery", type: :request do
       expect(note_texts).to match_array([ extra_note.raw_content ])
     end
 
+    it "includes public notes when their collection label matches the query" do
+      atomic_collection = create(:collection, :public_collection, label: "Atomic Structure")
+      public_atomic_note = create(:note, :public_note, collection: atomic_collection, raw_content: "Electron shells")
+      private_atomic_note = create(:note, collection: atomic_collection, raw_content: "Private research")
+
+      get "/discovery", params: { q: "atom" }, headers: { "ACCEPT" => "application/json" }
+
+      expect(response).to have_http_status(:ok)
+      body = JSON.parse(response.body)
+
+      atomic_structure = body.find { |collection| collection["label"] == "Atomic Structure" }
+      expect(atomic_structure).not_to be_nil
+
+      note_texts = atomic_structure.fetch("notes").map { |note| note["raw_content"] }
+      expect(note_texts).to contain_exactly(public_atomic_note.raw_content)
+      expect(note_texts).not_to include(private_atomic_note.raw_content)
+    end
+
     it "keeps ancestors when a descendant matches the query" do
       public_parent = create(:collection, :public_collection, label: "Sciences")
       child = create(:collection, :public_collection, parent: public_parent, user: public_parent.user, label: "Physics Deep Dive")
