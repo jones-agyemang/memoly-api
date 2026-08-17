@@ -18,7 +18,7 @@ RSpec.describe SourceParserWorker, type: :worker do
       end
 
       before do
-        allow(SourceParser).to receive(:call).with(source_intake).and_return(arguments)
+        allow(SourceParser::Url).to receive(:call).with(source_intake).and_return(arguments)
       end
 
       it "parses the source and consumes the parsed source" do
@@ -55,7 +55,7 @@ RSpec.describe SourceParserWorker, type: :worker do
 
     context "when source is unparseable" do
       it "does not call the consumer when parsing fails" do
-        allow(SourceParser).to receive(:call).with(source_intake)
+        allow(SourceParser::Url).to receive(:call).with(source_intake)
                                              .and_raise(JSON::ParserError)
 
         expect(SourceConsumer).not_to receive(:call)
