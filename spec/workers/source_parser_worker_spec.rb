@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe SourceParserWorker, type: :worker do
   describe '#perform' do
-    let(:source_intake) { create(:url_source) }
+    let(:source_intake) { create([ :url_source, :raw_text ].sample) }
 
     context "when source is parseable" do
       let(:arguments) do

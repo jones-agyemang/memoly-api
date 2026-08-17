@@ -3,7 +3,7 @@ FactoryBot.define do
     association :user
 
     source_type { "url" }
-    source { Faker::Lorem.sentence }
+    source { Faker::Internet.url }
     status { "pending" }
   end
 end
