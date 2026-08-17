@@ -1,13 +1,5 @@
 module SourceParser
-  class RawText
-    def initialize(source_intake)
-      @source_intake = source_intake
-    end
-
-    def self.call(source_intake)
-      new(source_intake).parse
-    end
-
+  class RawText < Core
     def parse
       access_token = ENV.fetch("OPENAI_ACCESS_TOKEN")
       client = OpenAI::Client.new(access_token:, log_errors: true)
@@ -17,7 +9,7 @@ module SourceParser
         content: "You are a judicious, safety-conscious, professional-grade Educative content creator"
       }
       content = <<~HEREDOC
-  Content: #{@source_intake.source}.#{' '}
+  Content: #{source_intake.source}.#{' '}
   Use the provide contents to generate notes categorised by collection.#{' '}
   Organise all collections with an aptly labelled umbrella parent.#{' '}
   Group similar collection theme(s) tightly to avoid having too many loosely connected collections.#{' '}
@@ -45,40 +37,6 @@ module SourceParser
       })
       arguments = response.dig("choices", 0, "message", "tool_calls", 0, "function", "arguments")
       JSON.parse(arguments)
-    end
-
-    def tools_definition
-      [
-        {
-          type: "function",
-          function: {
-            name: "create_notes",
-            parameters: {
-              type: "object",
-              properties: {
-                collections: {
-                  type: "object",
-                  minProperties: 1,
-                  additionalProperties: {
-                    type: "object",
-                    properties: {
-                      parent_label: { type: [ "string", "null" ] },
-                      position: { type: "integer", minimum: 0 },
-                      notes: {
-                        type: "array",
-                        minItems: 1,
-                        items: { type: "string" }
-                      }
-                    },
-                    required: [ "parent_label", "position", "notes" ]
-                  }
-                }
-              },
-              required: [ "collections" ]
-            }
-          }
-        }
-      ]
     end
   end
 end
