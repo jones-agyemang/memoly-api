@@ -7,19 +7,12 @@ RSpec.describe SourceParser::RawText, type: :service do
     let(:source_intake) { create(:raw_text) }
     let(:client) { instance_double(OpenAI::Client) }
 
-    before do
-      allow(ENV).to receive(:fetch).and_call_original
-      allow(ENV).to receive(:fetch).with("OPENAI_ACCESS_TOKEN").and_return("FOO-KEY")
-
-      allow(OpenAI::Client).to receive(:new).and_return(client)
-    end
-
     describe 'operational exceptions' do
       context 'when LLM-client is invalid' do
         it 'raises connection error' do
           allow(client).to receive(:chat).and_raise(Faraday::BadRequestError)
 
-          expect { described_class.call(source_intake) }.to raise_error(Faraday::BadRequestError)
+          expect { described_class.call(source_intake, client:) }.to raise_error(Faraday::BadRequestError)
         end
       end
     end
@@ -58,7 +51,7 @@ RSpec.describe SourceParser::RawText, type: :service do
 
         allow(client).to receive(:chat).and_return(llm_response)
 
-        response = described_class.call(source_intake)
+        response = described_class.call(source_intake, client:)
 
         expect(response).to match_response_schema('sourced_notes')
       end
