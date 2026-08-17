@@ -23,6 +23,12 @@ RSpec.describe SourceIntake, type: :model do
     end
   end
 
+  describe "inheritance" do
+    it "responds to 'source_type' as type definition" do
+      expect(described_class.inheritance_column).to eq("source_type")
+    end
+  end
+
   describe 'processing state' do
     let(:source_intake) { create(:source_intake) }
     let(:validation_result) { { 'valid' => true, 'content_type' => 'text/html' } }

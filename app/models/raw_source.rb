@@ -1,0 +1,2 @@
+class RawSource < SourceIntake
+end

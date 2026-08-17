@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :source_intake do
     association :user
 
-    source_type { %w[ url ].sample }
+    source_type { "url" }
     source { "https://react.dev/reference/react/useContext" }
     status { "pending" }
   end
