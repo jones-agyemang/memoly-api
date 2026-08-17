@@ -3,6 +3,24 @@ class SourceIntake < ApplicationRecord
 
   self.inheritance_column = "source_type".freeze
 
+  SOURCE_TYPE_CLASSES = {
+    "url" => "Url",
+    "raw_text" => "RawText"
+  }.freeze
+
+  class << self
+    def sti_name
+      name.underscore
+    end
+
+    def sti_class_for(type_name)
+      class_name = SOURCE_TYPE_CLASSES[type_name]
+      return base_class unless class_name
+
+      class_name.constantize
+    end
+  end
+
   STATUSES = %w[
     pending
     rejected
@@ -27,7 +45,7 @@ class SourceIntake < ApplicationRecord
   enum :status, STATUSES.index_with(&:itself), default: "pending", validate: true
 
   validates :source_type, :source, presence: true
-  validates :source_type, inclusion: %w[ url raw_text ]
+  validates :source_type, inclusion: SOURCE_TYPE_CLASSES.keys
   validate :validation_result_is_structured
   validate :state_metadata_is_present
   validate :status_transition_is_allowed, on: :update

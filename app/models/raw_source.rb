@@ -1,2 +1,0 @@
-class RawSource < SourceIntake
-end

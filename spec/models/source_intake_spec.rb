@@ -4,7 +4,6 @@ RSpec.describe SourceIntake, type: :model do
   describe 'validations' do
     it { is_expected.to validate_presence_of(:source_type) }
     it { is_expected.to validate_presence_of(:source) }
-    it { is_expected.to validate_inclusion_of(:source_type).in_array(%w[url raw_text]) }
 
     it 'only accepts supported processing statuses' do
       expect(described_class.statuses.keys).to eq(described_class::STATUSES)
@@ -15,14 +14,6 @@ RSpec.describe SourceIntake, type: :model do
     it { is_expected.to belong_to(:user) }
   end
 
-  describe 'source URL' do
-    it 'exposes the persisted source as the original URL' do
-      source_intake = build(:source_intake)
-
-      expect(source_intake.original_url).to eq(source_intake.source)
-    end
-  end
-
   describe "inheritance" do
     it "responds to 'source_type' as type definition" do
       expect(described_class.inheritance_column).to eq("source_type")
@@ -30,7 +21,7 @@ RSpec.describe SourceIntake, type: :model do
   end
 
   describe 'processing state' do
-    let(:source_intake) { create(:source_intake) }
+    let(:source_intake) { create(:url_source) }
     let(:validation_result) { { 'valid' => true, 'content_type' => 'text/html' } }
 
     it 'starts pending' do

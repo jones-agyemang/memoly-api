@@ -2,8 +2,9 @@ require "rails_helper"
 
 RSpec.describe SourceParserWorker, type: :worker do
   describe '#perform' do
+    let(:source_intake) { create(:url_source) }
+
     context "when source is parseable" do
-      let(:source_intake) { create(:source_intake) }
       let(:arguments) do
         {
           collections: {
@@ -54,8 +55,6 @@ RSpec.describe SourceParserWorker, type: :worker do
 
     context "when source is unparseable" do
       it "does not call the consumer when parsing fails" do
-        source_intake = create(:source_intake)
-
         allow(SourceParser).to receive(:call).with(source_intake)
                                              .and_raise(JSON::ParserError)
 

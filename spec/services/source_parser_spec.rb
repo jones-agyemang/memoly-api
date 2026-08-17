@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe SourceParser, type: :service do
   describe '.call' do
-    let(:source_intake) { create(:source_intake) }
+    let(:source_intake) { create(:url_source) }
     let(:client) { instance_double(OpenAI::Client) }
 
     before do

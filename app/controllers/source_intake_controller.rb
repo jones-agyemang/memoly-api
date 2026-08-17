@@ -6,7 +6,7 @@ class SourceIntakeController < ApplicationController
 
     if @source_intake.save
       SourceParserWorker.perform_async(@source_intake.id)
-      render json: @source_intake, status: :accepted
+      render json: @source_intake, methods: :source_type, status: :accepted
     else
       render json: { message: @source_intake.errors.full_messages }, status: :unprocessable_entity
     end

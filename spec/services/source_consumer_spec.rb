@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe SourceConsumer, type: :service do
   describe '.call' do
-    let!(:source_intake) { create(:source_intake) }
+    let!(:source_intake) { create(:url_source) }
 
     context "when resultset is empty" do
       let(:arguments) { {} }
