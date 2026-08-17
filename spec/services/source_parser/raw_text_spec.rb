@@ -1,17 +1,67 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
-# RSpec.describe SourceParser::RawText, type: :service do
-#   describe '.parse' do
-#     subject(:parse_source) { described_class.parse(source_intake) }
+RSpec.describe SourceParser::RawText, type: :service do
+  describe '.call' do
+    let(:source_intake) { create(:raw_text) }
+    let(:client) { instance_double(OpenAI::Client) }
 
-#     context "when raw_text is empty" do
-#       let(:source_intake) { create(:raw_source) }
+    before do
+      allow(ENV).to receive(:fetch).and_call_original
+      allow(ENV).to receive(:fetch).with("OPENAI_ACCESS_TOKEN").and_return("FOO-KEY")
 
-#       it "issues an empty content error" do
-#         expect do
-#           parse_source
-#         end.to raise_error(SourceParser::EmptySourceError, "provide a source")
-#       end
-#     end
-#   end
-# end
+      allow(OpenAI::Client).to receive(:new).and_return(client)
+    end
+
+    describe 'operational exceptions' do
+      context 'when LLM-client is invalid' do
+        it 'raises connection error' do
+          allow(client).to receive(:chat).and_raise(Faraday::BadRequestError)
+
+          expect { described_class.call(source_intake) }.to raise_error(Faraday::BadRequestError)
+        end
+      end
+    end
+
+    context 'when source intake is found' do
+      let(:arguments) do
+        {
+          collections: {
+            "Sidekiq API": {
+              parent_label: nil,
+              position: 0,
+              notes: [
+                "# Intro to Sidekiq\\n Sidekiq is great for background processing"
+              ]
+            }
+          }
+        }
+      end
+
+      it 'returns output contrained by schema' do
+        llm_response = {
+          "choices" => [
+            {
+              "message" => {
+                "tool_calls" => [
+                  {
+                    "function" => {
+                      "arguments" => arguments.to_json
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+
+        allow(client).to receive(:chat).and_return(llm_response)
+
+        response = described_class.call(source_intake)
+
+        expect(response).to match_response_schema('sourced_notes')
+      end
+    end
+  end
+end
