@@ -1,6 +1,8 @@
 class SourceIntake < ApplicationRecord
   class InvalidStatusTransition < StandardError; end
 
+  self.inheritance_column = "source_type".freeze
+
   STATUSES = %w[
     pending
     rejected
