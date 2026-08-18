@@ -5,7 +5,8 @@ class SourceIntake < ApplicationRecord
 
   SOURCE_TYPE_CLASSES = {
     "url" => "Url",
-    "raw_text" => "RawText"
+    "raw_text" => "RawText",
+    "pdf" => "PdfSource"
   }.freeze
 
   class << self

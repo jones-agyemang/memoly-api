@@ -16,6 +16,59 @@ RSpec.describe "SourceIntakes", type: :request do
     Sidekiq::Worker.clear_all
   end
 
+  def uploaded_pdf(content: "%PDF-1.4\n%%EOF", filename: "lecture-notes.pdf", total_size: nil)
+    tempfile = Tempfile.new
+    tempfile.binmode
+    tempfile.write(content)
+    tempfile.truncate(total_size) if total_size
+    tempfile.rewind
+
+    Rack::Test::UploadedFile.new(tempfile.path, "application/pdf", original_filename: filename)
+  end
+
+  describe "`pdf` source" do
+    it "accepts and attaches a PDF for background generation" do
+      post "/users/#{user.id}/source_intake",
+        params: { source_type: "pdf", pdf: uploaded_pdf, public: true },
+        headers: headers
+
+      expect(response).to have_http_status(:accepted)
+      source_intake = SourceIntake.order(:id).last
+      expect(source_intake).to be_a(PdfSource)
+      expect(source_intake).to have_attributes(source: "lecture-notes.pdf", public: true)
+      expect(source_intake.document).to be_attached
+      expect(SourceParserWorker.jobs).not_to be_empty
+    end
+
+    it "rejects a PDF over 5 MB before persistence" do
+      expect do
+        post "/users/#{user.id}/source_intake",
+          params: {
+            source_type: "pdf",
+            pdf: uploaded_pdf(total_size: PdfSource::MAX_FILE_SIZE + 1)
+          },
+          headers: headers
+      end.not_to change(SourceIntake, :count)
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body.fetch("message")).to include("5 MB")
+      expect(ActiveStorage::Blob.count).to eq(0)
+    end
+
+    it "rejects a non-PDF upload" do
+      post "/users/#{user.id}/source_intake",
+        params: {
+          source_type: "pdf",
+          pdf: uploaded_pdf(content: "plain text", filename: "notes.pdf")
+        },
+        headers: headers
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body.fetch("message")).to include("Only PDF")
+      expect(ActiveStorage::Blob.count).to eq(0)
+    end
+  end
+
   describe "`raw_text` source" do
     describe "POST /users/:id/source_intake" do
       let(:valid_attributes) do

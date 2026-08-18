@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe SourceParserWorker, type: :worker do
   describe '#perform' do
-    let(:source_intake) { create([ :url_source, :raw_text ].sample) }
+    let(:source_intake) { create(:url_source) }
 
     context "when source is parseable" do
       let(:arguments) do
@@ -50,6 +50,25 @@ RSpec.describe SourceParserWorker, type: :worker do
         expect do
           described_class.new.perform(source_intake.id)
         end.not_to raise_error
+      end
+    end
+
+    context "with each supported source type" do
+      let(:arguments) { { collections: {} } }
+
+      {
+        url_source: SourceParser::Url,
+        raw_text: SourceParser::RawText,
+        pdf_source: SourceParser::Pdf
+      }.each do |factory, parser|
+        it "dispatches #{factory} to #{parser}" do
+          source = create(factory)
+          allow(parser).to receive(:call).with(source).and_return(arguments)
+
+          described_class.new.perform(source.id)
+
+          expect(parser).to have_received(:call).with(source)
+        end
       end
     end
 
