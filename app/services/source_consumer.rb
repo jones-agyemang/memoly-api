@@ -2,6 +2,7 @@ class SourceConsumer
   def self.call(source_intake, arguments)
     user_id = source_intake.user_id
     scope = source_intake.public
+    source = source_intake.source
 
     parsed_raw_source = arguments.with_indifferent_access.fetch(:collections, [])
 
@@ -16,7 +17,7 @@ class SourceConsumer
       end
 
       attributes.fetch(:notes, []).reverse.each do |content|
-        collection.notes.create(raw_content: content, source: source_intake.source, public: scope)
+        collection.notes.create(raw_content: content, source: source_intake.source_link, public: scope)
       end
     end
   end
