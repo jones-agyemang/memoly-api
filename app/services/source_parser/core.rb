@@ -67,13 +67,13 @@ module SourceParser
 
     def tools_definition
       [
-        {
-          type: "function",
-          function: {
-            name: "report_source_error",
-            parameters: REPORT_SOURCE_ERROR_SCHEMA
-          }
-        },
+        # {
+        #   type: "function",
+        #   function: {
+        #     name: "report_source_error",
+        #     parameters: REPORT_SOURCE_ERROR_SCHEMA
+        #   }
+        # },
         {
           type: "function",
           function: {
