@@ -34,10 +34,19 @@ module SourceParser
       response = client.chat(parameters: {
         model: "gpt-5.4",
         temperature: 0.7,
-        messages: [ SYSTEM_MESSAGE, { role: "user", content: prompt } ],
+        messages: [
+          {
+            role: "system",
+            content: meta_prompt
+          },
+          {
+            role: "user",
+            content: source_instructions
+          }
+        ],
         tools: tools_definition,
-        tool_choice: "required" # confine returns to tools_definition
-        # parallel_tool_calls: false
+        tool_choice: "required", # confine returns to tools_definition
+        parallel_tool_calls: false
       })
       arguments = response.dig("choices", 0, "message", "tool_calls", 0, "function", "arguments")
       JSON.parse(arguments)
@@ -45,9 +54,13 @@ module SourceParser
 
     private
 
-    def prompt
-      <<~PROMPT
-        #{source_instructions}
+    def meta_prompt
+      <<~META_PROMPT
+        # Identity
+        You are a judicious, safety-conscious, professional-grade Educative content creator.#{' '}
+        In addition you infer and assume the role of an expert of the content you receive.#{' '}
+
+        # Instructions
         Organise all collections with an aptly labelled umbrella parent.#{' '}
         Group similar collection theme(s) tightly to avoid having too many loosely connected collections.#{' '}
         Use sub-categories for a natural hierarchical ordering of ideas.#{' '}
@@ -58,6 +71,12 @@ module SourceParser
         Provide a title as a header for each note.#{' '}
         Wrap code blocks in triple backticks with language tag and inline code with single backticks.#{' '}
         Where helpful/viable include illustrations using mermaid. Wrap mermaid as blocks with triple backticks and "mermaid" as the language tag.
+      META_PROMPT
+    end
+
+    def prompt
+      <<~PROMPT
+        #{source_instructions}
       PROMPT
     end
 
