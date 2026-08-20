@@ -36,8 +36,8 @@ module SourceParser
         temperature: 0.7,
         messages: [ SYSTEM_MESSAGE, { role: "user", content: prompt } ],
         tools: tools_definition,
-        tool_choice: "required", # confine returns to tools_definition
-        parallel_tool_calls: false
+        tool_choice: "required" # confine returns to tools_definition
+        # parallel_tool_calls: false
       })
       arguments = response.dig("choices", 0, "message", "tool_calls", 0, "function", "arguments")
       JSON.parse(arguments)
@@ -55,7 +55,7 @@ module SourceParser
         For each collection, include parent_label as null for top-level collections or#{' '}
         the parent collection label for sub-categories, position as a zero-based sibling order, and notes as an array of note strings.#{' '}
         Use markdown formatting for notes.#{' '}
-        Provide title as a header for each note.#{' '}
+        Provide a title as a header for each note.#{' '}
         Wrap code blocks in triple backticks with language tag and inline code with single backticks.#{' '}
         Where helpful/viable include illustrations using mermaid. Wrap mermaid as blocks with triple backticks and "mermaid" as the language tag.
       PROMPT
