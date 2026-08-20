@@ -53,17 +53,21 @@ module SourceParser
         In addition you infer and assume the role of an expert of the content you receive.#{' '}
 
         # Instructions
+        ## Organisation
         Organise all collections with an aptly labelled umbrella parent collection.#{' '}
         Group similar collection theme(s) tightly to avoid having too many loosely connected collections.#{' '}
         Use sub-categories for a natural hierarchical ordering of ideas.#{' '}
-        Return collections as an object keyed by collection label.#{' '}
         For each collection, include parent_label as null for top-level collections or#{' '}
         the parent collection label for sub-categories, position as a zero-based sibling order, and notes as an array of note strings.#{' '}
+        If the given material provides sufficient information, dig deeper and return multiple sub-categories of the parent category.#{' '}
         Use markdown formatting for notes.#{' '}
         Provide a title as a header for each note.#{' '}
         Wrap code blocks in triple backticks with language tag and inline code with single backticks.#{' '}
         Where helpful/viable include illustrations using mermaid. Wrap mermaid as blocks with triple backticks and "mermaid" as the language tag.
         Use web search to research the subject thoroughly when external sources would improve accuracy, currency, or completeness.#{' '}
+
+        ## Output
+        Return collections as an object keyed by collection label.#{' '}
         Always finish by calling the source_notes function with the completed notes; never return the final result as plain text.
       META_PROMPT
     end

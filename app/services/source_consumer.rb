@@ -5,7 +5,6 @@ class SourceConsumer
     source = source_intake.source
 
     parsed_raw_source = arguments.with_indifferent_access.fetch(:collections, [])
-
     parsed_raw_source.each do |label, attributes|
       base_attrs = { label:, user_id:, position: attributes[:position], public: scope }
 
