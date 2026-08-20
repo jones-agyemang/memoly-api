@@ -29,6 +29,10 @@ RSpec.describe SourceParser::Pdf do
       encoded_pdf = file_input.fetch(:file_data).split(",", 2).last
       expect(Base64.strict_decode64(encoded_pdf)).to include("%PDF-1.4")
       expect(text_input.fetch(:text)).to include("Use the attached PDF")
+      expect(parameters.fetch(:tools)).to include(
+        type: "web_search",
+        search_context_size: "high"
+      )
     end
   end
 end

@@ -5,19 +5,14 @@ require "rails_helper"
 RSpec.describe SourceParser::Core, type: :service do
   describe ".client" do
     let(:client) { instance_double(OpenAI::Client) }
+    let(:responses_client) { instance_double(OpenAI::Responses) }
     let(:llm_response) do
       {
-        "choices" => [
+        "output" => [
           {
-            "message" => {
-              "tool_calls" => [
-                {
-                  "function" => {
-                    "arguments" => { collections: {} }.to_json
-                  }
-                }
-              ]
-            }
+            "type" => "function_call",
+            "name" => "source_notes",
+            "arguments" => { collections: {} }.to_json
           }
         ]
       }
@@ -48,13 +43,15 @@ RSpec.describe SourceParser::Core, type: :service do
 
     it "shares the client across parser subclasses" do
       allow(ENV).to receive(:fetch).with("OPENAI_ACCESS_TOKEN").and_return("FOO-KEY")
-      allow(client).to receive(:chat).and_return(llm_response)
+      allow(client).to receive(:responses).and_return(responses_client)
+      allow(responses_client).to receive(:create).and_return(llm_response)
+      allow(Net::HTTP).to receive(:get).and_return("content")
       expect(OpenAI::Client).to receive(:new).once.and_return(client)
 
       SourceParser::RawText.call(source_intake)
       SourceParser::Url.call(source_intake)
 
-      expect(client).to have_received(:chat).twice
+      expect(responses_client).to have_received(:create).twice
     end
   end
 end

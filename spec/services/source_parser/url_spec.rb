@@ -6,25 +6,24 @@ RSpec.describe SourceParser::Url, type: :service do
   describe '.call' do
     let(:source_intake) { create(:url_source) }
     let(:client) { instance_double(OpenAI::Client) }
+    let(:responses_client) { instance_double(OpenAI::Responses) }
     let(:llm_response) do
       {
-        "choices" => [
+        "output" => [
           {
-            "message" => {
-              "tool_calls" => [
-                {
-                  "function" => {
-                    "arguments" => arguments.to_json
-                  }
-                }
-              ]
-            }
+            "type" => "function_call",
+            "name" => "source_notes",
+            "arguments" => arguments.to_json
           }
         ]
       }
     end
 
     subject(:parse_source!) { described_class.call(source_intake, client:) }
+
+    before do
+      allow(client).to receive(:responses).and_return(responses_client)
+    end
 
     describe 'operational exceptions' do
       context "when source url is unreachable" do
@@ -39,7 +38,7 @@ RSpec.describe SourceParser::Url, type: :service do
 
       context 'when LLM-client is invalid' do
         it 'raises connection error' do
-          allow(client).to receive(:chat).and_raise(Faraday::BadRequestError)
+          allow(responses_client).to receive(:create).and_raise(Faraday::BadRequestError)
 
           expect { described_class.call(source_intake, client:) }.to raise_error(Faraday::BadRequestError)
         end
@@ -63,7 +62,7 @@ RSpec.describe SourceParser::Url, type: :service do
         end
 
         it 'returns output contrained by schema' do
-          allow(client).to receive(:chat).and_return(llm_response)
+          allow(responses_client).to receive(:create).and_return(llm_response)
 
           response = described_class.call(source_intake, client:)
 
@@ -79,7 +78,7 @@ RSpec.describe SourceParser::Url, type: :service do
           end
 
           it 'returns output constrained by error schema' do
-            allow(client).to receive(:chat).and_return(llm_response)
+            allow(responses_client).to receive(:create).and_return(llm_response)
             response = parse_source!
 
             expect(response).to match_response_schema('report_source_error')
