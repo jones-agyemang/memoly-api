@@ -28,8 +28,8 @@ module SourceParser
 
     def parse
       response = client.responses.create(parameters: {
-        model: "gpt-5.4",
-        temperature: 0.7,
+        model: "gpt-5.6-terra",
+        reasoning: { mode: :pro, effort: :medium },
         input: response_input,
         tools: responses_tools_definition,
         tool_choice: "required",
