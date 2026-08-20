@@ -2,6 +2,7 @@
 
 class SourceParserWorker
   include Sidekiq::Job
+  sidekiq_options retry: false
 
   PARSERS = {
     "url" => SourceParser::Url,

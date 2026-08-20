@@ -1,6 +1,12 @@
 require "rails_helper"
 
 RSpec.describe SourceParserWorker, type: :worker do
+  describe "options" do
+    it "forbids retries" do
+      expect(described_class.sidekiq_options["retry"]).to be(false)
+    end
+  end
+
   describe '#perform' do
     let(:source_intake) { create(:url_source) }
 
