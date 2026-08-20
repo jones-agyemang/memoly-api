@@ -32,7 +32,7 @@ module SourceParser
 
     def parse
       response = client.chat(parameters: {
-        model: "gpt-5.6",
+        model: "gpt-5.4",
         temperature: 0.7,
         messages: [ SYSTEM_MESSAGE, { role: "user", content: prompt } ],
         tools: tools_definition,
