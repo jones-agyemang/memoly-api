@@ -25,11 +25,12 @@ module SourceParser
           }
         ],
         tools: responses_tools_definition,
-        tool_choice: "required"
+        tool_choice: "required",
+        parallel_tool_calls: false
       })
 
       tool_call = response.fetch("output").find do |item|
-        item["type"] == "function_call" && item["name"] == "create_notes"
+        item["type"] == "function_call" && item["name"] == "source_notes"
       end
       raise JSON::ParserError, "The model did not return a create_notes tool call" unless tool_call
 

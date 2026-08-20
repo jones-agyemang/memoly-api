@@ -16,6 +16,10 @@ RSpec.describe "SourceIntakes", type: :request do
     Sidekiq::Worker.clear_all
   end
 
+  subject(:post_source!) do
+    post "/users/#{user.id}/source_intake", params: attributes, headers: headers
+  end
+
   def uploaded_pdf(content: "%PDF-1.4\n%%EOF", filename: "lecture-notes.pdf", total_size: nil)
     tempfile = Tempfile.new
     tempfile.binmode
@@ -92,7 +96,7 @@ RSpec.describe "SourceIntakes", type: :request do
     end
   end
 
-  describe "URL source" do
+  describe "`url` source" do
     describe "POST /users/:id/source_intake" do
       describe "valid attributes" do
         let(:valid_attributes) { { source_type: "url", source: "https://www.reactjs.com" } }
@@ -114,6 +118,17 @@ RSpec.describe "SourceIntakes", type: :request do
           expect do
             post "/users/#{user.id}/source_intake", params: valid_attributes, headers: headers
           end.to change(SourceParserWorker.jobs, :size).by(1)
+        end
+
+        context "when source url is unreachable" do
+          let(:attributes) { { source_type: "url", source: Faker::Internet.url } }
+
+          it "responds with service connection error" do
+            post_source!
+
+            expect(response).to have_http_status(:unprocessable_entity)
+            expect(response.parsed_body).to eq({ "message" => [ "Source type is unreachable" ] })
+          end
         end
       end
 

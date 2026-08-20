@@ -1,0 +1,12 @@
+{
+  "type": "object",
+  "properties": {
+    "code": {
+      "type": "string",
+      "enum": ["source_unavailable", "unsupported_source", "empty_source"]
+    },
+    "message": { "type": "string" }
+  },
+  "required": ["code", "message"],
+  "additionalProperties": false
+}

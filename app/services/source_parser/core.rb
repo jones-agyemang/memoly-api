@@ -6,6 +6,8 @@ module SourceParser
       role: "system",
       content: "You are a judicious, safety-conscious, professional-grade Educative content creator"
     }.freeze
+    SOURCED_NOTES_SCHEMA = SchemaLoader.load("sourced_notes")
+    REPORT_SOURCE_ERROR_SCHEMA = SchemaLoader.load("report_source_error")
     CLIENT_MUTEX = Mutex.new
 
     def initialize(source_intake, client: Core.client)
@@ -34,7 +36,8 @@ module SourceParser
         temperature: 0.7,
         messages: [ SYSTEM_MESSAGE, { role: "user", content: prompt } ],
         tools: tools_definition,
-        tool_choice: "required"
+        tool_choice: "required", # confine returns to tools_definition
+        parallel_tool_calls: false
       })
       arguments = response.dig("choices", 0, "message", "tool_calls", 0, "function", "arguments")
       JSON.parse(arguments)
@@ -67,30 +70,15 @@ module SourceParser
         {
           type: "function",
           function: {
-            name: "create_notes",
-            parameters: {
-              type: "object",
-              properties: {
-                collections: {
-                  type: "object",
-                  minProperties: 1,
-                  additionalProperties: {
-                    type: "object",
-                    properties: {
-                      parent_label: { type: [ "string", "null" ] },
-                      position: { type: "integer", minimum: 0 },
-                      notes: {
-                        type: "array",
-                        minItems: 1,
-                        items: { type: "string" }
-                      }
-                    },
-                    required: [ "parent_label", "position", "notes" ]
-                  }
-                }
-              },
-              required: [ "collections" ]
-            }
+            name: "report_source_error",
+            parameters: REPORT_SOURCE_ERROR_SCHEMA
+          }
+        },
+        {
+          type: "function",
+          function: {
+            name: "source_notes",
+            parameters: SOURCED_NOTES_SCHEMA
           }
         }
       ]

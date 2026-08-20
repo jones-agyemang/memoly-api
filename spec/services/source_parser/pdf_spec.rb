@@ -10,7 +10,7 @@ RSpec.describe SourceParser::Pdf do
     allow(responses_client).to receive(:create).and_return({
       "output" => [ {
         "type" => "function_call",
-        "name" => "create_notes",
+        "name" => "source_notes",
         "arguments" => '{"collections":{}}'
       } ]
     })
