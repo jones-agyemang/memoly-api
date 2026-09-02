@@ -1,4 +1,6 @@
 class ReminderMailer < ApplicationMailer
+  helper CorrespondenceHelper
+
   after_deliver :mark_completed
 
   default from: "notification@memoly.io"

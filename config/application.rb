@@ -64,5 +64,3 @@ module MemolyApi
     end
   end
 end
-
-# url(fonts/KaTe

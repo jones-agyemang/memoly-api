@@ -1,4 +1,6 @@
 class SendRequestedCodeMailer < ApplicationMailer
+  helper CorrespondenceHelper
+
   def send_authentication_code
     @user = User.find(params[:user_id])
 

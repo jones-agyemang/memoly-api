@@ -44,12 +44,17 @@
           </tr>
         </table>
 
-        <div class="quote-block" style="padding: 26px 24px 0; text-align: center;">
-          <blockquote style="margin: 0; color: #101936; font-size: 23px; line-height: 1.45; font-weight: 400;">
-            Words can be like X-rays, if you use them properly—they’ll go through anything. You read and you’re pierced.
-          </blockquote>
-          <p class="quote-source" style="margin: 24px 0 0; color: #303bc3; font-size: 21px; line-height: 1.4;">Aldous Huxley, <cite>Brave New World</cite></p>
-        </div>
+        <% quote = get_quote %>
+        <% if quote %>
+          <div class="quote-block" style="padding: 26px 24px 0; text-align: center;">
+            <blockquote style="margin: 0; color: #101936; font-size: 23px; line-height: 1.45; font-weight: 400;">
+              <%= quote.fetch("quote") %>
+            </blockquote>
+            <p class="quote-source" style="margin: 24px 0 0; color: #303bc3; font-size: 21px; line-height: 1.4;">
+              <%= quote.fetch("author", "Anon") %>, <cite><%= quote.fetch("origin", "Unknown") %></cite>
+            </p>
+          </div>
+        <% end %>
 
         <div class="secondary-action" style="padding-top: 36px; text-align: center;">
           <%= link_to app_url, class: "secondary-button", style: "display: block; padding: 24px 26px; border: 2px solid #6672df; border-radius: 10px; color: #2636bd; font-size: 23px; line-height: 1.3; font-weight: 600; text-align: center; text-decoration: none;" do %>

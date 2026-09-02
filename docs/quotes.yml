@@ -1,0 +1,950 @@
+quotes:
+  - quote: "Education is the most powerful weapon which you can use to change the world."
+    author: "Nelson Mandela"
+    origin: "Speech at Madison Park High School, Boston, 23 June 1990"
+    source_type: "speech"
+    verified: true
+    themes:
+      - learning
+      - growth
+      - impact
+
+  - quote: "For while we teach, we learn."
+    author: "Seneca"
+    origin: "Moral Letters to Lucilius"
+    source_type: "book"
+    verified: true
+    themes:
+      - learning
+      - teaching
+      - mastery
+
+  - quote: "No man is free who is not master of himself."
+    author: "Epictetus"
+    origin: "Discourses / attributed teachings"
+    source_type: "philosophy"
+    verified: true
+    themes:
+      - discipline
+      - self-mastery
+      - character
+
+  - quote: "Nothing great was ever achieved without enthusiasm."
+    author: "Ralph Waldo Emerson"
+    origin: "Circles"
+    source_type: "essay"
+    verified: true
+    themes:
+      - ambition
+      - enthusiasm
+      - achievement
+
+  - quote: "The reward of a thing well done is to have done it."
+    author: "Ralph Waldo Emerson"
+    origin: "New England Reformers"
+    source_type: "essay"
+    verified: true
+    themes:
+      - excellence
+      - discipline
+      - craftsmanship
+
+  - quote: "The heights by great men reached and kept were not attained by sudden flight."
+    author: "Henry Wadsworth Longfellow"
+    origin: "The Ladder of St. Augustine"
+    source_type: "poem"
+    verified: true
+    themes:
+      - discipline
+      - consistency
+      - achievement
+
+  - quote: "We have not wings, we cannot soar; but we have feet to scale and climb."
+    author: "Henry Wadsworth Longfellow"
+    origin: "The Ladder of St. Augustine"
+    source_type: "poem"
+    verified: true
+    themes:
+      - perseverance
+      - ambition
+      - progress
+
+  - quote: "Sometimes life's going to hit you in the head with a brick. Don't lose faith."
+    author: "Steve Jobs"
+    origin: "Stanford University Commencement Address, 2005"
+    source_type: "speech"
+    verified: true
+    themes:
+      - resilience
+      - purpose
+      - perseverance
+
+  - quote: "You've got to find what you love."
+    author: "Steve Jobs"
+    origin: "Stanford University Commencement Address, 2005"
+    source_type: "speech"
+    verified: true
+    themes:
+      - career
+      - purpose
+      - ambition
+
+  - quote: "The only way to do great work is to love what you do."
+    author: "Steve Jobs"
+    origin: "Stanford University Commencement Address, 2005"
+    source_type: "speech"
+    verified: true
+    themes:
+      - career
+      - excellence
+      - purpose
+
+  - quote: "We choose to go to the Moon in this decade and do the other things, not because they are easy, but because they are hard."
+    author: "John F. Kennedy"
+    origin: "Address at Rice University on the Nation's Space Effort, 12 September 1962"
+    source_type: "speech"
+    verified: true
+    themes:
+      - ambition
+      - challenge
+      - achievement
+
+  - quote: "Far and away the best prize that life offers is the chance to work hard at work worth doing."
+    author: "Theodore Roosevelt"
+    origin: "Speech at the New York State Agricultural Association, 7 September 1903"
+    source_type: "speech"
+    verified: true
+    themes:
+      - career
+      - purpose
+      - hard_work
+
+  - quote: "Life can mean nothing worth meaning, unless its prime aim is the doing of duty, the achievement of results worth achieving."
+    author: "Theodore Roosevelt"
+    origin: "Speech, 1903"
+    source_type: "speech"
+    verified: true
+    themes:
+      - purpose
+      - achievement
+      - responsibility
+
+  - quote: "Success is to be measured not so much by the position one has reached as by the obstacles which he has overcome."
+    author: "Booker T. Washington"
+    origin: "Up from Slavery"
+    source_type: "book"
+    verified: true
+    themes:
+      - success
+      - resilience
+      - progress
+
+  - quote: "Nor should we permit our grievances to overshadow our opportunities."
+    author: "Booker T. Washington"
+    origin: "Atlanta Exposition Address, 1895"
+    source_type: "speech"
+    verified: true
+    themes:
+      - opportunity
+      - resilience
+      - perspective
+
+  - quote: "Words can be like X-rays, if you use them properly—they'll go through anything. You read and you're pierced."
+    author: "Aldous Huxley"
+    origin: "Brave New World"
+    source_type: "book"
+    verified: true
+    themes:
+      - learning
+      - reading
+      - ideas
+
+  - quote: "Knowing is not enough; we must apply. Willing is not enough; we must do."
+    author: "Johann Wolfgang von Goethe"
+    origin: "Wilhelm Meister's Apprenticeship, commonly translated form"
+    source_type: "book"
+    verified: true
+    themes:
+      - action
+      - discipline
+      - execution
+
+  - quote: "What we fear doing most is usually what we most need to do."
+    author: "Ralph Waldo Emerson"
+    origin: "Commonly attributed quotation"
+    source_type: "attributed"
+    verified: false
+    themes:
+      - courage
+      - growth
+      - action
+
+  - quote: "The impediment to action advances action. What stands in the way becomes the way."
+    author: "Marcus Aurelius"
+    origin: "Meditations, Book 5"
+    source_type: "book"
+    verified: true
+    themes:
+      - resilience
+      - discipline
+      - adversity
+
+  - quote: "Waste no more time arguing what a good man should be. Be one."
+    author: "Marcus Aurelius"
+    origin: "Meditations, Book 10"
+    source_type: "book"
+    verified: true
+    themes:
+      - character
+      - action
+      - discipline
+
+  - quote: "You have power over your mind—not outside events. Realize this, and you will find strength."
+    author: "Marcus Aurelius"
+    origin: "Meditations"
+    source_type: "book"
+    verified: true
+    themes:
+      - mindset
+      - resilience
+      - self-mastery
+
+  - quote: "Difficulties strengthen the mind, as labour does the body."
+    author: "Seneca"
+    origin: "Letters / philosophical writings"
+    source_type: "book"
+    verified: true
+    themes:
+      - resilience
+      - learning
+      - growth
+
+  - quote: "Luck is what happens when preparation meets opportunity."
+    author: "Seneca"
+    origin: "Commonly attributed to Seneca"
+    source_type: "attributed"
+    verified: false
+    themes:
+      - preparation
+      - opportunity
+      - discipline
+
+  - quote: "It is not that we have a short time to live, but that we waste much of it."
+    author: "Seneca"
+    origin: "On the Shortness of Life"
+    source_type: "book"
+    verified: true
+    themes:
+      - time
+      - focus
+      - purpose
+
+  - quote: "Well begun is half done."
+    author: "Aristotle"
+    origin: "Politics, commonly translated proverb"
+    source_type: "book"
+    verified: true
+    themes:
+      - action
+      - momentum
+      - discipline
+
+  - quote: "We are what we repeatedly do. Excellence, then, is not an act, but a habit."
+    author: "Will Durant"
+    origin: "The Story of Philosophy, summarising Aristotle"
+    source_type: "book"
+    verified: true
+    themes:
+      - habits
+      - excellence
+      - discipline
+
+  - quote: "The future depends on what you do today."
+    author: "Mahatma Gandhi"
+    origin: "Commonly attributed quotation"
+    source_type: "attributed"
+    verified: false
+    themes:
+      - action
+      - future
+      - responsibility
+
+  - quote: "There is no substitute for hard work."
+    author: "Thomas Edison"
+    origin: "Commonly attributed quotation"
+    source_type: "attributed"
+    verified: false
+    themes:
+      - hard_work
+      - discipline
+      - achievement
+
+  - quote: "Genius is one percent inspiration and ninety-nine percent perspiration."
+    author: "Thomas Edison"
+    origin: "Reported statement, Harper's Monthly, 1932"
+    source_type: "reported_saying"
+    verified: true
+    themes:
+      - hard_work
+      - persistence
+      - mastery
+
+  - quote: "If I have seen further it is by standing on the shoulders of giants."
+    author: "Isaac Newton"
+    origin: "Letter to Robert Hooke, 5 February 1676"
+    source_type: "letter"
+    verified: true
+    themes:
+      - learning
+      - knowledge
+      - humility
+
+  - quote: "I have no special talent. I am only passionately curious."
+    author: "Albert Einstein"
+    origin: "Letter to Carl Seelig, 1952"
+    source_type: "letter"
+    verified: true
+    themes:
+      - curiosity
+      - learning
+      - growth
+
+  - quote: "Life is like riding a bicycle. To keep your balance, you must keep moving."
+    author: "Albert Einstein"
+    origin: "Letter to Eduard Einstein, 1930"
+    source_type: "letter"
+    verified: true
+    themes:
+      - progress
+      - perseverance
+      - momentum
+
+  - quote: "I never dreamed about success. I worked for it."
+    author: "Estée Lauder"
+    origin: "Widely attributed to Estée Lauder"
+    source_type: "attributed"
+    verified: false
+    themes:
+      - career
+      - ambition
+      - hard_work
+
+  - quote: "Do not wait for leaders; do it alone, person to person."
+    author: "Mother Teresa"
+    origin: "Commonly attributed quotation"
+    source_type: "attributed"
+    verified: false
+    themes:
+      - initiative
+      - leadership
+      - action
+
+  - quote: "You may encounter many defeats, but you must not be defeated."
+    author: "Maya Angelou"
+    origin: "Letter to My Daughter"
+    source_type: "book"
+    verified: true
+    themes:
+      - resilience
+      - perseverance
+      - courage
+
+  - quote: "Nothing will work unless you do."
+    author: "Maya Angelou"
+    origin: "Attributed to Maya Angelou"
+    source_type: "attributed"
+    verified: false
+    themes:
+      - discipline
+      - action
+      - effort
+
+  - quote: "Do the best you can until you know better. Then when you know better, do better."
+    author: "Maya Angelou"
+    origin: "Widely attributed to Maya Angelou"
+    source_type: "attributed"
+    verified: false
+    themes:
+      - learning
+      - improvement
+      - growth
+
+  - quote: "Success is stumbling from failure to failure with no loss of enthusiasm."
+    author: "Winston Churchill"
+    origin: "Commonly attributed quotation"
+    source_type: "attributed"
+    verified: false
+    themes:
+      - resilience
+      - success
+      - perseverance
+
+  - quote: "Continuous effort—not strength or intelligence—is the key to unlocking our potential."
+    author: "Winston Churchill"
+    origin: "Commonly attributed quotation"
+    source_type: "attributed"
+    verified: false
+    themes:
+      - discipline
+      - effort
+      - potential
+
+  - quote: "The secret of getting ahead is getting started."
+    author: "Mark Twain"
+    origin: "Commonly attributed quotation"
+    source_type: "attributed"
+    verified: false
+    themes:
+      - action
+      - momentum
+      - ambition
+
+  - quote: "Continuous improvement is better than delayed perfection."
+    author: "Mark Twain"
+    origin: "Commonly attributed quotation"
+    source_type: "attributed"
+    verified: false
+    themes:
+      - improvement
+      - action
+      - progress
+
+  - quote: "You don't have to be great to start, but you have to start to be great."
+    author: "Zig Ziglar"
+    origin: "Widely attributed to Zig Ziglar"
+    source_type: "attributed"
+    verified: false
+    themes:
+      - action
+      - ambition
+      - growth
+
+  - quote: "Success is the maximum utilization of the ability that you have."
+    author: "Zig Ziglar"
+    origin: "Attributed to Zig Ziglar"
+    source_type: "attributed"
+    verified: false
+    themes:
+      - potential
+      - success
+      - career
+
+  - quote: "You cannot swim for new horizons until you have courage to lose sight of the shore."
+    author: "William Faulkner"
+    origin: "The Wild Palms"
+    source_type: "book"
+    verified: true
+    themes:
+      - courage
+      - growth
+      - ambition
+
+  - quote: "Nothing is particularly hard if you divide it into small jobs."
+    author: "Henry Ford"
+    origin: "Attributed to Henry Ford"
+    source_type: "attributed"
+    verified: false
+    themes:
+      - learning
+      - execution
+      - progress
+
+  - quote: "Whether you think you can, or you think you can't—you're right."
+    author: "Henry Ford"
+    origin: "Commonly attributed quotation"
+    source_type: "attributed"
+    verified: false
+    themes:
+      - mindset
+      - confidence
+      - ambition
+
+  - quote: "The man who does more than he is paid for will soon be paid for more than he does."
+    author: "Napoleon Hill"
+    origin: "The Law of Success"
+    source_type: "book"
+    verified: true
+    themes:
+      - career
+      - excellence
+      - initiative
+
+  - quote: "Don't watch the clock; do what it does. Keep going."
+    author: "Sam Levenson"
+    origin: "Commonly attributed quotation"
+    source_type: "attributed"
+    verified: false
+    themes:
+      - perseverance
+      - consistency
+      - discipline
+
+  - quote: "Success isn't always about greatness. It's about consistency. Consistent hard work leads to success."
+    author: "Dwayne Johnson"
+    origin: "Publicly attributed statement"
+    source_type: "attributed"
+    verified: false
+    themes:
+      - consistency
+      - hard_work
+      - success
+
+  - quote: "The expert in anything was once a beginner."
+    author: "Helen Hayes"
+    origin: "Commonly attributed quotation"
+    source_type: "attributed"
+    verified: false
+    themes:
+      - learning
+      - mastery
+      - growth
+
+  - quote: "Learning is the quiet work of becoming capable of things that once seemed impossible."
+    author: "Memoly"
+    origin: "Memoly Learning Principles"
+    source_type: "original"
+    verified: false
+    themes:
+      - learning
+      - growth
+      - mastery
+
+  - quote: "The goal of learning is not to know everything, but to become someone who can learn anything."
+    author: "Memoly"
+    origin: "Memoly Learning Principles"
+    source_type: "original"
+    verified: false
+    themes:
+      - learning
+      - adaptability
+      - growth
+
+  - quote: "What you practise today becomes what you can rely on tomorrow."
+    author: "Memoly"
+    origin: "Memoly Learning Principles"
+    source_type: "original"
+    verified: false
+    themes:
+      - practice
+      - mastery
+      - consistency
+
+  - quote: "Knowledge grows slowly, then reveals itself suddenly in what you are able to do."
+    author: "Memoly"
+    origin: "Memoly Learning Principles"
+    source_type: "original"
+    verified: false
+    themes:
+      - learning
+      - mastery
+      - patience
+
+  - quote: "Do not measure learning only by what you remember; measure it by how differently you can think."
+    author: "Memoly"
+    origin: "Memoly Learning Principles"
+    source_type: "original"
+    verified: false
+    themes:
+      - learning
+      - thinking
+      - growth
+
+  - quote: "The strongest learners are not afraid of confusion; they know understanding often begins there."
+    author: "Memoly"
+    origin: "Memoly Learning Principles"
+    source_type: "original"
+    verified: false
+    themes:
+      - learning
+      - resilience
+      - curiosity
+
+  - quote: "Repetition turns unfamiliar knowledge into familiar strength."
+    author: "Memoly"
+    origin: "Memoly Learning Principles"
+    source_type: "original"
+    verified: false
+    themes:
+      - repetition
+      - learning
+      - mastery
+
+  - quote: "Small moments of study, repeated consistently, create extraordinary minds."
+    author: "Memoly"
+    origin: "Memoly Learning Principles"
+    source_type: "original"
+    verified: false
+    themes:
+      - learning
+      - consistency
+      - discipline
+
+  - quote: "Learning compounds: one idea becomes the foundation for ten more."
+    author: "Memoly"
+    origin: "Memoly Learning Principles"
+    source_type: "original"
+    verified: false
+    themes:
+      - learning
+      - compounding
+      - growth
+
+  - quote: "Never underestimate what one hour of focused learning, repeated for years, can make of you."
+    author: "Memoly"
+    origin: "Memoly Learning Principles"
+    source_type: "original"
+    verified: false
+    themes:
+      - learning
+      - discipline
+      - consistency
+
+  - quote: "A goal without action is only a preferred future."
+    author: "Memoly"
+    origin: "Memoly Learning Principles"
+    source_type: "original"
+    verified: false
+    themes:
+      - goals
+      - action
+      - ambition
+
+  - quote: "You do not reach meaningful goals by waiting for motivation; you reach them by continuing when motivation disappears."
+    author: "Memoly"
+    origin: "Memoly Learning Principles"
+    source_type: "original"
+    verified: false
+    themes:
+      - discipline
+      - goals
+      - perseverance
+
+  - quote: "The distance between where you are and where you want to be is travelled through ordinary days of disciplined action."
+    author: "Memoly"
+    origin: "Memoly Learning Principles"
+    source_type: "original"
+    verified: false
+    themes:
+      - discipline
+      - goals
+      - consistency
+
+  - quote: "Goals give direction to sacrifice; without them, effort easily becomes noise."
+    author: "Memoly"
+    origin: "Memoly Learning Principles"
+    source_type: "original"
+    verified: false
+    themes:
+      - goals
+      - focus
+      - discipline
+
+  - quote: "You owe your future self more than good intentions."
+    author: "Memoly"
+    origin: "Memoly Learning Principles"
+    source_type: "original"
+    verified: false
+    themes:
+      - responsibility
+      - action
+      - future
+
+  - quote: "Some goals must be reached because remaining where you are would cost you more than the journey."
+    author: "Memoly"
+    origin: "Memoly Learning Principles"
+    source_type: "original"
+    verified: false
+    themes:
+      - ambition
+      - goals
+      - change
+
+  - quote: "Progress does not need to be dramatic to be decisive."
+    author: "Memoly"
+    origin: "Memoly Learning Principles"
+    source_type: "original"
+    verified: false
+    themes:
+      - progress
+      - consistency
+      - discipline
+
+  - quote: "Every time you keep a promise to yourself, you strengthen the person capable of reaching the goal."
+    author: "Memoly"
+    origin: "Memoly Learning Principles"
+    source_type: "original"
+    verified: false
+    themes:
+      - discipline
+      - identity
+      - goals
+
+  - quote: "The goal is not merely the destination; it is the person you are forced to become while pursuing it."
+    author: "Memoly"
+    origin: "Memoly Learning Principles"
+    source_type: "original"
+    verified: false
+    themes:
+      - goals
+      - growth
+      - identity
+
+  - quote: "There comes a point when the dream must stop being something you admire and become something you organise your life around."
+    author: "Memoly"
+    origin: "Memoly Learning Principles"
+    source_type: "original"
+    verified: false
+    themes:
+      - ambition
+      - goals
+      - execution
+
+  - quote: "Your professional life improves when your standards begin to outrun your excuses."
+    author: "Memoly"
+    origin: "Memoly Learning Principles"
+    source_type: "original"
+    verified: false
+    themes:
+      - career
+      - standards
+      - discipline
+
+  - quote: "Do not build a career around what you already know; build one around your capacity to keep becoming useful."
+    author: "Memoly"
+    origin: "Memoly Learning Principles"
+    source_type: "original"
+    verified: false
+    themes:
+      - career
+      - learning
+      - adaptability
+
+  - quote: "Your value grows when your ability to solve harder problems grows."
+    author: "Memoly"
+    origin: "Memoly Learning Principles"
+    source_type: "original"
+    verified: false
+    themes:
+      - career
+      - mastery
+      - growth
+
+  - quote: "A better career is rarely built in one dramatic move; it is built through years of becoming difficult to overlook."
+    author: "Memoly"
+    origin: "Memoly Learning Principles"
+    source_type: "original"
+    verified: false
+    themes:
+      - career
+      - consistency
+      - excellence
+
+  - quote: "Be so committed to growth that yesterday's competence becomes tomorrow's starting point."
+    author: "Memoly"
+    origin: "Memoly Learning Principles"
+    source_type: "original"
+    verified: false
+    themes:
+      - growth
+      - career
+      - excellence
+
+  - quote: "Ambition becomes powerful when it is translated into a calendar."
+    author: "Memoly"
+    origin: "Memoly Learning Principles"
+    source_type: "original"
+    verified: false
+    themes:
+      - ambition
+      - planning
+      - execution
+
+  - quote: "The work you avoid today often becomes the limitation you complain about tomorrow."
+    author: "Memoly"
+    origin: "Memoly Learning Principles"
+    source_type: "original"
+    verified: false
+    themes:
+      - discipline
+      - action
+      - responsibility
+
+  - quote: "Confidence built on preparation survives situations that confidence built on hope cannot."
+    author: "Memoly"
+    origin: "Memoly Learning Principles"
+    source_type: "original"
+    verified: false
+    themes:
+      - preparation
+      - confidence
+      - mastery
+
+  - quote: "Your next level will require abilities your current level has allowed you to avoid."
+    author: "Memoly"
+    origin: "Memoly Learning Principles"
+    source_type: "original"
+    verified: false
+    themes:
+      - growth
+      - career
+      - challenge
+
+  - quote: "Discipline is the bridge between the professional you are and the professional you intend to become."
+    author: "Memoly"
+    origin: "Memoly Learning Principles"
+    source_type: "original"
+    verified: false
+    themes:
+      - discipline
+      - career
+      - growth
+
+  - quote: "Learn until the difficult becomes familiar, then find something difficult again."
+    author: "Memoly"
+    origin: "Memoly Learning Principles"
+    source_type: "original"
+    verified: false
+    themes:
+      - learning
+      - mastery
+      - challenge
+
+  - quote: "Competence earns trust; consistency keeps it."
+    author: "Memoly"
+    origin: "Memoly Learning Principles"
+    source_type: "original"
+    verified: false
+    themes:
+      - career
+      - competence
+      - consistency
+
+  - quote: "A serious goal eventually asks you to become more organised than inspired."
+    author: "Memoly"
+    origin: "Memoly Learning Principles"
+    source_type: "original"
+    verified: false
+    themes:
+      - goals
+      - discipline
+      - organisation
+
+  - quote: "You cannot compound knowledge you refuse to revisit."
+    author: "Memoly"
+    origin: "Memoly Learning Principles"
+    source_type: "original"
+    verified: false
+    themes:
+      - learning
+      - repetition
+      - memory
+
+  - quote: "Review is where information begins its transformation into knowledge."
+    author: "Memoly"
+    origin: "Memoly Learning Principles"
+    source_type: "original"
+    verified: false
+    themes:
+      - learning
+      - review
+      - memory
+
+  - quote: "A forgotten lesson is not a failure; it is an invitation to strengthen the path back to it."
+    author: "Memoly"
+    origin: "Memoly Learning Principles"
+    source_type: "original"
+    verified: false
+    themes:
+      - learning
+      - memory
+      - resilience
+
+  - quote: "Mastery is remembering the right thing when the moment demands it."
+    author: "Memoly"
+    origin: "Memoly Learning Principles"
+    source_type: "original"
+    verified: false
+    themes:
+      - mastery
+      - learning
+      - application
+
+  - quote: "Do not chase the feeling of being productive; build evidence that you are progressing."
+    author: "Memoly"
+    origin: "Memoly Learning Principles"
+    source_type: "original"
+    verified: false
+    themes:
+      - productivity
+      - goals
+      - progress
+
+  - quote: "The professional you want to become is being shaped by what you repeatedly choose to practise."
+    author: "Memoly"
+    origin: "Memoly Learning Principles"
+    source_type: "original"
+    verified: false
+    themes:
+      - career
+      - practice
+      - identity
+
+  - quote: "Your goals should occasionally make your current habits uncomfortable."
+    author: "Memoly"
+    origin: "Memoly Learning Principles"
+    source_type: "original"
+    verified: false
+    themes:
+      - goals
+      - habits
+      - ambition
+
+  - quote: "It is difficult to outgrow a life whose routines you refuse to change."
+    author: "Memoly"
+    origin: "Memoly Learning Principles"
+    source_type: "original"
+    verified: false
+    themes:
+      - habits
+      - growth
+      - discipline
+
+  - quote: "Skill is rarely mysterious; it is usually attention multiplied by repetition."
+    author: "Memoly"
+    origin: "Memoly Learning Principles"
+    source_type: "original"
+    verified: false
+    themes:
+      - skill
+      - repetition
+      - mastery
+
+  - quote: "You do not need to feel ready to begin becoming ready."
+    author: "Memoly"
+    origin: "Memoly Learning Principles"
+    source_type: "original"
+    verified: false
+    themes:
+      - action
+      - courage
+      - growth
+
+  - quote: "A demanding future requires a disciplined present."
+    author: "Memoly"
+    origin: "Memoly Learning Principles"
+    source_type: "original"
+    verified: false
+    themes:
+      - discipline
+      - ambition
+      - future
+
+  - quote: "When the goal matters, consistency is more useful than intensity."
+    author: "Memoly"
+    origin: "Memoly Learning Principles"
+    source_type: "original"
+    verified: false
+    themes:
+      - goals
+      - consistency
+      - discipline
