@@ -72,11 +72,19 @@ class AuthenticationController < ApplicationController
     @user = ::User.find_or_create_by(email: request_code_params[:email])
   end
 
+  def log_timestamp
+    Rails.logger.info(
+      "Authentication code request user_id=#{@user.id} " \
+      "time=#{Time.current.iso8601}"
+    )
+  end
+
   def create_authentication_code
     attrs = {
       code: generate_authentication_code,
       expires_at: 15.minutes.from_now
     }
+    log_timestamp
 
     code = @user.authentication_code || @user.build_authentication_code
     code.assign_attributes attrs
