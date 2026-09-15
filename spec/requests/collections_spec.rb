@@ -192,6 +192,101 @@ RSpec.describe "/collections", type: :request do
     end
   end
 
+  describe "PATCH sibling ordering" do
+    before { user.collections.where(label: Collection::DEFAULT_CATEGORY_LABEL).destroy_all }
+
+    let!(:alpha) { create(:collection, user: user, label: "Alpha", position: 1) }
+    let!(:beta) { create(:collection, user: user, label: "Beta", position: 2) }
+    let!(:gamma) { create(:collection, user: user, label: "Gamma", position: 3) }
+
+    def move(record, attributes)
+      patch user_collection_url(user_id: user.id, id: record.id),
+            params: { collection: attributes }, headers: {}, as: :json
+    end
+
+    def ordered_ids(parent_id = nil)
+      Collection.ordered_siblings(user.collections.where(parent_id: parent_id)).map(&:id)
+    end
+
+    it "moves above and below siblings and returns the persisted order" do
+      move(gamma, parent_id: nil, position: 1)
+      expect(response).to have_http_status(:ok)
+      expect(ordered_ids).to eq([ gamma.id, alpha.id, beta.id ])
+      move(gamma, parent_id: nil, position: 2)
+      expect(ordered_ids).to eq([ alpha.id, gamma.id, beta.id ])
+      expect(user.collections.order(:position).pluck(:position)).to eq([ 1, 2, 3 ])
+      get user_collections_url(user_id: user.id), headers: {}, as: :json
+      expect(response.parsed_body.map { |record| record["id"] }).to eq(ordered_ids)
+    end
+
+    it "moves across parents, compacts both groups, and refreshes descendant paths" do
+      child = create(:collection, user: user, parent: alpha, label: "Child", position: 5)
+      nested = create(:collection, user: user, parent: gamma, label: "Nested")
+      move(gamma, parent_id: alpha.id, position: 1)
+      expect(response).to have_http_status(:ok)
+      expect(ordered_ids).to eq([ alpha.id, beta.id ])
+      expect(ordered_ids(alpha.id)).to eq([ gamma.id, child.id ])
+      expect(child.reload.position).to eq(2)
+      expect(nested.reload.parent_id).to eq(gamma.id)
+      expect(nested.path).to eq("#{gamma.reload.path}.nested")
+      get user_collections_url(user_id: user.id), headers: {}, as: :json
+      expect(response.parsed_body.first["children"].map { |record| record["id"] }).to eq([ gamma.id, child.id ])
+      move(gamma, parent_id: nil, position: 3)
+      expect(ordered_ids).to eq([ alpha.id, beta.id, gamma.id ])
+      expect(child.reload.position).to eq(1)
+      expect(nested.reload.path).to eq("#{gamma.reload.path}.nested")
+    end
+
+    it "clamps insertion slots and supports an empty destination" do
+      move(gamma, position: -10)
+      expect(gamma.reload.position).to eq(1)
+      move(gamma, position: 100)
+      expect(gamma.reload.position).to eq(3)
+      move(gamma, parent_id: alpha.id, position: 100)
+      expect(gamma.reload.position).to eq(1)
+    end
+
+    it "uses label and ID to resolve duplicate positions" do
+      user.collections.update_all(position: 0)
+      move(gamma, position: 2)
+      expect(ordered_ids).to eq([ alpha.id, gamma.id, beta.id ])
+      expect(Collection.ordered_siblings([
+        Collection.new(id: 2, label: "Same", position: 0),
+        Collection.new(id: 10, label: "Same", position: 0)
+      ]).map(&:id)).to eq([ 10, 2 ])
+    end
+
+    it "leaves ordering unchanged for an already satisfied move" do
+      timestamps = user.collections.order(:id).pluck(:updated_at)
+      move(beta, position: 2)
+      expect(response).to have_http_status(:ok)
+      expect(user.collections.order(:id).pluck(:updated_at)).to eq(timestamps)
+    end
+
+    it "rolls back invalid parents, cycles, and invalid attributes" do
+      nested = create(:collection, user: user, parent: gamma, label: "Nested")
+      stranger = create(:collection, label: "Stranger")
+      before = user.collections.order(:id).pluck(:id, :parent_id, :position, :path, :label)
+      [ { parent_id: nested.id }, { parent_id: gamma.id }, { parent_id: stranger.id },
+        { parent_id: 0 }, { label: "" }, { position: nil } ].each do |attributes|
+        move(gamma, { position: 1 }.merge(attributes))
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(user.collections.order(:id).pluck(:id, :parent_id, :position, :path, :label)).to eq(before)
+      end
+    end
+
+    it "rolls back the moved record and descendant paths if a sibling save fails" do
+      nested = create(:collection, user: user, parent: alpha, label: "Nested")
+      # Simulate a pre-existing invalid sibling that fails during renumbering.
+      beta.update_column(:label, "")
+      before = user.collections.order(:id).pluck(:id, :parent_id, :position, :path)
+      move(alpha, parent_id: gamma.id, position: 1)
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(user.collections.order(:id).pluck(:id, :parent_id, :position, :path)).to eq(before)
+      expect(nested.reload.parent_id).to eq(alpha.id)
+    end
+  end
+
   describe "DELETE /users/:user_id/collections/:id" do
     let!(:collection) { create(:collection, user:, label: "Removable", slug: "removable", path: "removable") }
 

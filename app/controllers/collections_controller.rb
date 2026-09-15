@@ -4,7 +4,7 @@ class CollectionsController < ApplicationController
   before_action :set_collection, only: %i[ update destroy ]
 
   def index
-    @collections = @user.collections.top_level.order(:position)
+    @collections = Collection.ordered_siblings(@user.collections.top_level)
 
     render :index, status: :ok, format: [ :json ]
   end
@@ -23,7 +23,14 @@ class CollectionsController < ApplicationController
   end
 
   def update
-    if @collection.update collection_params
+    attributes = collection_params
+    updated = if attributes.key?(:position)
+      UpdateCollection.call(@collection, attributes)
+    else
+      @collection.update(attributes)
+    end
+
+    if updated
       render :show, status: :ok, formats: [ :json ]
     else
       render json: @collection.errors, status: :unprocessable_entity

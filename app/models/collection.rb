@@ -15,6 +15,11 @@ class Collection < ApplicationRecord
   scope :top_level, -> { where(parent_id: nil) }
   scope :publicly_visible, -> { where(public: true) }
 
+  # Keep API output, move insertion, and the browser independent of DB collation.
+  def self.ordered_siblings(records)
+    records.sort_by { |record| [ record.position, record.label, record.id.to_s ] }
+  end
+
   DEFAULT_CATEGORY_LABEL = "Uncategorised"
 
   def default?
